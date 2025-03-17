@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patients', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('phone')->unique();
-            $table->timestamps();
+            $table->foreignId('user_id')->primary();
+            $table->string('iin')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->date('birth_date')->nullable();
         });
     }
 

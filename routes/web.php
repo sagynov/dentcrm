@@ -12,11 +12,15 @@ Route::get('/', function () {
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::resource('doctors', DoctorController::class)->middleware(['auth', 'verified']);
-Route::resource('patients', PatientController::class)->middleware(['auth', 'verified']);
-Route::resource('schedule', ScheduleController::class)->middleware(['auth', 'verified']);
+Route::group([
+    'middleware'=> ['auth'],
+], function() {
+    Route::resource('doctors', DoctorController::class);
+    Route::resource('patients', PatientController::class);
+    Route::resource('schedule', ScheduleController::class);
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

@@ -6,11 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 import { LoaderCircle } from 'lucide-vue-next';
 
 const form = useForm({
     name: '',
-    email: '',
+    phone: '',
     password: '',
     password_confirmation: '',
 });
@@ -35,9 +36,9 @@ const submit = () => {
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
-                    <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
-                    <InputError :message="form.errors.email" />
+                    <Label for="phone">{{trans('Phone number')}}</Label>
+                    <Input id="phone" type="text" required :tabindex="2" autocomplete="phone" v-model="form.phone" placeholder="+7" />
+                    <InputError :message="form.errors.phone" />
                 </div>
 
                 <div class="grid gap-2">
