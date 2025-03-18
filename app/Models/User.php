@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Session;
 
 class User extends Authenticatable
 {
@@ -25,7 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-    protected $appends = array('is_owner', 'is_doctor', 'is_patient');
+    protected $appends = array('is_owner', 'is_doctor', 'is_patient', 'is_receptionist');
 
     /**
      * The attributes that should be hidden for serialization.
@@ -69,5 +70,13 @@ class User extends Authenticatable
     {
         return $this->role == 'patient';
     }
-
+    public function getIsReceptionistAttribute()
+    {
+        return $this->role == 'receptionist';
+    }
+    public function clinics()
+    {
+        return $this->belongsToMany(Clinic::class, 'clinic_user', 'user_id', 'clinic_id')
+            ->withTimestamps();
+    }
 }

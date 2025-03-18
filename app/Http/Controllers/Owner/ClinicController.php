@@ -5,16 +5,27 @@ namespace App\Http\Controllers\Owner;
 use App\Models\Clinic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ClinicController extends Controller
 {
+    public function setActiveClinic(Request $request)
+    {
+        $validated = $request->validate(['active_clinic' => 'required']);
+        Session::put('active_clinic', $validated['active_clinic']);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('admin/clinic/Index');
+        $clinics = Auth::user()->clinics;
+        return Inertia::render('owner/clinic/Index', [
+            'clinics' => $clinics
+        ]);
     }
 
     /**
@@ -30,7 +41,16 @@ class ClinicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'specialization' => 'required|string',
+            'address' => 'required|string',
+            'phone' => 'required',
+            'email' => 'email|nullable',
+            'website' => 'nullable|string'
+        ]);
+        $clinic = Clinic::create($validated);
+        Auth::user()->clinics()->syncWithoutDetaching($clinic);
     }
 
     /**

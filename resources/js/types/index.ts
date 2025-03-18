@@ -30,6 +30,7 @@ export interface User {
     is_owner?: boolean;
     is_doctor?: boolean;
     is_patient?: boolean;
+    active_clinic: string;
     email: string;
     avatar?: string;
     email_verified_at: string | null;

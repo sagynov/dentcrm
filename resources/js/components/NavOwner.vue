@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem, type SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import { type NavItem, type SharedData, type User } from '@/types';
+import { Link, usePage, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGrid, GraduationCap, HandHeart, Stethoscope, CalendarDays, BriefcaseMedical } from 'lucide-vue-next';
+import { LayoutGrid, HandHeart, Stethoscope, CalendarDays, BriefcaseMedical } from 'lucide-vue-next';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { ref } from 'vue';
 
 const items: NavItem[] = [
     {
@@ -34,12 +44,37 @@ const items: NavItem[] = [
 ];
 
 const page = usePage<SharedData>();
+const clinics = page.props.clinics as Array<any>;
+
+const form = useForm({
+    active_clinic: ''
+});
+
+const active_clinic = ref(page.props.active_clinic);
+const selectClinic = (value: any) => {
+    form.active_clinic = value;
+    form.post(route('owner.clinics.set-active-clinic'), {
+        preserveScroll: true,
+    });
+}
 </script>
 
 <template>
     <SidebarGroup class="px-2 py-0">
         <SidebarGroupLabel>{{ trans('Owner') }}</SidebarGroupLabel>
         <SidebarMenu>
+            <SidebarMenuItem class="my-2">
+                <Select @update:model-value="selectClinic" v-model="active_clinic">
+                    <SelectTrigger>
+                    <SelectValue placeholder="Select a clinic" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem v-for="clinic in clinics" :value="clinic.id">
+                            {{ clinic.name }}
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
+            </SidebarMenuItem>
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton as-child :is-active="item.href === page.url">
                     <Link :href="item.href">
