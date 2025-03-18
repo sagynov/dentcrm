@@ -2,7 +2,6 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 import { trans } from 'laravel-vue-i18n';
 import {
   Table,
@@ -14,6 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button';
+import DoctorAdd from '@/components/admin/DoctorAdd.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -33,7 +33,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <h2 class="font-medium text-gray-700">{{ trans('Doctors') }}</h2>
                 </div>
                 <div class="flex justify-end">
-                    <Button>{{ trans('Add doctor') }}</Button>
+                    <DoctorAdd />
                 </div>
             </div>
             <div class="overflow-x-auto max-w-full">

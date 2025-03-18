@@ -7,6 +7,8 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import { i18nVue } from 'laravel-vue-i18n';
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -30,6 +32,11 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(PrimeVue, {
+                theme: {
+                    preset: Aura
+                }
+            })
             .use(i18nVue, {
                 resolve: async (lang: string) => {
                     const langs = import.meta.glob('../../lang/*.json');

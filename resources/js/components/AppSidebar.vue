@@ -3,34 +3,15 @@ import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
+import { SharedData, User, type NavItem } from '@/types';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, Stethoscope, CalendarDays, HandHeart } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 import { trans } from 'laravel-vue-i18n';
+import NavOwner from './NavOwner.vue';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: trans('Dashboard'),
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: trans('Schedule'),
-        href: '/schedule',
-        icon: CalendarDays,
-    },
-    {
-        title: trans('Doctors'),
-        href: '/doctors',
-        icon: Stethoscope,
-    },
-    {
-        title: trans('Patients'),
-        href: '/patients',
-        icon: HandHeart,
-    },
-];
+const page = usePage<SharedData>();
+const user = page.props.auth.user as User;
 
 const footerNavItems: NavItem[] = [
     {
@@ -61,7 +42,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavOwner v-if="user.is_owner" />
         </SidebarContent>
 
         <SidebarFooter>

@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { trans } from 'laravel-vue-i18n';
 
 defineProps<{
     status?: string;
@@ -15,7 +16,7 @@ defineProps<{
 }>();
 
 const form = useForm({
-    email: '',
+    phone: '',
     password: '',
     remember: false,
 });
@@ -28,7 +29,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Log in to your account" description="Enter your email and password below to log in">
+    <AuthBase title="Log in to your account" description="Enter your phone and password below to log in">
         <Head title="Log in" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
@@ -38,18 +39,18 @@ const submit = () => {
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
+                    <Label for="phone">{{trans('Phone number')}}</Label>
                     <Input
-                        id="email"
-                        type="email"
+                        id="phone"
+                        type="text"
                         required
                         autofocus
                         :tabindex="1"
-                        autocomplete="email"
-                        v-model="form.email"
-                        placeholder="email@example.com"
+                        autocomplete="phone"
+                        v-model="form.phone"
+                        placeholder="+7"
                     />
-                    <InputError :message="form.errors.email" />
+                    <InputError :message="form.errors.phone" />
                 </div>
 
                 <div class="grid gap-2">

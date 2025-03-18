@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    protected $appends = array('is_owner', 'is_doctor', 'is_patient');
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,6 +47,27 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_owner' => 'boolean',
+            'is_doctor' => 'boolean',
+            'is_patient' => 'boolean',
         ];
     }
+    public function username()
+    {
+        return 'phone';
+    }
+
+    public function getIsOwnerAttribute()
+    {
+        return $this->role == 'owner';
+    }
+    public function getIsDoctorAttribute()
+    {
+        return $this->role == 'doctor';
+    }
+    public function getIsPatientAttribute()
+    {
+        return $this->role == 'patient';
+    }
+
 }
