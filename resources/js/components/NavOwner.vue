@@ -3,7 +3,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { type NavItem, type SharedData, type User } from '@/types';
 import { Link, usePage, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGrid, HandHeart, Stethoscope, CalendarDays, BriefcaseMedical } from 'lucide-vue-next';
+import { LayoutGrid, HandHeart, Stethoscope, CalendarDays, BriefcaseMedical, Handshake } from 'lucide-vue-next';
 import {
   Select,
   SelectContent,
@@ -22,9 +22,14 @@ const items: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: trans('My Clinics'),
+        title: trans('My clinics'),
         href: '/owner/clinics',
         icon: BriefcaseMedical,
+    },
+    {
+        title: trans('Appointments'),
+        href: '/owner/appointments',
+        icon: Handshake,
     },
     {
         title: trans('Schedule'),

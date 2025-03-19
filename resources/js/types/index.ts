@@ -39,4 +39,13 @@ export interface User {
     updated_at: string;
 }
 
+export interface Patient {
+    id: number,
+    first_name: string,
+    last_name: string,
+    full_name: string,
+    birth_date: any,
+    joined_at: any
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;

@@ -15,6 +15,7 @@ class Patient extends Model
         'last_name',
         'birth_date'
     ];
+    protected $appends = array('full_name');
     protected function casts(): array
     {
         return [
@@ -22,4 +23,9 @@ class Patient extends Model
         ];
     }
     public $timestamps = false;
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name .' '. $this->last_name;
+    }
 }

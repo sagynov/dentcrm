@@ -15,5 +15,11 @@ class Doctor extends Model
         'last_name',
         'speciality'
     ];
+    protected $appends = array('full_name');
     public $timestamps = false;
+    
+    public function getFullNameAttribute()
+    {
+        return $this->first_name .' '. $this->last_name;
+    }
 }
