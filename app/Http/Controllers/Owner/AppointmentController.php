@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Appointment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,10 +21,11 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        $appointments = AppointmentResource::collection($clinic->appointments()->with('patient', 'doctor')->get());
         $patients = PatientResource::collection($clinic->users()->where('role', 'patient')->with('patient')->get());
         $doctors = DoctorResource::collection($clinic->users()->where('role', 'doctor')->with('doctor')->get());
         return Inertia::render('owner/appointment/Index', [
-            'appointments' => [],
+            'appointments' => $appointments,
             'patients' => $patients,
             'doctors' => $doctors
         ]);
@@ -41,7 +44,20 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        
+        $validated = $request->validate([
+            'patient_id' => 'required|numeric',
+            'doctor_id' => 'required|numeric',
+            'visit_date' => 'required|date_format:d.m.Y',
+            'visit_time' => 'required|date_format:H:i',
+            'notes' => 'nullable|string'
+        ]);
+        $validated['clinic_id'] = Auth::user()->active_clinic;
+        $validated['visit_at'] = date('d-m-Y H:i', strtotime($validated['visit_date'].' '.$validated['visit_time']));
+        $validated['status'] = 'scheduled';
+        unset($validated['visit_date'], $validated['visit_time']);
+        Appointment::create($validated);
     }
 
     /**

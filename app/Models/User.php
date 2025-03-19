@@ -79,7 +79,10 @@ class User extends Authenticatable
         if(Session::get('active_clinic')) {
             return Session::get('active_clinic');
         }
-        return $this->clinics()?->first()->id;
+        if($this->clinics()->count() > 0) {
+            return $this->clinics()?->first()->id;
+        }
+        return 0;
     }
     public function clinics()
     {

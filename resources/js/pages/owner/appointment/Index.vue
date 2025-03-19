@@ -49,18 +49,20 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableCaption>A list of your appointments</TableCaption>
                     <TableHeader>
                     <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Specialization</TableHead>
-                        <TableHead>Address</TableHead>
-                        <TableHead>Phone</TableHead>
+                        <TableHead>Patient</TableHead>
+                        <TableHead>Doctor</TableHead>
+                        <TableHead>Notes</TableHead>
+                        <TableHead>Visit at</TableHead>
+                        <TableHead>Status</TableHead>
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    <TableRow v-for="clinic in appointments">
-                        <TableCell>{{ clinic.name }}</TableCell>
-                        <TableCell>{{ clinic.specialization }}</TableCell>
-                        <TableCell>{{ clinic.address }}</TableCell>
-                        <TableCell>{{ clinic.phone }}</TableCell>
+                    <TableRow v-for="appointment in appointments">
+                        <TableCell>{{ appointment.patient }}</TableCell>
+                        <TableCell>{{ appointment.doctor }}</TableCell>
+                        <TableCell>{{ appointment.notes }}</TableCell>
+                        <TableCell>{{ appointment.visit_at }}</TableCell>
+                        <TableCell>{{ appointment.status }}</TableCell>
                     </TableRow>
                     </TableBody>
                 </Table>
