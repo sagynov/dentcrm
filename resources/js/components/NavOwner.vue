@@ -44,13 +44,14 @@ const items: NavItem[] = [
 ];
 
 const page = usePage<SharedData>();
-const clinics = page.props.clinics as Array<any>;
+const user = page.props.auth.user as User;
+const clinics = user.clinics as Array<any>;
 
 const form = useForm({
     active_clinic: ''
 });
 
-const active_clinic = ref(page.props.active_clinic);
+const active_clinic = ref(user.active_clinic);
 const selectClinic = (value: any) => {
     form.active_clinic = value;
     form.post(route('owner.clinics.set-active-clinic'), {

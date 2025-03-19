@@ -15,12 +15,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { type SharedData } from '@/types';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import InputMask from 'primevue/inputmask';
 import { ref } from 'vue';
-
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import DatePicker from '@/components/DatePicker.vue';
+import axios from 'axios';
 
 const page = usePage<SharedData>();
 const clinic = page.props.clinic as string;
@@ -28,60 +28,60 @@ const clinic = page.props.clinic as string;
 const openDialog = ref(false);
 
 const form = useForm({
+    iin: '',
     first_name: '',
     last_name: '',
     phone: '',
-    speciality: '',
+    birth_date: '',
 });
-const options = [
-    {
-        name: trans('General Dentist (Therapist)'),
-        value: 'General Dentist (Therapist)',
-    },
-    {
-        name: trans('Prosthodontist (Orthopedic Dentist)'),
-        value: 'Prosthodontist (Orthopedic Dentist)',
-    },
-    {
-        name: trans('Oral Surgeon'),
-        value: 'Oral Surgeon',
-    },
-    {
-        name: trans('Orthodontist'),
-        value: 'Orthodontist',
-    },
-];
 
 const { toast } = useToast();
 
 const submit = () => {
-    form.post(route('owner.doctors.store'), {
+    form.post(route('owner.patients.store'), {
         preserveScroll: true,
         onSuccess: () => {
             toast({
-                title: trans('Doctor added'),
-                description: trans('Doctor added successfully'),
+                title: trans('Patient added'),
+                description: trans('Patient added successfully'),
             });
             openDialog.value = false;
             form.reset();
         },
     });
 };
+
+const checkIIN = (value: any) => {
+    if(value.length == 12){
+        axios.get(route('find-by-iin', {iin: value})).then(({data}: any) => {
+            form.first_name = data.first_name;
+            form.last_name = data.last_name;
+        }).catch(err => {
+            
+        });
+    }
+
+}
 </script>
 
 <template>
     <Dialog v-model:open="openDialog">
         <DialogTrigger as-child>
-            <Button @click="openDialog = true" class="w-full">{{ trans('Add doctor') }}</Button>
+            <Button @click="openDialog = true" class="w-full">{{ trans('Add patient') }}</Button>
         </DialogTrigger>
         <DialogContent class="max-h-[500px] grid-rows-[auto_minmax(0,1fr)_auto]">
             <DialogHeader>
-                <DialogTitle>{{ trans('Add doctor') }}</DialogTitle>
+                <DialogTitle>{{ trans('Add patient') }}</DialogTitle>
                 <DialogDescription>
-                    <p>{{ trans('Add doctor') }}</p>
+                    <p>{{ trans('Add patient') }}</p>
                 </DialogDescription>
             </DialogHeader>
             <div class="flex flex-col gap-6 overflow-y-auto px-2 py-4">
+                <div class="flex flex-col gap-4">
+                    <Label for="iin">{{ trans('IIN') }}</Label>
+                    <InputMask  @update:model-value="checkIIN" unmask class="p-inputmask" unstyled mask="999999999999" id="iin" v-model="form.iin" placeholder="____________" autocomplete="off" />
+                    <InputError :message="form.errors.iin" />
+                </div>
                 <div class="flex flex-col gap-4">
                     <Label for="first_name">{{ trans('First name') }}</Label>
                     <Input id="first_name" v-model="form.first_name" class="col-span-3" autocomplete="off" />
@@ -98,20 +98,9 @@ const submit = () => {
                     <InputError :message="form.errors.phone" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="phone">{{ trans('Speciality') }}</Label>
-                    <Select v-model="form.speciality">
-                        <SelectTrigger>
-                            <SelectValue :placeholder="trans('Select')" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem v-for="option in options" :value="option.value">
-                                    {{ option.name }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <InputError :message="form.errors.speciality" />
+                    <Label for="birth_date">{{ trans('Birth date') }}</Label>
+                    <InputMask class="p-inputmask" unstyled mask="99-99-9999" id="birth_date" v-model="form.birth_date" placeholder="__-__-____" autocomplete="off" />
+                    <InputError :message="form.errors.birth_date" />
                 </div>
             </div>
             <DialogFooter class="gap-2">

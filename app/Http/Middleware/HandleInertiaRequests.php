@@ -44,11 +44,9 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user()?->load('clinics'),
             ],
             'locale' => Session::get('locale', config('app.locale')),
-            'clinics' => $request->user()?->clinics,
-            'active_clinic' => Session::get('active_clinic')
         ];
     }
 }

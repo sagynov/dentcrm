@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PatientAdd from '@/components/owner/PatientAdd.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
@@ -12,34 +13,32 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button';
-import DoctorAdd from '@/components/owner/DoctorAdd.vue';
 
 interface Props {
-    doctors: any;
+    patients: any;
 }
 
 defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: trans('Doctors'),
-        href: '/doctors',
+        title: trans('Patients'),
+        href: '/owner/patients',
     },
 ];
 </script>
 
 <template>
-    <Head :title="trans('Doctors')" />
+    <Head :title="trans('Patients')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="flex gap-4 items-center justify-between">
                 <div>
-                    <h2 class="font-medium text-gray-700">{{ trans('Doctors') }}</h2>
+                    <h2 class="font-medium text-gray-700">{{ trans('Patients') }}</h2>
                 </div>
                 <div class="flex justify-end">
-                    <DoctorAdd />
+                    <PatientAdd />
                 </div>
             </div>
             <div class="overflow-x-auto max-w-full">
@@ -47,19 +46,21 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableCaption>A list of your recent invoices.</TableCaption>
                     <TableHeader>
                     <TableRow>
+                        <TableHead>{{trans('IIN')}}</TableHead>
                         <TableHead>{{trans('First name')}}</TableHead>
                         <TableHead>{{trans('Last name')}}</TableHead>
-                        <TableHead>{{trans('Speciality')}}</TableHead>
+                        <TableHead>{{trans('Birth Date')}}</TableHead>
                         <TableHead>{{trans('Joined at')}} </TableHead>
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    <TableRow v-for="{doctor, pivot} in doctors">
-                        <TableCell>{{ doctor.first_name }}</TableCell>
-                        <TableCell>{{ doctor.last_name }}</TableCell>
-                        <TableCell>{{ doctor.speciality }}</TableCell>
-                        <TableCell>{{ pivot.created_at }}</TableCell>
-                    </TableRow>
+                        <TableRow v-for="{patient, pivot} in patients">
+                            <TableCell>{{ patient.iin }}</TableCell>
+                            <TableCell>{{ patient.first_name }}</TableCell>
+                            <TableCell>{{ patient.last_name }}</TableCell>
+                            <TableCell>{{ patient.birth_date }}</TableCell>
+                            <TableCell>{{ pivot.created_at }}</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </div>

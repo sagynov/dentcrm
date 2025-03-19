@@ -5,11 +5,38 @@ namespace App\Http\Controllers\Owner;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DoctorController extends Controller
 {
     public function index()
     {
-        return Inertia::render('admin/doctor/Index');
+        $user = Auth::user();
+        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        return Inertia::render('owner/doctor/Index', [
+            'doctors' => $clinic->users()->where('role', 'doctor')->with('doctor')->get()
+        ]);
+    }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'nullable',
+            'speciality' => 'required',
+            'phone' => 'required|string|unique:'.User::class,
+        ]);
+        $new_user = User::create([
+            'name' => $validated['first_name'],
+            'role' => 'doctor',
+            'phone' => $validated['phone'],
+            'password' => Hash::make(Str::random(10)),
+            'remember_token' => Str::random(40)
+        ]);
+        $new_user->doctor()->create($request->only('first_name', 'last_name', 'speciality'));
+        $clinic = $request->user()->clinics()->where('clinic_id', $request->user()->active_clinic)->first();
+        $clinic->users()->syncWithoutDetaching($new_user->id);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Taxpayer\Repositories\TaxpayerInterface;
+use App\Services\Taxpayer\Repositories\TaxpayerRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(TaxpayerInterface::class, TaxpayerRepository::class);
     }
 
     /**

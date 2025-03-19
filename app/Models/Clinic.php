@@ -19,7 +19,7 @@ class Clinic extends Model
         'website',
     ];
 
-    public function owners()
+    public function users()
     {
         return $this->belongsToMany(User::class, 'clinic_user', 'clinic_id', 'user_id')
             ->withTimestamps();

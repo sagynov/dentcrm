@@ -26,7 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-    protected $appends = array('is_owner', 'is_doctor', 'is_patient', 'is_receptionist');
+    protected $appends = array('is_owner', 'is_doctor', 'is_patient', 'is_receptionist', 'active_clinic');
 
     /**
      * The attributes that should be hidden for serialization.
@@ -74,9 +74,24 @@ class User extends Authenticatable
     {
         return $this->role == 'receptionist';
     }
+    public function getActiveClinicAttribute()
+    {
+        if(Session::get('active_clinic')) {
+            return Session::get('active_clinic');
+        }
+        return $this->clinics()?->first()->id;
+    }
     public function clinics()
     {
         return $this->belongsToMany(Clinic::class, 'clinic_user', 'user_id', 'clinic_id')
             ->withTimestamps();
+    }
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class, 'user_id', 'id');
+    }
+    public function patient()
+    {
+        return $this->hasOne(Patient::class, 'user_id', 'id');
     }
 }
