@@ -5,7 +5,7 @@ use App\Http\Controllers\Owner\AppointmentController;
 use App\Http\Controllers\Owner\ClinicController;
 use App\Http\Controllers\Owner\DoctorController;
 use App\Http\Controllers\Owner\PatientController;
-use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\Owner\ScheduleController;
 
 
 Route::group([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,9 @@ class DoctorController extends Controller
     {
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        $doctors = DoctorResource::collection($clinic->users()->where('role', 'doctor')->with('doctor')->get());
         return Inertia::render('owner/doctor/Index', [
-            'doctors' => $clinic->users()->where('role', 'doctor')->with('doctor')->get()
+            'doctors' => $doctors
         ]);
     }
     public function store(Request $request)

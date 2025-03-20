@@ -48,18 +48,16 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableRow>
                         <TableHead>{{trans('IIN')}}</TableHead>
                         <TableHead>{{trans('First name')}}</TableHead>
-                        <TableHead>{{trans('Last name')}}</TableHead>
                         <TableHead>{{trans('Birth Date')}}</TableHead>
                         <TableHead>{{trans('Joined at')}} </TableHead>
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="{patient, pivot} in patients">
+                        <TableRow v-for="patient in patients">
                             <TableCell>{{ patient.iin }}</TableCell>
-                            <TableCell>{{ patient.first_name }}</TableCell>
-                            <TableCell>{{ patient.last_name }}</TableCell>
+                            <TableCell>{{ patient.full_name }}</TableCell>
                             <TableCell>{{ patient.birth_date }}</TableCell>
-                            <TableCell>{{ pivot.created_at }}</TableCell>
+                            <TableCell>{{ patient.joined_at }}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

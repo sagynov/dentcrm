@@ -80,7 +80,8 @@ class User extends Authenticatable
             return Session::get('active_clinic');
         }
         if($this->clinics()->count() > 0) {
-            return $this->clinics()?->first()->id;
+            Session::put('active_clinic', $this->clinics()->first()->id);
+            return $this->clinics()->first()->id;
         }
         return 0;
     }
@@ -96,5 +97,10 @@ class User extends Authenticatable
     public function patient()
     {
         return $this->hasOne(Patient::class, 'user_id', 'id');
+    }
+    
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id', 'id');
     }
 }

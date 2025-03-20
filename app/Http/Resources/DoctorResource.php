@@ -20,7 +20,8 @@ class DoctorResource extends JsonResource
             'last_name'=> $this->doctor->last_name,
             'full_name' => $this->doctor->full_name,
             'speciality' => $this->doctor->speciality,
-            'joined_at' => $this->pivot?->created_at->format('d-m-Y')
+            'joined_at' => $this->pivot?->created_at->format('d-m-Y'),
+            'appointments' => ScheduleResource::collection($this->whenLoaded('appointments'))
         ];
     }
 }

@@ -47,18 +47,16 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableCaption>A list of your recent invoices.</TableCaption>
                     <TableHeader>
                     <TableRow>
-                        <TableHead>{{trans('First name')}}</TableHead>
-                        <TableHead>{{trans('Last name')}}</TableHead>
+                        <TableHead>{{trans('Full name')}}</TableHead>
                         <TableHead>{{trans('Speciality')}}</TableHead>
                         <TableHead>{{trans('Joined at')}} </TableHead>
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    <TableRow v-for="{doctor, pivot} in doctors">
-                        <TableCell>{{ doctor.first_name }}</TableCell>
-                        <TableCell>{{ doctor.last_name }}</TableCell>
+                    <TableRow v-for="doctor in doctors">
+                        <TableCell>{{ doctor.full_name }}</TableCell>
                         <TableCell>{{ doctor.speciality }}</TableCell>
-                        <TableCell>{{ pivot.created_at }}</TableCell>
+                        <TableCell>{{ doctor.joined_at }}</TableCell>
                     </TableRow>
                     </TableBody>
                 </Table>

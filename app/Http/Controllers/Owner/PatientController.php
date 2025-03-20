@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PatientResource;
 use App\Models\User;
 use Illuminate\Support\Str;
 
@@ -16,8 +17,9 @@ class PatientController extends Controller
     {
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        $patients = PatientResource::collection($clinic->users()->where('role', 'patient')->with('patient')->get());
         return Inertia::render('owner/patient/Index', [
-            'patients' => $clinic->users()->where('role', 'patient')->with('patient')->get()
+            'patients' => $patients
         ]);
     }
     public function store(Request $request)
