@@ -28,4 +28,12 @@ class Clinic extends Model
     {
         return $this->hasMany(Appointment::class, 'clinic_id');
     }
+    public function doctors()
+    {
+        return $this->belongsToMany(Doctor::class, 'clinic_user', 'clinic_id', 'user_id')->withTimestamps();
+    }
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class,'clinic_user', 'clinic_id', 'user_id')->withTimestamps();
+    }
 }

@@ -17,7 +17,7 @@ class DoctorController extends Controller
     {
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $doctors = DoctorResource::collection($clinic->users()->where('role', 'doctor')->with('doctor')->get());
+        $doctors = DoctorResource::collection($clinic->doctors);
         return Inertia::render('owner/doctor/Index', [
             'doctors' => $doctors
         ]);

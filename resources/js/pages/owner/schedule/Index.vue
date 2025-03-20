@@ -63,12 +63,15 @@ const schedules = [
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <TableRow v-for="doctor in doctors" class="border border-collapse">
-                                    <TableCell class="border border-collapse">{{ doctor.full_name }}</TableCell>
-                                    <TableCell class="border border-collapse p-0" v-for="hour in hours" :key="'cell_'+hour">
-                                        <div v-for="appointment in doctor.appointments" class="w-full h-full">
-                                            <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-full h-full p-4 text-center text-white">
+                                <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]">
+                                    <TableCell class="border border-collapse h-[50px] overflow-hidden">{{ doctor.full_name }}</TableCell>
+                                    <TableCell class="border border-collapse p-0 h-[50px]" v-for="hour in hours" :key="'cell_'+hour">
+                                        <div v-for="appointment in doctor.appointments" class="w-[50px] h-[50px]">
+                                            <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-[50px] h-[50px] font-light text-xs p-4 text-center text-white">
                                                 {{ appointment.patient }}
+                                            </div>
+                                            <div v-else class="h-[50px] p-4 w-[50px]">
+
                                             </div>
                                         </div>
                                     </TableCell>

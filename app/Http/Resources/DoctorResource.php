@@ -16,12 +16,12 @@ class DoctorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->doctor->first_name,
-            'last_name'=> $this->doctor->last_name,
-            'full_name' => $this->doctor->full_name,
-            'speciality' => $this->doctor->speciality,
+            'first_name' => $this->first_name,
+            'last_name'=> $this->last_name,
+            'full_name' => $this->full_name,
+            'speciality' => $this->speciality,
+            'appointments' => ScheduleResource::collection($this->whenLoaded('appointments')),
             'joined_at' => $this->pivot?->created_at->format('d-m-Y'),
-            'appointments' => ScheduleResource::collection($this->whenLoaded('appointments'))
         ];
     }
 }

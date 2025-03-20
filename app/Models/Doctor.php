@@ -15,6 +15,7 @@ class Doctor extends Model
         'last_name',
         'speciality'
     ];
+    protected $primaryKey = 'user_id';
     protected $appends = array('full_name');
     public $timestamps = false;
     
@@ -24,6 +25,6 @@ class Doctor extends Model
     }
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, 'doctor_id', 'id');
+        return $this->hasMany(Appointment::class, 'doctor_id', 'user_id');
     }
 }

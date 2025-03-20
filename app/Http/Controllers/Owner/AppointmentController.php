@@ -7,6 +7,7 @@ use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Appointment;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +23,8 @@ class AppointmentController extends Controller
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $appointments = AppointmentResource::collection($clinic->appointments()->with('patient', 'doctor')->get());
-        $patients = PatientResource::collection($clinic->users()->where('role', 'patient')->with('patient')->get());
-        $doctors = DoctorResource::collection($clinic->users()->where('role', 'doctor')->with('doctor')->get());
+        $patients = PatientResource::collection($clinic->patients);
+        $doctors = DoctorResource::collection($clinic->doctors);
         return Inertia::render('owner/appointment/Index', [
             'appointments' => $appointments,
             'patients' => $patients,

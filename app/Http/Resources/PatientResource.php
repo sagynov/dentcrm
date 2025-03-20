@@ -16,12 +16,12 @@ class PatientResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'iin' => $this->patient->iin,
-            'first_name' => $this->patient->first_name,
-            'last_name'=> $this->patient->last_name,
-            'full_name' => $this->patient->full_name,
-            'birth_date' => $this->patient->birth_date->format('d-m-Y'),
-            'joined_at' => $this->pivot?->created_at->format('d-m-Y')
+            'iin' => $this->iin,
+            'first_name' => $this->first_name,
+            'last_name'=> $this->last_name,
+            'full_name' => $this->full_name,
+            'birth_date' => $this->birth_date->format('d-m-Y'),
+            'joined_at' => $this->pivot?->created_at->format('d-m-Y'),
         ];
     }
 }

@@ -15,6 +15,7 @@ class Patient extends Model
         'last_name',
         'birth_date'
     ];
+    protected $primaryKey = 'user_id';
     protected $appends = array('full_name');
     protected function casts(): array
     {
