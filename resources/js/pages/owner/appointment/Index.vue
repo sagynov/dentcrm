@@ -46,14 +46,14 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
             <div class="overflow-x-auto max-w-full">
                 <Table>
-                    <TableCaption>A list of your appointments</TableCaption>
+                    <TableCaption>{{trans('A list of appointments')}}</TableCaption>
                     <TableHeader>
                     <TableRow>
-                        <TableHead>Patient</TableHead>
-                        <TableHead>Doctor</TableHead>
-                        <TableHead>Notes</TableHead>
-                        <TableHead>Visit at</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>{{trans('Patient')}}</TableHead>
+                        <TableHead>{{trans('Doctor')}}</TableHead>
+                        <TableHead>{{trans('Notes')}}</TableHead>
+                        <TableHead>{{trans('Visit at')}}</TableHead>
+                        <TableHead>{{trans('Status')}}</TableHead>
                     </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -62,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <TableCell>{{ appointment.doctor }}</TableCell>
                         <TableCell>{{ appointment.notes }}</TableCell>
                         <TableCell>{{ appointment.visit_at }}</TableCell>
-                        <TableCell>{{ appointment.status }}</TableCell>
+                        <TableCell>{{ trans(appointment.status) }}</TableCell>
                     </TableRow>
                     </TableBody>
                 </Table>

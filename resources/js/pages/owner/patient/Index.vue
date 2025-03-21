@@ -43,12 +43,12 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
             <div class="overflow-x-auto max-w-full">
                 <Table>
-                    <TableCaption>A list of your recent invoices.</TableCaption>
+                    <TableCaption>{{trans('A list of patients')}}</TableCaption>
                     <TableHeader>
                     <TableRow>
                         <TableHead>{{trans('IIN')}}</TableHead>
-                        <TableHead>{{trans('First name')}}</TableHead>
-                        <TableHead>{{trans('Birth Date')}}</TableHead>
+                        <TableHead>{{trans('Full name')}}</TableHead>
+                        <TableHead>{{trans('Birth date')}}</TableHead>
                         <TableHead>{{trans('Joined at')}} </TableHead>
                     </TableRow>
                     </TableHeader>

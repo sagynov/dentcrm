@@ -50,12 +50,13 @@ class AppointmentController extends Controller
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',
-            'visit_date' => 'required|date_format:d.m.Y',
+            'visit_date' => 'required|date',
             'visit_time' => 'required|date_format:H:i',
             'notes' => 'nullable|string'
         ]);
         $validated['clinic_id'] = Auth::user()->active_clinic;
-        $validated['visit_at'] = date('d-m-Y H:i', strtotime($validated['visit_date'].' '.$validated['visit_time']));
+        $visit_date = date('Y-m-d', strtotime($validated['visit_date']));
+        $validated['visit_at'] = date('d-m-Y H:i', strtotime($visit_date.' '.$validated['visit_time']));
         $validated['status'] = 'scheduled';
         unset($validated['visit_date'], $validated['visit_time']);
         Appointment::create($validated);

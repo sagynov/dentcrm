@@ -46,9 +46,6 @@ const submit = () => {
         },
     });
 };
-const dateSelected = (event: any) => {
-    form.visit_date = event.toLocaleDateString();
-}
 </script>
 
 <template>
@@ -57,20 +54,20 @@ const dateSelected = (event: any) => {
         <div class="flex flex-col gap-6 overflow-y-auto px-2 py-4">
             <div class="flex flex-col gap-4">
                 <Label for="patient_id">{{ trans('Patient') }}</Label>
-                <Select v-model="form.patient_id" :options="patients" filter option-value="id" optionLabel="full_name" placeholder="Select a patient">
+                <Select v-model="form.patient_id" :options="patients" filter option-value="id" optionLabel="full_name" :placeholder="trans('Select')">
                 </Select>
                 <InputError :message="form.errors.patient_id" />
             </div>
             <div class="flex flex-col gap-4">
                 <Label for="doctor_id">{{ trans('Doctor') }}</Label>
-                <Select v-model="form.doctor_id" :options="doctors" filter option-value="id" optionLabel="full_name" placeholder="Select a patient">
+                <Select v-model="form.doctor_id" :options="doctors" filter option-value="id" optionLabel="full_name" :placeholder="trans('Select')">
                 </Select>
                 <InputError :message="form.errors.doctor_id" />
             </div>
             <div class="flex flex-col gap-4">
                 <Label for="visit_date">{{ trans('Visit date') }}</Label>
                 <div>
-                    <DatePicker id="visit_date" date-format="d-m-Y" @value-change="dateSelected" inline />
+                    <DatePicker v-model="form.visit_date" id="visit_date" inline />
                 </div>
                 <InputError :message="form.errors.visit_date" />
             </div>

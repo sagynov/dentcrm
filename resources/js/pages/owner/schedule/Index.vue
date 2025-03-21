@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Calendar } from '@/components/ui/calendar';
 import {
   Table,
   TableBody,
@@ -13,13 +12,26 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
+import Button from '@/components/ui/button/Button.vue';
+import DatePicker from 'primevue/datepicker';
+import axios from 'axios';
+import { ref } from 'vue';
 
 interface Props {
     doctors: any;
     hours: any;
 }
 
-defineProps<Props>();
+
+const props = defineProps<Props>();
+
+const doctors = ref(props.doctors);
+const hours = ref(props.hours);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,24 +39,17 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/schedule',
     },
 ];
-const days = ['06', '07', '08', '09', '10', '11', '12'];
-const schedules = [
-  {
-    cabinet: 'Кабинет 1',
-    patient: 'Ержан Серікбай 10:00',
-    s_hours: [10, 12, 16]
-  },
-  {
-    cabinet: 'Кабинет 2',
-    patient: 'Ержан Серікбай 10:00',
-    s_hours: [11, 13]
-  },
-  {
-    cabinet: 'Кабинет 3',
-    patient: 'Ержан Серікбай 10:00',
-    s_hours: [10, 15, 18]
-  },
-];
+
+const today = new Date();
+
+const dateSelected = (date: any) => {
+    axios.get(route('owner.schedules.get-schedule'), {
+        params: {date}
+    }).then(({data}) => {
+        doctors.value = data.doctors;
+        hours.value = data.hours;
+    });
+}
 </script>
 
 <template>
@@ -65,14 +70,33 @@ const schedules = [
                             <TableBody>
                                 <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]">
                                     <TableCell class="border border-collapse h-[50px] overflow-hidden">{{ doctor.full_name }}</TableCell>
-                                    <TableCell class="border border-collapse p-0 h-[50px]" v-for="hour in hours" :key="'cell_'+hour">
-                                        <div v-for="appointment in doctor.appointments" class="w-[50px] h-[50px]">
-                                            <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-[50px] h-[50px] font-light text-xs p-4 text-center text-white">
-                                                {{ appointment.patient }}
+                                    <TableCell class="border border-collapse p-0 h-[50px] w-[50px] bg-gray-400" v-for="hour in hours" :key="'cell_'+hour">
+                                        <div v-for="appointment in doctor.appointments" v-if="doctor.appointments.length > 0" class="w-full h-full">
+                                            <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-full h-full text-white">
+                                                <HoverCard>
+                                                    <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
+                                                    <HoverCardContent>
+                                                        <div>{{ appointment.patient }}</div>
+                                                        <div>{{ appointment.visit_at }}</div>
+                                                    </HoverCardContent>
+                                                </HoverCard>
                                             </div>
-                                            <div v-else class="h-[50px] p-4 w-[50px]">
-
+                                            <div class="bg-gray-400  w-full h-full text-white" v-else>
+                                                <HoverCard>
+                                                    <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
+                                                    <HoverCardContent>
+                                                        <Button variant="secondary">Add appointment</Button>
+                                                    </HoverCardContent>
+                                                </HoverCard>
                                             </div>
+                                        </div>
+                                        <div class="bg-gray-400 w-full h-full text-white" v-else>
+                                            <HoverCard>
+                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
+                                                <HoverCardContent>
+                                                    <Button variant="secondary">Add appointment</Button>
+                                                </HoverCardContent>
+                                            </HoverCard>
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -82,7 +106,7 @@ const schedules = [
                 </div>
                 <div class="col-span-12 md:col-span-4">
                     <div>
-                        <Calendar :weekday-format="'short'" class="rounded-md border" />
+                        <DatePicker date-format="d-m-Y" v-model="today" @value-change="dateSelected" inline />
                     </div>
                 </div>
             </div>

@@ -18,5 +18,6 @@ Route::group([
     Route::resource('appointments', AppointmentController::class);
     Route::resource('doctors', DoctorController::class);
     Route::resource('patients', PatientController::class);
+    Route::get('schedule/get-schedule', [ScheduleController::class, 'getSchedule'])->name('schedules.get-schedule');
     Route::resource('schedule', ScheduleController::class);
 });

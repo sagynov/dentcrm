@@ -88,12 +88,12 @@ const checkIIN = (value: any) => {
                     <InputError :message="form.errors.first_name" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="last_name">{{ trans('Last Name') }}</Label>
+                    <Label for="last_name">{{ trans('Last name') }}</Label>
                     <Input id="last_name" v-model="form.last_name" class="col-span-3" />
                     <InputError :message="form.errors.last_name" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="phone">{{ trans('Phone number') }}</Label>
+                    <Label for="phone">{{ trans('Phone') }}</Label>
                     <InputMask class="p-inputmask" unstyled mask="+9(999)999-99-99" unmask id="phone" v-model="form.phone" placeholder="+7" autocomplete="off" />
                     <InputError :message="form.errors.phone" />
                 </div>

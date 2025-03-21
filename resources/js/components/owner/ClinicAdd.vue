@@ -99,7 +99,7 @@ const submit = () => {
                     <InputError :message="form.errors.address" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="phone">{{ trans('Phone number') }}</Label>
+                    <Label for="phone">{{ trans('Phone') }}</Label>
                     <InputMask class="p-inputmask" unstyled mask="+9(999)999-99-99" unmask id="phone" v-model="form.phone" placeholder="+7" />
                     <InputError :message="form.errors.phone" />
                 </div>
