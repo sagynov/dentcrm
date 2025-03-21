@@ -7,8 +7,6 @@ use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Appointment;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -59,7 +57,7 @@ class AppointmentController extends Controller
         $validated['visit_at'] = date('d-m-Y H:i', strtotime($visit_date.' '.$validated['visit_time']));
         $validated['status'] = 'scheduled';
         unset($validated['visit_date'], $validated['visit_time']);
-        Appointment::create($validated);
+        $appointment = Appointment::create($validated);
     }
 
     /**

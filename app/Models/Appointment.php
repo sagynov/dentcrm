@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Observers\AppointmentObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([AppointmentObserver::class])]
 class Appointment extends Model
 {
     /** @use HasFactory<\Database\Factories\AppointmentFactory> */
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'clinic_id',
