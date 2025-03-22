@@ -29,7 +29,7 @@ class AppointmentCreated extends WhatsappNotification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['database', WhatsappChannel::class];
+        return [WhatsappChannel::class];
     }
 
     /**

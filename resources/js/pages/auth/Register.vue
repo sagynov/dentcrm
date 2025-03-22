@@ -8,6 +8,7 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { LoaderCircle } from 'lucide-vue-next';
+import InputMask from 'primevue/inputmask';
 
 const form = useForm({
     name: '',
@@ -37,7 +38,19 @@ const submit = () => {
 
                 <div class="grid gap-2">
                     <Label for="phone">{{trans('Phone number')}}</Label>
-                    <Input id="phone" type="text" required :tabindex="2" autocomplete="phone" v-model="form.phone" placeholder="+7" />
+                    <InputMask 
+                        class="p-inputmask" 
+                        unstyled
+                        mask="+9(999)999-99-99" 
+                        unmask
+                        id="phone"
+                        type="text"
+                        required
+                        :tabindex="2"
+                        autocomplete="phone"
+                        v-model="form.phone" 
+                        placeholder="+7" 
+                    />
                     <InputError :message="form.errors.phone" />
                 </div>
 

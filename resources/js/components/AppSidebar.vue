@@ -9,6 +9,7 @@ import { BookOpen, Folder, LayoutGrid, Stethoscope, CalendarDays, HandHeart } fr
 import AppLogo from './AppLogo.vue';
 import { trans } from 'laravel-vue-i18n';
 import NavOwner from './NavOwner.vue';
+import NavDoctor from './NavDoctor.vue';
 
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
@@ -42,6 +43,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
+            <NavDoctor v-if="user.is_doctor" />
             <NavOwner v-if="user.is_owner" />
         </SidebarContent>
 

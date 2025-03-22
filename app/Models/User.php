@@ -3,11 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Notifications\SendResetLink;
+use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -97,5 +104,20 @@ class User extends Authenticatable
     public function patient()
     {
         return $this->hasOne(Patient::class, 'user_id', 'id');
+    }
+    public function sendResetLink()
+    {
+        $recent_code = DB::table('password_reset_codes')->where([['phone', '=', $this->phone], ['valid_until', '>', now()]])->first();
+        if(!$recent_code){
+            $token = Str::random(60);
+            DB::table('password_reset_codes')->where('phone', $this->phone)->delete();
+            DB::table('password_reset_codes')->insert([
+                'phone'=> $this->phone,
+                'code' => fake()->randomNumber(4, true),
+                'token' => $token,
+                'valid_until' => now()->addHour()
+            ]);
+            $this->notify(new SendResetLink($token));
+        }
     }
 }

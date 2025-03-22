@@ -1,3 +1,4 @@
+@import 'vue-multiselect/dist/vue-multiselect.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

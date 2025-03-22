@@ -4,9 +4,12 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\EnterCodeController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\SendCodeController;
+use App\Http\Controllers\Auth\SetPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +35,21 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    Route::get('send-code', [SendCodeController::class, 'create'])
+        ->name('password.send-code');
+
+    Route::get('enter-code/{phone}', [EnterCodeController::class, 'create'])
+        ->name('password.enter-code');
+
+    Route::post('enter-code', [EnterCodeController::class, 'store'])
+        ->name('password.check-code');
+
+    Route::get('set-password/{token}', [SetPasswordController::class, 'create'])
+        ->name('password.set-password');
+
+    Route::post('set-password', [SetPasswordController::class, 'store'])
+        ->name('password.save-password');
 });
 
 Route::middleware('auth')->group(function () {

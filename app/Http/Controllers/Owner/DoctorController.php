@@ -28,17 +28,23 @@ class DoctorController extends Controller
             'first_name' => 'required',
             'last_name' => 'nullable',
             'speciality' => 'required',
-            'phone' => 'required|string|unique:'.User::class,
+            'phone' => 'required|string',
         ]);
-        $new_user = User::create([
-            'name' => $validated['first_name'],
-            'role' => 'doctor',
-            'phone' => $validated['phone'],
-            'password' => Hash::make(Str::random(10)),
-            'remember_token' => Str::random(40)
-        ]);
-        $new_user->doctor()->create($request->only('first_name', 'last_name', 'speciality'));
         $clinic = $request->user()->clinics()->where('clinic_id', $request->user()->active_clinic)->first();
-        $clinic->users()->syncWithoutDetaching($new_user->id);
+        $check_user = User::where('phone', $validated['phone'])->first();
+        if($check_user) {
+            $clinic->users()->syncWithoutDetaching($check_user->id);
+        }else{
+            $new_user = User::create([
+                'name' => $validated['first_name'],
+                'role' => 'doctor',
+                'phone' => $validated['phone'],
+                'password' => Hash::make(Str::random(10)),
+                'remember_token' => Str::random(40)
+            ]);
+            $new_user->doctor()->create($request->only('first_name', 'last_name', 'speciality'));
+            $clinic->users()->syncWithoutDetaching($new_user->id);
+        }
+
     }
 }

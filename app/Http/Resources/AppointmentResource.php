@@ -17,7 +17,9 @@ class AppointmentResource extends JsonResource
         return [
             'id' => $this->id,
             'patient' => $this->patient->full_name,
-            'doctor' => $this->doctor->full_name,
+            'doctor' => $this->whenLoaded('doctor', function(){
+                return $this->doctor->full_name;
+            }),
             'notes' => $this->notes,
             'visit_at' => $this->visit_at->format('d-m-Y H:i'),
             'status' => $this->status

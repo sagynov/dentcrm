@@ -44,6 +44,7 @@
     "IIN": "ИИН",
     "Birth date": "Дата рождения",
     "Add patient": "Добавить пациента",
+    "Enter the patient name": "Введите имя пациента",
     "Patient added": "Пациент добавлен",
     "Patient added successfully": "Пациент успешно добавлен"
 }
