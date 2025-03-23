@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Doctor;
+use App\Models\Clinic;
+use App\Models\Patient;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,12 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'clinic_id' => Clinic::factory(),
+            'doctor_id' => Doctor::factory(),
+            'patient_id' => Patient::factory(),
+            'notes' => fake()->text(100),
+            'visit_at' => fake()->dateTimeBetween('today', 'tomorrow')->format('d-m-Y H:i'),
+            'status' => 'scheduled'
         ];
     }
 }

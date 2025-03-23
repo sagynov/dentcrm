@@ -8,16 +8,15 @@ html {
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
-
 @layer base {
     :root {
-        --background: 0 0% 100%;
+        --background: #fff;
         --foreground: 0 0% 3.9%;
         --card: 0 0% 100%;
         --card-foreground: 0 0% 3.9%;
         --popover: 0 0% 100%;
         --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
+        --primary: #1b84e7;
         --primary-foreground: 0 0% 98%;
         --secondary: 0 0% 92.1%;
         --secondary-foreground: 0 0% 9%;
@@ -36,11 +35,11 @@ html {
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
-        --sidebar-background: 0 0% 98%;
-        --sidebar-foreground: 240 5.3% 26.1%;
+        --sidebar-background: #f0f2f7;
+        --sidebar-foreground: #343a40;
         --sidebar-primary: 0 0% 10%;
         --sidebar-primary-foreground: 0 0% 98%;
-        --sidebar-accent: 0 0% 94%;
+        --sidebar-accent: #fff;
         --sidebar-accent-foreground: 0 0% 30%;
         --sidebar-border: 0 0% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
@@ -76,7 +75,7 @@ html {
         --sidebar-primary: 360, 100%, 100%;
         --sidebar-primary-foreground: 0 0% 100%;
         --sidebar-accent: 0 0% 15.9%;
-        --sidebar-accent-foreground: 240 4.8% 95.9%;
+        --sidebar-accent-foreground: #1b84e7;
         --sidebar-border: 0 0% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;
     }

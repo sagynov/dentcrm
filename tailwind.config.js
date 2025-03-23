@@ -20,7 +20,7 @@ export default {
                 sm: 'calc(var(--radius) - 4px)',
             },
             colors: {
-                background: 'hsl(var(--background))',
+                background: 'var(--background)',
                 foreground: 'hsl(var(--foreground))',
                 card: {
                     DEFAULT: 'hsl(var(--card))',
@@ -31,7 +31,7 @@ export default {
                     foreground: 'hsl(var(--popover-foreground))',
                 },
                 primary: {
-                    DEFAULT: 'hsl(var(--primary))',
+                    DEFAULT: 'var(--primary)',
                     foreground: 'hsl(var(--primary-foreground))',
                 },
                 secondary: {
@@ -61,12 +61,12 @@ export default {
                     5: 'hsl(var(--chart-5))',
                 },
                 sidebar: {
-                    DEFAULT: 'hsl(var(--sidebar-background))',
-                    foreground: 'hsl(var(--sidebar-foreground))',
+                    DEFAULT: 'var(--sidebar-background)',
+                    foreground: 'var(--sidebar-foreground)',
                     primary: 'hsl(var(--sidebar-primary))',
                     'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-                    accent: 'hsl(var(--sidebar-accent))',
-                    'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+                    accent: 'var(--sidebar-accent)',
+                    'accent-foreground': 'var(--sidebar-accent-foreground)',
                     border: 'hsl(var(--sidebar-border))',
                     ring: 'hsl(var(--sidebar-ring))',
                 },

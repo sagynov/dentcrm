@@ -25,6 +25,7 @@ import { ref } from 'vue';
 interface Props {
     doctors: any;
     hours: any;
+    appointments: any;
 }
 
 
@@ -32,6 +33,7 @@ const props = defineProps<Props>();
 
 const doctors = ref(props.doctors);
 const hours = ref(props.hours);
+const appointments = ref(props.appointments);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -48,6 +50,7 @@ const dateSelected = (date: any) => {
     }).then(({data}) => {
         doctors.value = data.doctors;
         hours.value = data.hours;
+        appointments.value = data.appointments;
     });
 }
 </script>
@@ -70,33 +73,23 @@ const dateSelected = (date: any) => {
                             <TableBody>
                                 <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]" :key="'doctor_'+doctor.id">
                                     <TableCell class="border border-collapse h-[50px] overflow-hidden">{{ doctor.full_name }}</TableCell>
-                                    <TableCell class="border border-collapse p-0 h-[50px] w-[50px] bg-gray-400" v-for="hour in hours" :key="'cell_'+hour">
-                                        <div  v-if="doctor.appointments.length > 0">
-                                            <div v-for="appointment in doctor.appointments" :key="'appointment_'+appointment.id" class="w-full h-full">
-                                                <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-full h-full text-white">
-                                                    <HoverCard>
-                                                        <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
-                                                        <HoverCardContent>
-                                                            <div>{{ appointment.patient }}</div>
-                                                            <div>{{ appointment.visit_at }}</div>
-                                                        </HoverCardContent>
-                                                    </HoverCard>
-                                                </div>
-                                                <div class="bg-gray-400  w-full h-full text-white" v-else>
-                                                    <HoverCard>
-                                                        <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
-                                                        <HoverCardContent>
-                                                            <Button variant="secondary">Add appointment</Button>
-                                                        </HoverCardContent>
-                                                    </HoverCard>
-                                                </div>
-                                            </div>
+                                    <TableCell class="border border-collapse p-0 h-[50px] w-[50px] bg-gray-400" v-for="hour in hours" :key="'hour_'+hour">
+                                        <div v-if="appointments[doctor.id][hour]" class="bg-green-600 p-2 w-full h-full text-white">
+                                            <HoverCard>
+                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center">
+                                                    <div>{{ trans('scheduled') }}</div>
+                                                </HoverCardTrigger>
+                                                <HoverCardContent>
+                                                    <div>{{ appointments[doctor.id][hour].patient }}</div>
+                                                    <div>{{ appointments[doctor.id][hour].visit_at }}</div>
+                                                </HoverCardContent>
+                                            </HoverCard>
                                         </div>
-                                        <div class="bg-gray-400 w-full h-full text-white" v-else>
+                                        <div class="bg-[#fff] w-full h-full text-white" v-else>
                                             <HoverCard>
                                                 <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
                                                 <HoverCardContent>
-                                                    <Button variant="secondary">Add appointment</Button>
+                                                    <Button>Add appointment</Button>
                                                 </HoverCardContent>
                                             </HoverCard>
                                         </div>

@@ -17,7 +17,10 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->word(),
+            'specialization' => fake()->word(),
+            'address' => fake()->address(),
+            'phone' => '77'.fake()->randomNumber(9, true),
         ];
     }
 }

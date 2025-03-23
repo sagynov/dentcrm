@@ -64,6 +64,11 @@ class User extends Authenticatable
     {
         return 'phone';
     }
+    
+    public function preferredLocale(): string
+    {
+        return $this->locale;
+    }
 
     public function getIsOwnerAttribute()
     {

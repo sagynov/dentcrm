@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('role');
             $table->string('phone')->unique();
             $table->timestamp('phone_verified_at')->nullable();
+            $table->timestamp('locale')->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

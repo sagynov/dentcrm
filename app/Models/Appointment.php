@@ -22,11 +22,16 @@ class Appointment extends Model
         'visit_at',
         'status',
     ];
+    protected $appends = array('visit_hour');
     protected function casts(): array
     {
         return [
             'visit_at' => 'datetime:d-m-Y H:i',
         ];
+    }
+    public function getVisitHourAttribute()
+    {
+        return $this->visit_at->format('G');
     }
     public function patient()
     {
