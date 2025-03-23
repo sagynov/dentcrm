@@ -22,8 +22,6 @@ import { ref } from 'vue';
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const page = usePage<SharedData>();
-const clinic = page.props.clinic as string;
 
 const openDialog = ref(false);
 

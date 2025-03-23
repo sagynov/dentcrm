@@ -68,26 +68,28 @@ const dateSelected = (date: any) => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]">
+                                <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]" :key="'doctor_'+doctor.id">
                                     <TableCell class="border border-collapse h-[50px] overflow-hidden">{{ doctor.full_name }}</TableCell>
                                     <TableCell class="border border-collapse p-0 h-[50px] w-[50px] bg-gray-400" v-for="hour in hours" :key="'cell_'+hour">
-                                        <div v-for="appointment in doctor.appointments" v-if="doctor.appointments.length > 0" class="w-full h-full">
-                                            <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-full h-full text-white">
-                                                <HoverCard>
-                                                    <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
-                                                    <HoverCardContent>
-                                                        <div>{{ appointment.patient }}</div>
-                                                        <div>{{ appointment.visit_at }}</div>
-                                                    </HoverCardContent>
-                                                </HoverCard>
-                                            </div>
-                                            <div class="bg-gray-400  w-full h-full text-white" v-else>
-                                                <HoverCard>
-                                                    <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
-                                                    <HoverCardContent>
-                                                        <Button variant="secondary">Add appointment</Button>
-                                                    </HoverCardContent>
-                                                </HoverCard>
+                                        <div  v-if="doctor.appointments.length > 0">
+                                            <div v-for="appointment in doctor.appointments" :key="'appointment_'+appointment.id" class="w-full h-full">
+                                                <div v-if="appointment.visit_hour == hour" class="bg-green-600 w-full h-full text-white">
+                                                    <HoverCard>
+                                                        <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
+                                                        <HoverCardContent>
+                                                            <div>{{ appointment.patient }}</div>
+                                                            <div>{{ appointment.visit_at }}</div>
+                                                        </HoverCardContent>
+                                                    </HoverCard>
+                                                </div>
+                                                <div class="bg-gray-400  w-full h-full text-white" v-else>
+                                                    <HoverCard>
+                                                        <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
+                                                        <HoverCardContent>
+                                                            <Button variant="secondary">Add appointment</Button>
+                                                        </HoverCardContent>
+                                                    </HoverCard>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="bg-gray-400 w-full h-full text-white" v-else>

@@ -14,16 +14,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/toast/use-toast';
-import { type SharedData } from '@/types';
-import { useForm, usePage, router } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import InputMask from 'primevue/inputmask';
 import { ref } from 'vue';
-import DatePicker from '@/components/DatePicker.vue';
 import axios from 'axios';
-
-const page = usePage<SharedData>();
-const clinic = page.props.clinic as string;
 
 const openDialog = ref(false);
 
@@ -57,7 +52,7 @@ const checkIIN = (value: any) => {
             form.first_name = data.first_name;
             form.last_name = data.last_name;
         }).catch(err => {
-            
+            console.log(err);
         });
     }
 

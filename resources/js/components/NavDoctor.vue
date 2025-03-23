@@ -60,7 +60,7 @@ const selectClinic = (value: any) => {
                     <SelectValue placeholder="Select a clinic" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem v-for="clinic in clinics" :value="clinic.id">
+                        <SelectItem v-for="clinic in clinics" :key="'clinic_'+clinic.id" :value="clinic.id">
                             {{ clinic.name }}
                         </SelectItem>
                     </SelectContent>

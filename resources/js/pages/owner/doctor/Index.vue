@@ -53,7 +53,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    <TableRow v-for="doctor in doctors">
+                    <TableRow v-for="doctor in doctors" :key="'doctor_'+doctor.id">
                         <TableCell>{{ doctor.full_name }}</TableCell>
                         <TableCell>{{ doctor.speciality }}</TableCell>
                         <TableCell>{{ doctor.joined_at }}</TableCell>
