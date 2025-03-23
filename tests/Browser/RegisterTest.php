@@ -8,6 +8,8 @@ uses(DatabaseTruncation::class);
 test('guest can register', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit('/register')
-                ->assertSee('Create an account');
+                ->waitForText('Create an account')
+                ->assertSee('Create an account')
+                ->screenshot('success-register');
     });
 });

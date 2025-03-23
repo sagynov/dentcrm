@@ -17,7 +17,7 @@ test('user can log in', function () {
             ->type('@password', 'password')
             ->press('Log in')
             ->waitForText('Dashboard')
-            ->assertPathIs('/dashboard');
-        $browser->screenshot('after-login');
+            ->assertPathIs('/dashboard')
+            ->screenshot('success-login');
     });
 });
