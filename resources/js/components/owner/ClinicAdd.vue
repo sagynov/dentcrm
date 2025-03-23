@@ -82,7 +82,7 @@ const submit = () => {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectItem v-for="option in options" :value="option.value">
+                                <SelectItem v-for="(option,index) in options" :key="'option_'+index" :value="option.value">
                                     {{ option.name }}
                                 </SelectItem>
                             </SelectGroup>
