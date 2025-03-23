@@ -113,7 +113,7 @@ class User extends Authenticatable
             DB::table('password_reset_codes')->where('phone', $this->phone)->delete();
             DB::table('password_reset_codes')->insert([
                 'phone'=> $this->phone,
-                'code' => fake()->randomNumber(4, true),
+                'code' => rand(1000, 9999),
                 'token' => $token,
                 'valid_until' => now()->addHour()
             ]);
