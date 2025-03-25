@@ -49,19 +49,19 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableCaption>{{trans('A list of appointments')}}</TableCaption>
                     <TableHeader>
                     <TableRow>
+                        <TableHead>{{trans('Visit at')}}</TableHead>
                         <TableHead>{{trans('Patient')}}</TableHead>
                         <TableHead>{{trans('Doctor')}}</TableHead>
                         <TableHead>{{trans('Notes')}}</TableHead>
-                        <TableHead>{{trans('Visit at')}}</TableHead>
                         <TableHead>{{trans('Status')}}</TableHead>
                     </TableRow>
                     </TableHeader>
                     <TableBody>
                     <TableRow v-for="appointment in appointments" :key="'appointment_'+appointment.id">
+                        <TableCell>{{ appointment.visit_at }}</TableCell>
                         <TableCell>{{ appointment.patient }}</TableCell>
                         <TableCell>{{ appointment.doctor }}</TableCell>
                         <TableCell>{{ appointment.notes }}</TableCell>
-                        <TableCell>{{ appointment.visit_at }}</TableCell>
                         <TableCell>{{ trans(appointment.status) }}</TableCell>
                     </TableRow>
                     </TableBody>

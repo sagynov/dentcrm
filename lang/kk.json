@@ -25,7 +25,7 @@
     "Already Reported": "Қазірдің өзінде хабарланған",
     "Appointment added": "Қабылдауға жазылды",
     "Appointment added successfully": "Қабылдауға сәтті жазылды",
-    "Appointments": "Қабылдау",
+    "Appointments": "Қабылдаулар",
     "Archive": "Мұрағат",
     "Assign": "Тағайындау",
     "Associate": "Қауымдас",
@@ -303,5 +303,11 @@
     "Already have an account?": "Есептік жазба бар ма?",
     
     "ru": "Русский",
-    "kk": "Қазақша"
+    "kk": "Қазақша",
+
+    "Week": "Апта",
+    "Month": "Ай",
+    "Number of records": "Жазбалар саны",
+    "Total: :count": "Барлығы: :count",
+    "Doctors workload": "Дәрігерлердің жұмыс жүктемесі"
 }

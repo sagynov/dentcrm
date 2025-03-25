@@ -303,5 +303,11 @@
     "Already have an account?": "Уже есть аккаунт?",
 
     "kk": "Қазақша",
-    "ru": "Русский"
+    "ru": "Русский",
+
+    "Week": "Неделя",
+    "Month": "Месяц",
+    "Number of records": "Количество записей",
+    "Total: :count": "Всего: :count",
+    "Doctors workload": "Нагруженность врачей"
 }

@@ -21,7 +21,7 @@ class AppointmentResource extends JsonResource
                 return $this->doctor->full_name;
             }),
             'notes' => $this->notes,
-            'visit_at' => $this->visit_at->format('d-m-Y H:i'),
+            'visit_at' => $this->visit_at->translatedFormat('j F, H:i'),
             'status' => $this->status
         ];
     }

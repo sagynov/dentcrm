@@ -22,6 +22,7 @@ interface Props {
 defineProps<Props>();
 
 const openDialog = ref(false);
+const minDate = ref(new Date());
 
 const form = useForm({
     patient_id: '',
@@ -67,7 +68,7 @@ const submit = () => {
             <div class="flex flex-col gap-4">
                 <Label for="visit_date">{{ trans('Visit date') }}</Label>
                 <div>
-                    <DatePicker v-model="form.visit_date" id="visit_date" inline />
+                    <DatePicker v-model="form.visit_date" :minDate="minDate" id="visit_date" inline />
                 </div>
                 <InputError :message="form.errors.visit_date" />
             </div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner\AppointmentController;
 use App\Http\Controllers\Owner\ClinicController;
+use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\DoctorController;
 use App\Http\Controllers\Owner\PatientController;
 use App\Http\Controllers\Owner\ScheduleController;
@@ -13,6 +14,9 @@ Route::group([
     'prefix'=> 'owner',
     'as' => 'owner.',
 ], function() {
+    Route::get('/', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('appointment-metric', [DashboardController::class,'appointmentMetric'])->name('appointment-metric');
+    Route::get('doctor-workload', [DashboardController::class,'doctorWorkload'])->name('doctor-workload');
     Route::post('clinics/set-active-clinic', [ClinicController::class,'setActiveClinic'])->name('clinics.set-active-clinic');
     Route::resource('clinics', ClinicController::class);
     Route::resource('appointments', AppointmentController::class);

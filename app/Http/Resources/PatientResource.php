@@ -20,8 +20,8 @@ class PatientResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name'=> $this->last_name,
             'full_name' => $this->full_name,
-            'birth_date' => $this->birth_date->format('d-m-Y'),
-            'joined_at' => $this->pivot?->created_at->format('d-m-Y'),
+            'birth_date' => $this->birth_date->translatedFormat('j F Y'),
+            'joined_at' => $this->pivot?->created_at->translatedFormat('j F Y'),
         ];
     }
 }
