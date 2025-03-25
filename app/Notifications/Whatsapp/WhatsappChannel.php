@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Notifications\Channels;
+namespace App\Notifications\Whatsapp;
 
-use App\Notifications\WhatsappNotification;
+use App\Notifications\Whatsapp\WhatsappNotification;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 

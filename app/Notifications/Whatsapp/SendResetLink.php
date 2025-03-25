@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Whatsapp;
 
-use App\Notifications\Channels\WhatsappChannel;
+use App\Notifications\Whatsapp\WhatsappChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

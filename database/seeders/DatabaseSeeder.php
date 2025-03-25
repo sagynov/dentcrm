@@ -7,11 +7,12 @@ use App\Models\Clinic;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    use WithoutModelEvents;
     /**
      * Seed the application's database.
      */

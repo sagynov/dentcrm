@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import NavFooter from '@/components/NavFooter.vue';
-import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Sidebar, SidebarGroup, SidebarGroupContent, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { SharedData, User, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, Stethoscope, CalendarDays, HandHeart } from 'lucide-vue-next';
@@ -10,6 +8,7 @@ import AppLogo from './AppLogo.vue';
 import { trans } from 'laravel-vue-i18n';
 import NavOwner from './NavOwner.vue';
 import NavDoctor from './NavDoctor.vue';
+import Locale from './Locale.vue';
 
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
@@ -34,7 +33,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="route('dashboard')">
+                        <Link :href="route('home')">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
@@ -48,7 +47,16 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
+            <SidebarGroup class="p-4">
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem class="w-full">
+                            <Locale />
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+            
             <NavUser />
         </SidebarFooter>
     </Sidebar>

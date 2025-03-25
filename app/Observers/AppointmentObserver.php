@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Appointment;
-use App\Notifications\AppointmentCreated;
+use App\Notifications\Whatsapp\AppointmentCreated;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
 class AppointmentObserver implements ShouldHandleEventsAfterCommit

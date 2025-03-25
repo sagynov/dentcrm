@@ -39,6 +39,9 @@ Route::middleware('guest')->group(function () {
     Route::get('send-code', [SendCodeController::class, 'create'])
         ->name('password.send-code');
 
+    Route::post('generate-code', [SendCodeController::class, 'store'])
+        ->name('password.generate-code');
+
     Route::get('enter-code/{phone}', [EnterCodeController::class, 'create'])
         ->name('password.enter-code');
 

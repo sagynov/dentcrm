@@ -18,7 +18,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('password.whatsapp'));
+    form.post(route('password.generate-code'));
 };
 </script>
 
@@ -26,14 +26,14 @@ const submit = () => {
     <AuthLayout :title="trans('Reset password')" :description="trans('Enter your phone to receive a code')">
         <Head :title="trans('Reset password')" />
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
+        <div v-if="status" class="mb-4 text-center text-sm font-medium text-red-600">
             {{ status }}
         </div>
 
         <div class="space-y-6">
             <form @submit.prevent="submit">
                 <div class="grid gap-2">
-                    <Label for="phone">{{ trans('Phone number') }}</Label>
+                    <Label for="phone">{{ trans('Phone') }}</Label>
                     <InputMask
                         class="p-inputmask"
                         unstyled

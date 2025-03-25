@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
+use App\Notifications\Whatsapp\SendCode;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -37,8 +38,8 @@ class SendCodeController extends Controller
         if($user) {
             $recent_code = DB::table('password_reset_codes')->where([['phone', '=', $validated['phone']], ['valid_until', '>', now()]])->first();
             if(!$recent_code){
-                $code = fake()->randomNumber(4, true);
-                // $user->notify(new SendWhatsapp($code));
+                $code = rand(1000, 9999);
+                $user->notify(new SendCode($code));
                 $token = Str::random(60);
 
                 DB::table('password_reset_codes')->where('phone', $user->phone)->delete();

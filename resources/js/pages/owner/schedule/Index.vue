@@ -73,7 +73,7 @@ const dateSelected = (date: any) => {
                             <TableBody>
                                 <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]" :key="'doctor_'+doctor.id">
                                     <TableCell class="border border-collapse h-[50px] overflow-hidden">{{ doctor.full_name }}</TableCell>
-                                    <TableCell class="border border-collapse p-0 h-[50px] w-[50px] bg-gray-400" v-for="hour in hours" :key="'hour_'+hour">
+                                    <TableCell class="border border-collapse p-0 h-[50px] w-[50px]" v-for="hour in hours" :key="'hour_'+hour">
                                         <div v-if="appointments[doctor.id][hour]" class="bg-green-600 p-2 w-full h-full text-white">
                                             <HoverCard>
                                                 <HoverCardTrigger class="w-full h-full flex items-center justify-center">

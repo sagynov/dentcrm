@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user()?->load('clinics'),
             ],
             'locale' => Session::get('locale', config('app.locale')),
+            'available_locales' => config('app.available_locales'),
         ];
     }
 }

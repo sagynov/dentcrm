@@ -6,6 +6,7 @@ use App\Services\Taxpayer\Repositories\TaxpayerInterface;
 use App\Services\Taxpayer\Repositories\TaxpayerRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         JsonResource::withoutWrapping();
+        Validator::extend('phone', function ($attribute, $value, $parameters, $validator) {
+            return preg_match('/^\\d{11}$/', $value);
+        });
     }
 }
