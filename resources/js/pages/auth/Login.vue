@@ -53,6 +53,7 @@ const submit = () => {
                         autocomplete="phone"
                         v-model="form.phone" 
                         placeholder="+7" 
+                        value="+7"
                     />
                     <InputError :message="form.errors.phone" />
                 </div>
