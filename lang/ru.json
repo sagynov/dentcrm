@@ -309,5 +309,7 @@
     "Month": "Месяц",
     "Number of records": "Количество записей",
     "Total: :count": "Всего: :count",
-    "Doctors workload": "Нагруженность врачей"
+    "Doctors workload": "Нагруженность врачей",
+
+    "Clinic": "Клиника"
 }

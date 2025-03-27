@@ -52,12 +52,12 @@ const selectClinic = (value: any) => {
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>{{ trans('Doctor') }}</SidebarGroupLabel>
+        <SidebarGroupLabel>{{ trans('Clinic') }}</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem class="my-2">
                 <Select @update:model-value="selectClinic" v-model="active_clinic">
                     <SelectTrigger>
-                    <SelectValue placeholder="Select a clinic" />
+                    <SelectValue :placeholder="trans('Select')" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem v-for="clinic in clinics" :key="'clinic_'+clinic.id" :value="clinic.id">

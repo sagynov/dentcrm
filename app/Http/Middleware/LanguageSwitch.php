@@ -19,8 +19,8 @@ class LanguageSwitch
     {
         if(Auth::check()){
             $user = Auth::user();
-            session()->put('locale', $user->locale);
-            App::setLocale($user->locale);
+            $locale = $user->locale ?? session('locale', app()->getLocale());
+            App::setLocale($locale);
         }else{
             App::setLocale(session('locale', app()->getLocale()));
         }

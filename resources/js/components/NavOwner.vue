@@ -67,7 +67,7 @@ const selectClinic = (value: any) => {
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>{{ trans('Owner') }}</SidebarGroupLabel>
+        <SidebarGroupLabel>{{ trans('Clinic') }}</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem class="my-2">
                 <Select @update:model-value="selectClinic" v-model="active_clinic">

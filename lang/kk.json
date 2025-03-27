@@ -309,5 +309,7 @@
     "Month": "Ай",
     "Number of records": "Жазбалар саны",
     "Total: :count": "Барлығы: :count",
-    "Doctors workload": "Дәрігерлердің жұмыс жүктемесі"
+    "Doctors workload": "Дәрігерлердің жұмыс жүктемесі",
+
+    "Clinic": "Клиника"
 }
