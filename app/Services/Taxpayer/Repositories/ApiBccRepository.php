@@ -11,6 +11,7 @@ class ApiBccRepository
     protected PendingRequest $http;
     private $token;
     private $base_url = 'https://api-test.bcc.kz/bcc/production';
+    private $useragent = 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
 
     public function __construct()
     {
@@ -37,7 +38,7 @@ class ApiBccRepository
     {
         $client_id = env('API_BCC_CLIENT_ID');
         $client_secret = env('API_BCC_CLIENT_SECRET');
-        $response = Http::baseUrl($this->base_url)->asForm()->withUserAgent(fake()->userAgent())
+        $response = Http::baseUrl($this->base_url)->asForm()->withUserAgent($this->useragent)
             ->withBasicAuth($client_id, $client_secret)
             ->post('/v2/oauth/token', [
                 'grant_type' => 'client_credentials',
