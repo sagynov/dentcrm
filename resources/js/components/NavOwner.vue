@@ -72,7 +72,7 @@ const selectClinic = (value: any) => {
             <SidebarMenuItem class="my-2">
                 <Select @update:model-value="selectClinic" v-model="active_clinic">
                     <SelectTrigger>
-                    <SelectValue placeholder="Select a clinic" />
+                    <SelectValue :placeholder="trans('Select')" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem v-for="clinic in clinics"  :key="'clinic_'+clinic.id" :value="clinic.id">
