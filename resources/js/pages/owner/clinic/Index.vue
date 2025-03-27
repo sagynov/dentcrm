@@ -48,7 +48,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableCaption>{{trans('A list of your clinics')}}</TableCaption>
                     <TableHeader>
                     <TableRow>
-                        <TableHead>{{trans('Name')}}</TableHead>
+                        <TableHead>{{trans('Clinic name')}}</TableHead>
                         <TableHead>{{trans('Specialization')}}</TableHead>
                         <TableHead>{{trans('Address')}}</TableHead>
                         <TableHead>{{trans('Phone')}}</TableHead>

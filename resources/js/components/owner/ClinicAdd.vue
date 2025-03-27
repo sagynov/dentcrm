@@ -70,7 +70,7 @@ const submit = () => {
             </DialogHeader>
             <div class="flex flex-col gap-6 overflow-y-auto px-2 py-4">
                 <div class="flex flex-col gap-4">
-                    <Label for="name">{{ trans('Name') }}</Label>
+                    <Label for="name">{{ trans('Clinic name') }}</Label>
                     <Input id="name" v-model="form.name" class="col-span-3" autocomplete="off" />
                     <InputError :message="form.errors.name" />
                 </div>

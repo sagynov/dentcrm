@@ -57,12 +57,12 @@ class AppointmentCreated extends WhatsappNotification implements ShouldQueue
         if($notifiable->role == 'patient') {
             return  __('Your appointment with Dr. :doctor_name is confirmed for :visit_date', [
                 'doctor_name' => $this->appointment->doctor->full_name, 
-                'visit_date' => $this->appointment->visit_at->format('d-m-Y H:i')
+                'visit_date' => $this->appointment->visit_at->translatedFormat('j F, H:i')
             ]);
         }else {
             return __( 'New appointment with :patient_name on :visit_date', [
                 'patient_name' => $this->appointment->patient->full_name,
-                'visit_date' => $this->appointment->visit_at->format('d-m-Y H:i')
+                'visit_date' => $this->appointment->visit_at->translatedFormat('j F, H:i')
             ]);
         }
     }

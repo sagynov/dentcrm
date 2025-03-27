@@ -28,7 +28,7 @@ class ScheduleController extends Controller
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $doctors = $clinic->doctors()->with(['appointments' => function($q) {
-            $q->whereBetween('visit_at', [today()->format('d-m-Y H:i'), today()->addDay()->format('d-m-Y H:i')]);
+            $q->whereBetween('visit_at', [today(), today()->addDay()]);
         }, 'appointments.patient'])->get();
         
         $appointments = [];
@@ -60,10 +60,9 @@ class ScheduleController extends Controller
         ]);
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $date = date('d-m-Y', strtotime($validated['date']));
-        $today =  Carbon::createFromFormat('d-m-Y', $date);
+        $today =  Carbon::createFromTimestamp('Y-m-d', strtotime($validated['date']));
         $doctors = $clinic->doctors()->with(['appointments' => function($q)use($today) {
-            $q->whereBetween('visit_at', [$today->format('d-m-Y'), $today->addDay()->format('d-m-Y')]);
+            $q->whereBetween('visit_at', [$today, $today->addDay()]);
         }])->get();
         $appointments = [];
         foreach ($doctors as $doctor) {

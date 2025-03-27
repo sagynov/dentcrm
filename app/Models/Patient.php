@@ -20,7 +20,7 @@ class Patient extends Model
     protected function casts(): array
     {
         return [
-            'birth_date' => 'date:d-m-Y',
+            'birth_date' => 'date',
         ];
     }
     public $timestamps = false;

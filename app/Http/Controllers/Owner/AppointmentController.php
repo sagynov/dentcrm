@@ -7,6 +7,7 @@ use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Appointment;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -18,6 +19,9 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->cannot('viewAny', Appointment::class)) {
+            abort(403);
+        }
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         if($clinic){
@@ -50,8 +54,9 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        
+        if (Auth::user()->cannot('create', Patient::class)) {
+            abort(403);
+        }
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',
@@ -61,7 +66,7 @@ class AppointmentController extends Controller
         ]);
         $validated['clinic_id'] = Auth::user()->active_clinic;
         $visit_date = date('Y-m-d', strtotime($validated['visit_date']));
-        $validated['visit_at'] = date('d-m-Y H:i', strtotime($visit_date.' '.$validated['visit_time']));
+        $validated['visit_at'] = date('Y-m-d H:i:s', strtotime($visit_date.' '.$validated['visit_time']));
         $validated['status'] = 'scheduled';
         unset($validated['visit_date'], $validated['visit_time']);
         $appointment = Appointment::create($validated);

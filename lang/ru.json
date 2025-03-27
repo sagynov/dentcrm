@@ -311,5 +311,8 @@
     "Total: :count": "Всего: :count",
     "Doctors workload": "Нагруженность врачей",
 
-    "Clinic": "Клиника"
+    "Clinic": "Клиника",
+    "Clinic name": "Название",
+    "Your appointment with Dr. :doctor_name is confirmed for :visit_date": "Ваша встреча с доктором :doctor_name подтверждена на :visit_date",
+    "New appointment with :patient_name on :visit_date": "Прием пациента :patient_name на :visit_date"
 }

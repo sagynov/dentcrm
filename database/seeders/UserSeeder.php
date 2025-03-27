@@ -13,6 +13,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        $user = User::factory()
+            ->create([
+                'phone' => '77713652407',
+                'password' => 'password'
+            ]);
     }
 }

@@ -26,7 +26,7 @@ class Appointment extends Model
     protected function casts(): array
     {
         return [
-            'visit_at' => 'datetime:d-m-Y H:i',
+            'visit_at' => 'datetime',
         ];
     }
     public function getVisitHourAttribute()

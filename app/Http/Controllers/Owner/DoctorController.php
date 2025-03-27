@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
+use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,9 @@ class DoctorController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->cannot('viewAny', Doctor::class)) {
+            abort(403);
+        }
         $user = Auth::user();
         if(!$user->active_clinic) {
             return Inertia::render('owner/doctor/Index', [
@@ -29,16 +33,24 @@ class DoctorController extends Controller
     }
     public function store(Request $request)
     {
+        if (Auth::user()->cannot('create', Doctor::class)) {
+            abort(403);
+        }
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name' => 'nullable',
             'speciality' => 'required',
             'phone' => 'required|string',
         ]);
+        if(!Auth::user()->active_clinic) {
+            abort(403);
+        }
         $clinic = $request->user()->clinics()->where('clinic_id', $request->user()->active_clinic)->first();
         $check_user = User::where('phone', $validated['phone'])->first();
         if($check_user) {
-            $clinic->users()->syncWithoutDetaching($check_user->id);
+            if($check_user->is_doctor){
+                $clinic->users()->syncWithoutDetaching($check_user->id);
+            }
         }else{
             $new_user = User::create([
                 'name' => $validated['first_name'],
