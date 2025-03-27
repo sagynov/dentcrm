@@ -12,7 +12,7 @@ import InputMask from 'primevue/inputmask';
 
 const form = useForm({
     name: '',
-    phone: '',
+    phone: '+7',
     password: '',
     password_confirmation: '',
 });
