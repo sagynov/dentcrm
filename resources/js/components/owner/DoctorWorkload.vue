@@ -24,7 +24,7 @@ onMounted(() => {
     loadMetric('week');
 });
 
-router.on('finish', (event) => {
+router.on('finish', () => {
     loadMetric(period.value);
 })
 

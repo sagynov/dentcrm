@@ -7,12 +7,6 @@ import { trans } from 'laravel-vue-i18n';
 import DoctorWorkload from '@/components/owner/DoctorWorkload.vue';
 import AppointmentMetric from '@/components/owner/AppointmentMetric.vue';
 
-interface Props {
-    
-}
-
-defineProps<Props>();
-
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

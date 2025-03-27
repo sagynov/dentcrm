@@ -10,9 +10,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import Chart from 'primevue/chart';
-import { onMounted, onUpdated, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { onUnmounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 
 const data_keys = ref();
@@ -25,7 +24,7 @@ onMounted(() => {
     loadMetric('week');
 });
 
-router.on('finish', (event) => {
+router.on('finish', () => {
     loadMetric(period.value);
 })
 

@@ -16,6 +16,11 @@ class PatientController extends Controller
     public function index()
     {
         $user = Auth::user();
+        if(!$user->active_clinic) {
+            return Inertia::render('owner/patient/Index', [
+                'patients' => []
+            ]);
+        }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $patients = PatientResource::collection($clinic->patients);
         return Inertia::render('owner/patient/Index', [

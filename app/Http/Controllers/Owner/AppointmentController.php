@@ -20,13 +20,20 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $appointments = AppointmentResource::collection($clinic->appointments()->with('patient', 'doctor')->get());
-        $patients = PatientResource::collection($clinic->patients);
-        $doctors = DoctorResource::collection($clinic->doctors);
+        if($clinic){
+            $appointments = AppointmentResource::collection($clinic->appointments()->with('patient', 'doctor')->get());
+            $patients = PatientResource::collection($clinic->patients);
+            $doctors = DoctorResource::collection($clinic->doctors);
+            return Inertia::render('owner/appointment/Index', [
+                'appointments' => $appointments,
+                'patients' => $patients,
+                'doctors' => $doctors
+            ]);
+        }
         return Inertia::render('owner/appointment/Index', [
-            'appointments' => $appointments,
-            'patients' => $patients,
-            'doctors' => $doctors
+            'appointments' => [],
+            'patients' => [],
+            'doctors' => []
         ]);
     }
 

@@ -29,6 +29,13 @@ class DashboardController extends Controller
             $end_date = today()->endOfDay()->format('d-m-Y H:i');
         }
         $user = Auth::user();
+        if(!$user->active_clinic){
+            return response()->json([
+                'data_keys' => [],
+                'data_values' => [],
+                'total' => []
+            ]);
+        }
         $appointments = Appointment::select('id', 'visit_at')->where('clinic_id', $user->active_clinic)
             ->whereBetween('visit_at', [
                 $start_date, 
@@ -64,6 +71,13 @@ class DashboardController extends Controller
             $end_date = today()->endOfDay()->format('d-m-Y H:i');
         }
         $user = Auth::user();
+        if(!$user->active_clinic){
+            return response()->json([
+                'data_keys' => [],
+                'data_values' => [],
+                'total' => []
+            ]);
+        }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $doctors = $clinic->doctors()->with(['appointments' => function($q)use($start_date, $end_date) {
             $q->whereBetween('visit_at', [$start_date, $end_date]);

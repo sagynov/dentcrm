@@ -18,6 +18,14 @@ class ScheduleController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $hours = range(10, 19);
+        if(!$user->active_clinic) {
+            return Inertia::render('owner/schedule/Index', [
+                'doctors' => [],
+                'hours' => $hours,
+                'appointments' => []
+            ]);
+        }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $doctors = $clinic->doctors()->with(['appointments' => function($q) {
             $q->whereBetween('visit_at', [today()->format('d-m-Y H:i'), today()->addDay()->format('d-m-Y H:i')]);
@@ -29,7 +37,7 @@ class ScheduleController extends Controller
                 $appointments[$doctor->user_id][$appointment->visit_hour] = new ScheduleResource($appointment);
             }
         }
-        $hours = range(10, 19);
+        
         foreach($doctors as $doctor) {
             foreach($hours as $hour){
                 if(!isset($appointments[$doctor->user_id][$hour])){
