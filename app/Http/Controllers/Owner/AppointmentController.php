@@ -19,9 +19,9 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        // if (Auth::user()->cannot('viewAny', Appointment::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('viewAny', Appointment::class)) {
+            abort(403);
+        }
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         if($clinic){
@@ -54,9 +54,9 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        // if (Auth::user()->cannot('create', Patient::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('create', Patient::class)) {
+            abort(403);
+        }
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',

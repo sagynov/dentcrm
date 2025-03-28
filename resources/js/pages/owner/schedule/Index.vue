@@ -24,6 +24,7 @@ import { ref } from 'vue';
 
 interface Props {
     doctors: any;
+    periods: any;
     hours: any;
     appointments: any;
 }
@@ -66,8 +67,8 @@ const dateSelected = (date: any) => {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead class="border-r w-[150px]">{{ trans('Cabinet') }}</TableHead>
-                                    <TableHead v-for="hour in hours" :key="'head_'+hour" class="border-x w-[50px]">{{ hour }}</TableHead>
+                                    <TableHead class="border-r w-[150px]">{{ trans('Doctor') }}</TableHead>
+                                    <TableHead v-for="period in periods" :key="'head_'+period" class="border-x w-[50px]">{{ period }}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

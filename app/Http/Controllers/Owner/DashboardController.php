@@ -21,12 +21,12 @@ class DashboardController extends Controller
         $request->validate([
             'period' => 'required|string',
         ]);
-        $start_date =  today()->subDays(7)->format('d-m-Y H:i');
-        $end_date = today()->endOfDay()->format('d-m-Y H:i');
+        $start_date =  today()->subDays(7);
+        $end_date = today()->endOfDay();
         if($request->period == 'month')
         {
-            $start_date =  today()->subMonth()->format('d-m-Y H:i');
-            $end_date = today()->endOfDay()->format('d-m-Y H:i');
+            $start_date =  today()->subMonth();
+            $end_date = today()->endOfDay();
         }
         $user = Auth::user();
         if(!$user->active_clinic){
@@ -46,7 +46,7 @@ class DashboardController extends Controller
         foreach ($period as $date) {
             $days[$date->translatedFormat('d F')] = 0;
             foreach ($appointments as $appointment) {
-                if($appointment->visit_at->format('d-m-Y') == $date->format('d-m-Y'))
+                if($appointment->visit_at->format('Y-m-d') == $date->format('Y-m-d'))
                 {
                     $days[$date->translatedFormat('d F')] += 1;
                 }
@@ -63,12 +63,12 @@ class DashboardController extends Controller
         $request->validate([
             'period' => 'required|string',
         ]);
-        $start_date =  today()->subDays(7)->format('d-m-Y H:i');
-        $end_date = today()->endOfDay()->format('d-m-Y H:i');
+        $start_date =  today()->subDays(7);
+        $end_date = today()->endOfDay();
         if($request->period == 'month')
         {
-            $start_date =  today()->subMonth()->format('d-m-Y H:i');
-            $end_date = today()->endOfDay()->format('d-m-Y H:i');
+            $start_date =  today()->subMonth();
+            $end_date = today()->endOfDay();
         }
         $user = Auth::user();
         if(!$user->active_clinic){
@@ -88,7 +88,7 @@ class DashboardController extends Controller
             $days[$doctor->full_name] = 0;
             foreach($doctor->appointments as $appointment){
                 foreach ($period as $date) {
-                    if($appointment->visit_at->format('d-m-Y') == $date->format('d-m-Y'))
+                    if($appointment->visit_at->format('Y-m-d') == $date->format('Y-m-d'))
                     {
                         $days[$doctor->full_name] += 1;
                     }

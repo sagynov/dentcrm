@@ -12,14 +12,15 @@ use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class PatientController extends Controller
 {
     public function index()
     {
-        // if (Auth::user()->cannot('viewAny', Patient::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('viewAny', Patient::class)) {
+            abort(403);
+        }
         $user = Auth::user();
         if(!$user->active_clinic) {
             return Inertia::render('owner/patient/Index', [
@@ -34,9 +35,9 @@ class PatientController extends Controller
     }
     public function store(Request $request)
     {
-        // if (Auth::user()->cannot('create', Patient::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('create', Patient::class)) {
+            abort(403);
+        }
         $validated = $request->validate([
             'iin' => 'required',
             'first_name' => 'required',
@@ -50,6 +51,8 @@ class PatientController extends Controller
         if($check_phone) {
             if($check_phone->is_patient){
                 $clinic->users()->syncWithoutDetaching($check_phone->id);
+            }else{
+                throw ValidationException::withMessages(['phone' => __('This number is already registered')]);
             }
         }
         elseif($check_iin){

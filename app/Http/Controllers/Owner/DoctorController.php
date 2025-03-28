@@ -16,9 +16,9 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        // if (Auth::user()->cannot('viewAny', Doctor::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('viewAny', Doctor::class)) {
+            abort(403);
+        }
         $user = Auth::user();
         if(!$user->active_clinic) {
             return Inertia::render('owner/doctor/Index', [
@@ -33,9 +33,9 @@ class DoctorController extends Controller
     }
     public function store(Request $request)
     {
-        // if (Auth::user()->cannot('create', Doctor::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('create', Doctor::class)) {
+            abort(403);
+        }
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name' => 'nullable',

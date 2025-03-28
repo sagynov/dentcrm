@@ -13,8 +13,7 @@ class ClinicPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
-        // return $user->is_owner;
+        return $user->is_owner;
     }
 
     /**
@@ -22,8 +21,7 @@ class ClinicPolicy
      */
     public function view(User $user, Clinic $clinic): bool
     {
-        return true;
-        // return $user->clinics->contains($clinic->id);
+        return $user->clinics->contains($clinic->id);
     }
 
     /**
@@ -31,8 +29,7 @@ class ClinicPolicy
      */
     public function create(User $user): bool
     {
-        return true;
-        // return $user->is_owner;
+        return $user->is_owner;
     }
 
     /**
@@ -40,8 +37,7 @@ class ClinicPolicy
      */
     public function update(User $user, Clinic $clinic): bool
     {
-        return true;
-        // return $user->clinics->contains($clinic->id);
+        return $user->clinics->contains($clinic->id);
     }
 
     /**
@@ -49,8 +45,7 @@ class ClinicPolicy
      */
     public function delete(User $user, Clinic $clinic): bool
     {
-        return true;
-        // return $user->clinics->contains($clinic->id);
+        return $user->clinics->contains($clinic->id);
     }
 
     /**

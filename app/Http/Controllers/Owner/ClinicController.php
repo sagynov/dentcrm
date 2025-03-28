@@ -22,9 +22,9 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        // if (Auth::user()->cannot('viewAny', Clinic::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('viewAny', Clinic::class)) {
+            abort(403);
+        }
         $clinics = Auth::user()->clinics;
         return Inertia::render('owner/clinic/Index', [
             'clinics' => $clinics
@@ -46,9 +46,9 @@ class ClinicController extends Controller
      */
     public function store(Request $request)
     {
-        // if (Auth::user()->cannot('create', Clinic::class)) {
-        //     abort(403);
-        // }
+        if (Auth::user()->cannot('create', Clinic::class)) {
+            abort(403);
+        }
         $validated = $request->validate([
             'name' => 'required|string',
             'specialization' => 'required|string',

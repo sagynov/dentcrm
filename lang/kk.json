@@ -314,5 +314,6 @@
     "Clinic": "Клиника",
     "Clinic name": "Атауы",
     "Your appointment with Dr. :doctor_name is confirmed for :visit_date": "Сіздің :doctor_name дәрігермен кездесуіңіз :visit_date жоспарланды",
-    "New appointment with :patient_name on :visit_date": "Пациент :patient_name қабылдауы :visit_date уақытына жоспрланды"
+    "New appointment with :patient_name on :visit_date": "Пациент :patient_name қабылдауы :visit_date уақытына жоспрланды",
+    "This number is already registered": "Бұл номер тіркелген"
 }
