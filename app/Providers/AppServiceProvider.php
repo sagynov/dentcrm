@@ -36,6 +36,5 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('doctor', function (User $user) {
             return $user->is_doctor;
         });
-        Gate::define('view-clinic', [ClinicPolicy::class, 'viewAny']);
     }
 }
