@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Policies\ClinicPolicy;
 use App\Services\Taxpayer\Repositories\TaxpayerInterface;
 use App\Services\Taxpayer\Repositories\TaxpayerRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,5 +36,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('doctor', function (User $user) {
             return $user->is_doctor;
         });
+        Gate::define('view-clinic', [ClinicPolicy::class, 'viewAny']);
     }
 }

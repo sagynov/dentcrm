@@ -26,7 +26,7 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Clinic::class);
+        Gate::authorize('view-clinic');
         $clinics = Auth::user()->clinics;
         return Inertia::render('owner/clinic/Index', [
             'clinics' => $clinics
