@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class AppointmentController extends Controller
@@ -19,9 +20,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->cannot('viewAny', Appointment::class)) {
-            abort(403);
-        }
+        Gate::authorize('viewAny', Appointment::class);
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         if($clinic){
@@ -54,9 +53,7 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->cannot('create', Patient::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Patient::class);
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',

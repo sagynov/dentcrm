@@ -9,6 +9,7 @@ use App\Http\Resources\DoctorResource;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -16,9 +17,7 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->cannot('viewAny', Doctor::class)) {
-            abort(403);
-        }
+        Gate::authorize('viewAny', Doctor::class);
         $user = Auth::user();
         if(!$user->active_clinic) {
             return Inertia::render('owner/doctor/Index', [
@@ -33,9 +32,7 @@ class DoctorController extends Controller
     }
     public function store(Request $request)
     {
-        if (Auth::user()->cannot('create', Doctor::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Doctor::class);
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name' => 'nullable',

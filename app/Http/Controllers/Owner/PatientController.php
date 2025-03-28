@@ -11,6 +11,7 @@ use App\Http\Resources\PatientResource;
 use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -18,9 +19,7 @@ class PatientController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->cannot('viewAny', Patient::class)) {
-            abort(403);
-        }
+        Gate::authorize('viewAny', Patient::class);
         $user = Auth::user();
         if(!$user->active_clinic) {
             return Inertia::render('owner/patient/Index', [
@@ -35,9 +34,7 @@ class PatientController extends Controller
     }
     public function store(Request $request)
     {
-        if (Auth::user()->cannot('create', Patient::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Patient::class);
         $validated = $request->validate([
             'iin' => 'required',
             'first_name' => 'required',

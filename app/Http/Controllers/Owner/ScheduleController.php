@@ -20,6 +20,7 @@ class ScheduleController extends Controller
 {
     public function index()
     {
+        
         $start_time = today()->addHours(10);
         $end_time = today()->addHours(20);
         $data = $this->getByTime($start_time, $end_time);
