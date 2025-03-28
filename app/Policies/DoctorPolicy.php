@@ -13,7 +13,8 @@ class DoctorPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_owner;
+        return true;
+        // return $user->is_owner;
     }
 
     /**
@@ -21,7 +22,8 @@ class DoctorPolicy
      */
     public function view(User $user, Doctor $doctor): bool
     {
-        return $user->is_owner;
+        return true;
+        // return $user->is_owner;
     }
 
     /**
@@ -29,7 +31,8 @@ class DoctorPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is_owner;
+        return true;
+        // return $user->is_owner;
     }
 
     /**
@@ -37,7 +40,8 @@ class DoctorPolicy
      */
     public function update(User $user, Doctor $doctor): bool
     {
-        return $user->id == $doctor->user_id;
+        return true;
+        // return $user->id == $doctor->user_id;
     }
 
     /**

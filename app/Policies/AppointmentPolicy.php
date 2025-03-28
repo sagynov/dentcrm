@@ -13,7 +13,8 @@ class AppointmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_owner;
+        return true;
+        // return $user->is_owner;
     }
 
     /**
@@ -21,6 +22,7 @@ class AppointmentPolicy
      */
     public function view(User $user, Appointment $appointment): bool
     {
+        return true;
         return false;
     }
 
@@ -29,7 +31,8 @@ class AppointmentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is_owner;
+        return true;
+        // return $user->is_owner;
     }
 
     /**
@@ -37,7 +40,8 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment): bool
     {
-        return false;
+        return true;
+        // return false;
     }
 
     /**
@@ -45,7 +49,8 @@ class AppointmentPolicy
      */
     public function delete(User $user, Appointment $appointment): bool
     {
-        return false;
+        return true;
+        // return false;
     }
 
     /**
