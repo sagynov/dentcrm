@@ -17,9 +17,9 @@ class PatientController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->cannot('viewAny', Patient::class)) {
-            abort(403);
-        }
+        // if (Auth::user()->cannot('viewAny', Patient::class)) {
+        //     abort(403);
+        // }
         $user = Auth::user();
         if(!$user->active_clinic) {
             return Inertia::render('owner/patient/Index', [
@@ -34,9 +34,9 @@ class PatientController extends Controller
     }
     public function store(Request $request)
     {
-        if (Auth::user()->cannot('create', Patient::class)) {
-            abort(403);
-        }
+        // if (Auth::user()->cannot('create', Patient::class)) {
+        //     abort(403);
+        // }
         $validated = $request->validate([
             'iin' => 'required',
             'first_name' => 'required',
