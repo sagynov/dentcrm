@@ -14,8 +14,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        // Clinic::class => ClinicPolicy::class,
-        'App\Models\Clinic' => 'App\Policies\ClinicPolicy',
+        Clinic::class => ClinicPolicy::class,
         Doctor::class => DoctorPolicy::class,
         Patient::class => PatientPolicy::class,
         Appointment::class => AppointmentPolicy::class,
