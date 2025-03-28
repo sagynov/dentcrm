@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Gate;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        Clinic::class => ClinicPolicy::class,
         Doctor::class => DoctorPolicy::class,
         Patient::class => PatientPolicy::class,
         Appointment::class => AppointmentPolicy::class,
