@@ -6,6 +6,7 @@ use App\Models\Clinic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,17 +15,18 @@ class ClinicController extends Controller
 {
     public function setActiveClinic(Request $request)
     {
+        Gate::authorize('viewAny', Clinic::class);
         $validated = $request->validate(['active_clinic' => 'required']);
-        Session::put('active_clinic', $validated['active_clinic']);
+        $clinic = Clinic::findOrFail($validated['active_clinic']);
+        Gate::authorize('update', $clinic);
+        Session::put('active_clinic', $clinic->id);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        if (Auth::user()->cannot('viewAny', Clinic::class)) {
-            abort(403);
-        }
+        Gate::authorize('viewAny', Clinic::class);
         $clinics = Auth::user()->clinics;
         return Inertia::render('owner/clinic/Index', [
             'clinics' => $clinics
@@ -36,9 +38,7 @@ class ClinicController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->cannot('create', Clinic::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Clinic::class);
     }
 
     /**
@@ -46,9 +46,7 @@ class ClinicController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->cannot('create', Clinic::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Clinic::class);
         $validated = $request->validate([
             'name' => 'required|string',
             'specialization' => 'required|string',
@@ -66,9 +64,7 @@ class ClinicController extends Controller
      */
     public function show(Clinic $clinic)
     {
-        if (Auth::user()->cannot('view', $clinic)) {
-            abort(403);
-        }
+        Gate::authorize('view', $clinic);
     }
 
     /**
@@ -76,9 +72,7 @@ class ClinicController extends Controller
      */
     public function edit(Clinic $clinic)
     {
-        if (Auth::user()->cannot('update', $clinic)) {
-            abort(403);
-        }
+        Gate::authorize('update', $clinic);
     }
 
     /**
@@ -86,9 +80,7 @@ class ClinicController extends Controller
      */
     public function update(Request $request, Clinic $clinic)
     {
-        if (Auth::user()->cannot('update', $clinic)) {
-            abort(403);
-        }
+        Gate::authorize('update', $clinic);
     }
 
     /**
@@ -96,8 +88,6 @@ class ClinicController extends Controller
      */
     public function destroy(Clinic $clinic)
     {
-        if (Auth::user()->cannot('delete', $clinic)) {
-            abort(403);
-        }
+        Gate::authorize('delete', $clinic);
     }
 }
