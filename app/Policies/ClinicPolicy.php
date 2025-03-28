@@ -13,7 +13,7 @@ class ClinicPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_owner;
+        return $user->role == 'owner';
     }
 
     /**
@@ -29,7 +29,7 @@ class ClinicPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is_owner;
+        return $user->role == 'owner';
     }
 
     /**
