@@ -14,12 +14,6 @@ import {
 } from '@/components/ui/table'
 
 
-interface Props {
-    
-}
-
-defineProps<Props>();
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: trans('Dashboard'),

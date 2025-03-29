@@ -307,7 +307,7 @@
 
     "Week": "Апта",
     "Month": "Ай",
-    "Number of records": "Жазбалар саны",
+    "Number of records": "Қабылдаулар саны",
     "Total: :count": "Барлығы: :count",
     "Doctors workload": "Дәрігерлердің жұмыс жүктемесі",
 
@@ -322,5 +322,11 @@
     "Record added": "Жазба қосылды",
     "Record added successfully": "Жазба сәтті қосылды",
     "Drag and drop files to here to upload": "Жүктеу үшін файлдарды мына жерге тастаңыз",
-    "Upload": "Жүктеу"
+    "Upload": "Жүктеу",
+
+    "Dental Clinic": "Стоматологиялық клиника",
+    "General Dentist (Therapist)": "Терапевт-стоматолог",
+    "Prosthodontist (Orthopedic Dentist)": "Ортопед-стоматолог",
+    "Oral Surgeon": "Хирург-стоматолог",
+    "Orthodontist": "Ортодонт"
 }

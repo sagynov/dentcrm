@@ -11,7 +11,7 @@ interface Props {
     patients: any;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

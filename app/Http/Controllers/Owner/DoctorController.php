@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class DoctorController extends Controller
 {
@@ -35,7 +36,7 @@ class DoctorController extends Controller
         Gate::authorize('create', Doctor::class);
         $validated = $request->validate([
             'first_name' => 'required',
-            'last_name' => 'nullable',
+            'last_name' => 'required',
             'speciality' => 'required',
             'phone' => 'required|string',
         ]);
@@ -47,6 +48,8 @@ class DoctorController extends Controller
         if($check_user) {
             if($check_user->is_doctor){
                 $clinic->users()->syncWithoutDetaching($check_user->id);
+            }else{
+                throw ValidationException::withMessages(['phone' => __('This number is already registered')]);
             }
         }else{
             $new_user = User::create([

@@ -51,29 +51,29 @@ const submit = () => {
 
 <template>
     <Button @click="openDialog = true" class="w-full">{{ trans('Add appointment') }}</Button>
-    <Dialog v-model:visible="openDialog" modal :header="trans('Add appointment')">
+    <Dialog v-model:visible="openDialog" modal :header="trans('Add appointment')" class="max-h-[500px] grid-rows-[auto_minmax(0,1fr)_auto]">
         <div class="flex flex-col gap-6 overflow-y-auto px-2 py-4">
             <div class="flex flex-col gap-4">
-                <Label for="patient_id">{{ trans('Patient') }}</Label>
+                <Label for="patient_id">{{ trans('Patient') }} <span class="text-red-400">*</span></Label>
                 <Select v-model="form.patient_id" :options="patients" filter option-value="id" optionLabel="full_name" :placeholder="trans('Select')">
                 </Select>
                 <InputError :message="form.errors.patient_id" />
             </div>
             <div class="flex flex-col gap-4">
-                <Label for="doctor_id">{{ trans('Doctor') }}</Label>
+                <Label for="doctor_id">{{ trans('Doctor') }} <span class="text-red-400">*</span></Label>
                 <Select v-model="form.doctor_id" :options="doctors" filter option-value="id" optionLabel="full_name" :placeholder="trans('Select')">
                 </Select>
                 <InputError :message="form.errors.doctor_id" />
             </div>
             <div class="flex flex-col gap-4">
-                <Label for="visit_date">{{ trans('Visit date') }}</Label>
+                <Label for="visit_date">{{ trans('Visit date') }} <span class="text-red-400">*</span></Label>
                 <div>
                     <DatePicker v-model="form.visit_date" :minDate="minDate" id="visit_date" inline />
                 </div>
                 <InputError :message="form.errors.visit_date" />
             </div>
             <div class="flex flex-col gap-4">
-                <Label for="visit_time">{{ trans('Visit time') }}</Label>
+                <Label for="visit_time">{{ trans('Visit time') }} <span class="text-red-400">*</span></Label>
                 <InputMask class="p-inputmask" unstyled mask="99:99" id="visit_time" v-model="form.visit_time" placeholder="__:__" />
                 <InputError :message="form.errors.visit_time" />
             </div>

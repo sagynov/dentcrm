@@ -26,7 +26,7 @@ const form = useForm({
     iin: '',
     first_name: '',
     last_name: '',
-    phone: '',
+    phone: '+7',
     birth_date: '',
 });
 
@@ -73,27 +73,27 @@ const checkIIN = (value: any) => {
             </DialogHeader>
             <div class="flex flex-col gap-6 overflow-y-auto px-2 py-4">
                 <div class="flex flex-col gap-4">
-                    <Label for="iin">{{ trans('IIN') }}</Label>
-                    <InputMask  @update:model-value="checkIIN" unmask class="p-inputmask" unstyled mask="999999999999" id="iin" v-model="form.iin" placeholder="____________" autocomplete="off" />
+                    <Label for="iin">{{ trans('IIN') }} <span class="text-red-400">*</span></Label>
+                    <InputMask  @update:model-value="checkIIN" unmask class="p-inputmask" unstyled mask="999999999999" id="iin" v-model="form.iin" placeholder="____________" autocomplete="off" autofocus="false" />
                     <InputError :message="form.errors.iin" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="first_name">{{ trans('First name') }}</Label>
+                    <Label for="first_name">{{ trans('First name') }} <span class="text-red-400">*</span></Label>
                     <Input id="first_name" v-model="form.first_name" class="col-span-3" autocomplete="off" />
                     <InputError :message="form.errors.first_name" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="last_name">{{ trans('Last name') }}</Label>
-                    <Input id="last_name" v-model="form.last_name" class="col-span-3" />
+                    <Label for="last_name">{{ trans('Last name') }} <span class="text-red-400">*</span></Label>
+                    <Input id="last_name" v-model="form.last_name" class="col-span-3" autocomplete="off" />
                     <InputError :message="form.errors.last_name" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="phone">{{ trans('Phone') }}</Label>
+                    <Label for="phone">{{ trans('Phone') }} <span class="text-red-400">*</span></Label>
                     <InputMask class="p-inputmask" unstyled mask="+9(999)999-99-99" unmask id="phone" v-model="form.phone" placeholder="+7" autocomplete="off" />
                     <InputError :message="form.errors.phone" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="birth_date">{{ trans('Birth date') }}</Label>
+                    <Label for="birth_date">{{ trans('Birth date') }} <span class="text-red-400">*</span></Label>
                     <InputMask class="p-inputmask" unstyled mask="99-99-9999" id="birth_date" v-model="form.birth_date" placeholder="__-__-____" autocomplete="off" />
                     <InputError :message="form.errors.birth_date" />
                 </div>

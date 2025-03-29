@@ -66,13 +66,13 @@ const onUpload = (event: any) => {
                     <template #empty>
                         <span>{{ trans('Drag and drop files to here to upload') }}</span>
                     </template>
-                    <template #content="{ files, uploadedFiles, removeUploadedFileCallback, removeFileCallback, messages }">
+                    <template #content="{ files, uploadedFiles, messages }">
                         <div class="flex flex-col gap-4">
                             <Message v-for="message of messages" :key="message" :class="{ 'mb-2': !files.length && !uploadedFiles.length}" severity="error">
                                 {{ message }}
                             </Message>
                             <div v-if="uploadedFiles.length > 0">
-                                <div v-for="(file, index) of uploadedFiles" :key="file.name + file.type + file.size" class="p-2 border-b overflow-hidden max-w-full">
+                                <div v-for="(file) of uploadedFiles" :key="file.name + file.type + file.size" class="p-2 border-b overflow-hidden max-w-full">
                                     <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
                                 </div>
                             </div>

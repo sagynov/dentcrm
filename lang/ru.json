@@ -307,7 +307,7 @@
 
     "Week": "Неделя",
     "Month": "Месяц",
-    "Number of records": "Количество записей",
+    "Number of records": "Количество прием",
     "Total: :count": "Всего: :count",
     "Doctors workload": "Нагруженность врачей",
 
@@ -322,5 +322,11 @@
     "Record added": "Запись добавлен",
     "Record added successfully": "Запись успешно добавлен",
     "Drag and drop files to here to upload": "Перетащите файлы сюда для загрузки",
-    "Upload": "Загрузить"
+    "Upload": "Загрузить",
+
+    "Dental Clinic": "Стоматологическая клиника",
+    "General Dentist (Therapist)": "Терапевт-стоматолог",
+    "Prosthodontist (Orthopedic Dentist)": "Ортопед-стоматолог",
+    "Oral Surgeon": "Хирург-стоматолог",
+    "Orthodontist": "Ортодонт"
 }

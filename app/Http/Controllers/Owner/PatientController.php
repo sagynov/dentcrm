@@ -38,7 +38,7 @@ class PatientController extends Controller
         $validated = $request->validate([
             'iin' => 'required',
             'first_name' => 'required',
-            'last_name' => 'nullable',
+            'last_name' => 'required',
             'phone' => 'required|string',
             'birth_date' => 'required|date_format:d-m-Y'
         ]);
