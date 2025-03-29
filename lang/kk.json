@@ -122,7 +122,7 @@
     "Invalid filename.": "Файл аты жарамсыз.",
     "Invalid JSON was returned from the route.": "Жарамсыз JSON бағдардан қайтарылды.",
     "Invalid SSL Certificate": "Жарамсыз SSL сертификаты",
-    "Joined at": "Енгізілген",
+    "Joined at": "Тіркелген",
     "Last name": "Тегі",
     "length": "ұзындығы",
     "Length Required": "Міндетті ұзындық",
@@ -315,5 +315,12 @@
     "Clinic name": "Атауы",
     "Your appointment with Dr. :doctor_name is confirmed for :visit_date": "Сіздің :doctor_name дәрігермен кездесуіңіз :visit_date жоспарланды",
     "New appointment with :patient_name on :visit_date": "Пациент :patient_name қабылдауы :visit_date уақытына жоспрланды",
-    "This number is already registered": "Бұл номер тіркелген"
+    "This number is already registered": "Бұл номер тіркелген",
+    "Patient records": "Пациент журналы",
+    "Add patient record": "Жазба қосыңыз",
+    "Attachments": "Файлдар",
+    "Record added": "Жазба қосылды",
+    "Record added successfully": "Жазба сәтті қосылды",
+    "Drag and drop files to here to upload": "Жүктеу үшін файлдарды мына жерге тастаңыз",
+    "Upload": "Жүктеу"
 }

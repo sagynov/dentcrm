@@ -23,10 +23,6 @@ Route::get('set-locale/{locale}', [SetLocaleController::class, 'setLocale'])->na
 
 Route::middleware('auth')->get('/find-by-iin/{iin}', [TaxpayerController::class, 'findByIIN'])->name('find-by-iin'); 
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/owner.php';

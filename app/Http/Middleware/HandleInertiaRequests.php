@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => $request->user()?->locale ?? Session::get('locale', config('app.locale')),
             'available_locales' => config('app.available_locales'),
+            'csrf_token' => csrf_token()
         ];
     }
 }

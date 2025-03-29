@@ -3,25 +3,70 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PatientRecordResource;
 use App\Http\Resources\PatientResource;
+use App\Models\Patient;
+use App\Models\PatientRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PatientController extends Controller
 {
+    public function uploadRecordAttachment(Request $request, Patient $patient)
+    {
+        Gate::authorize('create', PatientRecord::class);
+        $validated = $request->validate([
+            'attachments.*' => 'nullable|file|mimes:jpg,png,pdf'
+        ]);
+        foreach($request->file('attachments') as $file) {
+            $attachments[] = $file->store('tmp');
+        }
+        return response()->json([
+            'files' => $attachments
+        ]);
+    }
+    public function addRecord(Request $request, Patient $patient)
+    {
+        Gate::authorize('create', PatientRecord::class);
+        $validated = $request->validate([
+            'comment' => 'required',
+            'attachments' => 'nullable|json'
+        ]);
+        if($request->has('attachments')){
+            $attachments = [];
+            $tmp_files = json_decode($validated['attachments'], true);
+            foreach($tmp_files as $tmp_file) {
+                $path = 'patient/record/'.basename($tmp_file);
+                Storage::move($tmp_file, $path);
+                $attachments[] = $path;
+            }
+        }
+        $user = Auth::user();
+        $patient->records()->create([
+            'comment' => $validated['comment'],
+            'attachments' => $attachments,
+            'doctor_id' => $user->id,
+            'clinic_id' => $user->active_clinic
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        Gate::authorize('viewAny', Patient::class);
         $user = Auth::user();
+        if(!$user->active_clinic) {
+            return Inertia::render('owner/patient/Index', [
+                'patients' => []
+            ]);
+        }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $appointments = $user->doctor->appointments()->where('clinic_id', $user->active_clinic)->groupBy('patient_id')->get();
-        $patients = $clinic->patients()->wherePivotIn('user_id', $appointments->pluck('patient_id'))->get();
-        $patients = PatientResource::collection($patients);
         return Inertia::render('doctor/patient/Index', [
-            'patients' => $patients
+            'patients' => PatientResource::collection($clinic->patients)
         ]);
     }
 
@@ -44,9 +89,14 @@ class PatientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Patient $patient)
     {
-        //
+        Gate::authorize('view', $patient);
+        $records = $patient->records()->with(['doctor', 'clinic'])->orderBy('created_at', 'desc')->paginate(5);
+        return Inertia::render('doctor/patient/Show', [
+            'patient' => new PatientResource($patient),
+            'records' => PatientRecordResource::collection($records),
+        ]);
     }
 
     /**

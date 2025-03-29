@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 
 interface Props {
@@ -41,26 +34,19 @@ const breadcrumbs: BreadcrumbItem[] = [
                     
                 </div>
             </div>
-            <div class="overflow-x-auto max-w-full">
-                <Table>
-                    <TableCaption>{{trans('A list of patients')}}</TableCaption>
-                    <TableHeader>
-                    <TableRow>
-                        <TableHead>{{trans('IIN')}}</TableHead>
-                        <TableHead>{{trans('Full name')}}</TableHead>
-                        <TableHead>{{trans('Birth date')}}</TableHead>
-                        <TableHead>{{trans('Joined at')}} </TableHead>
-                    </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow v-for="patient in patients" :key="'patient_'+patient.id">
-                            <TableCell>{{ patient.iin }}</TableCell>
-                            <TableCell>{{ patient.full_name }}</TableCell>
-                            <TableCell>{{ patient.birth_date }}</TableCell>
-                            <TableCell>{{ patient.joined_at }}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+            <div class="w-full">
+                <DataTable :value="patients" tableStyle="min-width: 50rem">
+                    <Column field="iin" :header="trans('IIN')"></Column>
+                    <Column :header="trans('Full name')">
+                        <template #body="slotProps">
+                            <Link :href="route('doctor.patients.show', slotProps.data.id)" class="text-sky-600">
+                                {{ slotProps.data.full_name }}
+                            </Link>
+                        </template>
+                    </Column>
+                    <Column field="birth_date" :header="trans('Birth date')"></Column>
+                    <Column field="joined_at" :header="trans('Joined at')"></Column>
+                </DataTable>
             </div>
         </div>
     </AppLayout>

@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
 {
     public function index()
-    {        
+    {
+        Gate::authorize('owner');
         return Inertia::render('owner/dashboard/Index');
     }
     public function appointmentMetric(Request $request)

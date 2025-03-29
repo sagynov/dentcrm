@@ -2,28 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Clinic;
-use App\Models\Patient;
+use App\Models\PatientRecord;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PatientPolicy
+class PatientRecordPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_owner || $user->is_doctor;
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Patient $patient): bool
+    public function view(User $user, PatientRecord $patientRecord): bool
     {
-        $clinic = Clinic::find($user->active_clinic);
-        return $clinic->patients->contains($patient->user_id);
+        return false;
     }
 
     /**
@@ -31,21 +29,21 @@ class PatientPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is_owner;
+        return $user->is_doctor;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Patient $patient): bool
+    public function update(User $user, PatientRecord $patientRecord): bool
     {
-        return $user->id == $patient->user_id;
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Patient $patient): bool
+    public function delete(User $user, PatientRecord $patientRecord): bool
     {
         return false;
     }
@@ -53,7 +51,7 @@ class PatientPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Patient $patient): bool
+    public function restore(User $user, PatientRecord $patientRecord): bool
     {
         return false;
     }
@@ -61,7 +59,7 @@ class PatientPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Patient $patient): bool
+    public function forceDelete(User $user, PatientRecord $patientRecord): bool
     {
         return false;
     }

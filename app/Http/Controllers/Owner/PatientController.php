@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PatientRecordResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Patient;
 use App\Models\User;
@@ -27,9 +28,8 @@ class PatientController extends Controller
             ]);
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $patients = PatientResource::collection($clinic->patients);
         return Inertia::render('owner/patient/Index', [
-            'patients' => $patients
+            'patients' => PatientResource::collection($clinic->patients)
         ]);
     }
     public function store(Request $request)
@@ -70,5 +70,14 @@ class PatientController extends Controller
             $clinic = $request->user()->clinics()->where('clinic_id', $request->user()->active_clinic)->first();
             $clinic->users()->syncWithoutDetaching($new_user->id);
         }
+    }
+    public function show(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $records = $patient->records()->with(['doctor', 'clinic'])->paginate(5);
+        return Inertia::render('owner/patient/Show', [
+            'patient' => new PatientResource($patient),
+            'records' => PatientRecordResource::collection($records),
+        ]);
     }
 }

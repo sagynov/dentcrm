@@ -10,7 +10,7 @@ use App\Http\Controllers\Owner\ScheduleController;
 
 
 Route::group([
-    'middleware'=> ['auth'],
+    'middleware'=> ['auth', 'can:owner'],
     'prefix'=> 'owner',
     'as' => 'owner.',
 ], function() {
