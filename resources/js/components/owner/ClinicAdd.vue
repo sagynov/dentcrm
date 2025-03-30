@@ -70,12 +70,12 @@ const submit = () => {
             </DialogHeader>
             <div class="flex flex-col gap-6 overflow-y-auto px-2 py-4">
                 <div class="flex flex-col gap-4">
-                    <Label for="name">{{ trans('Clinic name') }}</Label>
+                    <Label for="name">{{ trans('Clinic name') }} <span class="text-red-400">*</span></Label>
                     <Input id="name" v-model="form.name" class="col-span-3" autocomplete="off" />
                     <InputError :message="form.errors.name" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="phone">{{ trans('Specialization') }}</Label>
+                    <Label for="phone">{{ trans('Specialization') }} <span class="text-red-400">*</span></Label>
                     <Select v-model="form.specialization">
                         <SelectTrigger>
                             <SelectValue :placeholder="trans('Select')" />
@@ -91,12 +91,12 @@ const submit = () => {
                     <InputError :message="form.errors.specialization" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="address">{{ trans('Address') }}</Label>
+                    <Label for="address">{{ trans('Address') }} <span class="text-red-400">*</span></Label>
                     <Input id="address" v-model="form.address" class="col-span-3" />
                     <InputError :message="form.errors.address" />
                 </div>
                 <div class="flex flex-col gap-4">
-                    <Label for="phone">{{ trans('Phone') }}</Label>
+                    <Label for="phone">{{ trans('Phone') }} <span class="text-red-400">*</span></Label>
                     <InputMask class="p-inputmask" unstyled mask="+9(999)999-99-99" unmask id="phone" v-model="form.phone" placeholder="+7" />
                     <InputError :message="form.errors.phone" />
                 </div>

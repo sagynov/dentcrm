@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+use Illuminate\Support\Number;
 
 class PatientController extends Controller
 {
@@ -22,7 +24,12 @@ class PatientController extends Controller
             'attachments.*' => 'nullable|file|mimes:jpg,png,pdf'
         ]);
         foreach($request->file('attachments') as $file) {
-            $attachments[] = $file->store('tmp');
+            $name = $file->getClientOriginalName();
+            $slug = Str::slug($name);
+            $attachments[] = [
+                'name' => $name,
+                'path' => $file->store('tmp'),
+            ];
         }
         return response()->json([
             'files' => $attachments
@@ -39,9 +46,17 @@ class PatientController extends Controller
             $attachments = [];
             $tmp_files = json_decode($validated['attachments'], true);
             foreach($tmp_files as $tmp_file) {
-                $path = 'patient/record/'.basename($tmp_file);
-                Storage::move($tmp_file, $path);
-                $attachments[] = $path;
+                $path = 'patient/record/'.basename($tmp_file['path']);
+                if(Storage::exists($tmp_file['path'])){
+                    Storage::move($tmp_file['path'], $path);
+                    $attachments[] = [
+                        'name' => $tmp_file['name'],
+                        'slug' => Str::slug($tmp_file['name']),
+                        'path' => $path,
+                        'extension' => Storage::mimeType($path),
+                        'size' => Number::fileSize(Storage::fileSize($path), precision: 2),
+                    ];
+                }
             }
         }
         $user = Auth::user();
@@ -65,8 +80,9 @@ class PatientController extends Controller
             ]);
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate(5);
         return Inertia::render('doctor/patient/Index', [
-            'patients' => PatientResource::collection($clinic->patients)
+            'patients' => PatientResource::collection($patients)
         ]);
     }
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import PatientAdd from '@/components/owner/PatientAdd.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { CalendarDaysIcon, BuildingOfficeIcon, IdentificationIcon } from '@heroicons/vue/24/outline'
+import { BuildingIcon, CalendarDaysIcon, UserIcon } from 'lucide-vue-next';
+
 import Paginator from 'primevue/paginator';
 
 interface Props {
@@ -58,10 +58,10 @@ const setPage = (event: any) => {
                 </div>
                 <div class="flex flex-col gap-4 mt-4">
                     <div v-for="record in records.data" :key="'record_'+record.id" class="border p-4 rounded-lg flex flex-col gap-2">
-                        <div class="flex items-center"><CalendarDaysIcon class="inline size-6 mr-2" /> {{ record.created_at }}</div>
+                        <div class="flex items-center"><CalendarDaysIcon class="mr-2" /> {{ record.created_at }}</div>
                         <div>{{ record.comment }}</div>
-                        <div class="flex items-center"><IdentificationIcon class="size-6 inline mr-2" /> {{ record.doctor }}</div>
-                        <div class="flex items-center"><BuildingOfficeIcon class="size-6 inline mr-2" /> {{ record.clinic }}</div>
+                        <div class="flex items-center"><UserIcon class="mr-2" /> {{ record.doctor }}</div>
+                        <div class="flex items-center"><BuildingIcon class="mr-2" /> {{ record.clinic }}</div>
                     </div>
                 </div>
             </div>

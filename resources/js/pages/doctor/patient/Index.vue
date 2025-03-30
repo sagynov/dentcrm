@@ -1,10 +1,30 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  Button,
+} from '@/components/ui/button'
+import {
+  Pagination,
+  PaginationEllipsis,
+  PaginationFirst,
+  PaginationLast,
+  PaginationList,
+  PaginationListItem,
+  PaginationNext,
+  PaginationPrev,
+} from '@/components/ui/pagination'
 
 
 interface Props {
@@ -19,6 +39,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/doctor/patients',
     },
 ];
+
+const setPage = (page: number) => {
+    router.get(route('doctor.patients.index'), {page}, {preserveState: true, preserveScroll: true});
+}
 </script>
 
 <template>
@@ -34,19 +58,50 @@ const breadcrumbs: BreadcrumbItem[] = [
                     
                 </div>
             </div>
-            <div class="w-full">
-                <DataTable :value="patients" tableStyle="min-width: 50rem">
-                    <Column field="iin" :header="trans('IIN')"></Column>
-                    <Column :header="trans('Full name')">
-                        <template #body="slotProps">
-                            <Link :href="route('doctor.patients.show', slotProps.data.id)" class="text-sky-600">
-                                {{ slotProps.data.full_name }}
+            <div class="overflow-x-auto max-w-full">
+                <Table>
+                    <TableCaption>{{trans('A list of patients')}}</TableCaption>
+                    <TableHeader>
+                    <TableRow>
+                        <TableHead>{{trans('IIN')}}</TableHead>
+                        <TableHead>{{trans('Full name')}}</TableHead>
+                        <TableHead>{{trans('Birth date')}}</TableHead>
+                        <TableHead>{{trans('Joined at')}} </TableHead>
+                    </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                    <TableRow v-for="patient in patients.data" :key="'patient_'+patient.id">
+                        <TableCell>{{ patient.iin }}</TableCell>
+                        <TableCell>
+                            <Link :href="route('doctor.patients.show', patient.id)" class="text-sky-600">
+                                {{ patient.full_name }}
                             </Link>
-                        </template>
-                    </Column>
-                    <Column field="birth_date" :header="trans('Birth date')"></Column>
-                    <Column field="joined_at" :header="trans('Joined at')"></Column>
-                </DataTable>
+                        </TableCell>
+                        <TableCell>{{ patient.birth_date }}</TableCell>
+                        <TableCell>{{ patient.joined_at }}</TableCell>
+                    </TableRow>
+                    </TableBody>
+                </Table>
+            </div>
+            <div class="flex justify-center">
+                <Pagination v-slot="{ page }" @update:page="setPage" :items-per-page="patients.meta.per_page" :total="patients.meta.total" :sibling-count="1" show-edges :default-page="patients.meta.current_page">
+                    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+                    <PaginationFirst />
+                    <PaginationPrev />
+    
+                    <template v-for="(item, index) in items">
+                        <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+                        <Button class="w-9 h-9 p-0" :variant="item.value === page ? 'default' : 'outline'">
+                            {{ item.value }}
+                        </Button>
+                        </PaginationListItem>
+                        <PaginationEllipsis v-else :key="item.type" :index="index" />
+                    </template>
+    
+                    <PaginationNext />
+                    <PaginationLast />
+                    </PaginationList>
+                </Pagination>
             </div>
         </div>
     </AppLayout>
