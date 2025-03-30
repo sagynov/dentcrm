@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import {
   Table,
@@ -12,8 +12,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button';
 import DoctorAdd from '@/components/owner/DoctorAdd.vue';
+import {
+  Button,
+} from '@/components/ui/button'
+
+import {
+  Pagination,
+  PaginationEllipsis,
+  PaginationFirst,
+  PaginationLast,
+  PaginationList,
+  PaginationListItem,
+  PaginationNext,
+  PaginationPrev,
+} from '@/components/ui/pagination'
 
 interface Props {
     doctors: any;
@@ -27,6 +40,9 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/doctors',
     },
 ];
+const setPage = (page: number) => {
+    router.get(route('owner.doctors.index'), {page}, {preserveState: true, preserveScroll: true});
+}
 </script>
 
 <template>
@@ -53,13 +69,33 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    <TableRow v-for="doctor in doctors" :key="'doctor_'+doctor.id">
+                    <TableRow v-for="doctor in doctors.data" :key="'doctor_'+doctor.id">
                         <TableCell>{{ doctor.full_name }}</TableCell>
-                        <TableCell>{{ doctor.speciality }}</TableCell>
+                        <TableCell>{{ trans(''+doctor.speciality) }}</TableCell>
                         <TableCell>{{ doctor.joined_at }}</TableCell>
                     </TableRow>
                     </TableBody>
                 </Table>
+            </div>
+            <div class="flex justify-center">
+                <Pagination v-slot="{ page }" @update:page="setPage" :items-per-page="doctors.meta.per_page" :total="doctors.meta.total" :sibling-count="1" show-edges :default-page="doctors.meta.current_page">
+                    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+                    <PaginationFirst />
+                    <PaginationPrev />
+    
+                    <template v-for="(item, index) in items">
+                        <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+                        <Button class="w-9 h-9 p-0" :variant="item.value === page ? 'default' : 'outline'">
+                            {{ item.value }}
+                        </Button>
+                        </PaginationListItem>
+                        <PaginationEllipsis v-else :key="item.type" :index="index" />
+                    </template>
+    
+                    <PaginationNext />
+                    <PaginationLast />
+                    </PaginationList>
+                </Pagination>
             </div>
         </div>
     </AppLayout>

@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge'
 import AppointmentAdd from '@/components/owner/AppointmentAdd.vue';
 
 interface Props {
@@ -62,7 +62,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <TableCell>{{ appointment.patient }}</TableCell>
                         <TableCell>{{ appointment.doctor }}</TableCell>
                         <TableCell>{{ appointment.notes }}</TableCell>
-                        <TableCell>{{ trans(appointment.status) }}</TableCell>
+                        <TableCell>
+                            <Badge :class="{
+                                'bg-sky-500  hover:bg-sky-500/80': appointment.status == 'scheduled',
+                                'bg-green-500  hover:bg-green-500/80': appointment.status == 'completed',
+                                'bg-red-500  hover:bg-red-500/80': appointment.status == 'canceled',
+                            }">
+                                {{ trans(appointment.status) }}
+                            </Badge>
+                        </TableCell>
                     </TableRow>
                     </TableBody>
                 </Table>

@@ -28,8 +28,9 @@ class PatientController extends Controller
             ]);
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate(5);
         return Inertia::render('owner/patient/Index', [
-            'patients' => PatientResource::collection($clinic->patients)
+            'patients' => PatientResource::collection($patients)
         ]);
     }
     public function store(Request $request)
@@ -45,15 +46,15 @@ class PatientController extends Controller
         $clinic = Auth::user()->clinics()->where('clinic_id', Auth::user()->active_clinic)->first();
         $check_phone = User::where('phone', $validated['phone'])->first();
         $check_iin = Patient::where('iin', $validated['iin'])->first();
-        if($check_phone) {
+        if($check_iin){
+            $clinic->users()->syncWithoutDetaching($check_iin->user_id);
+        }
+        elseif($check_phone) {
             if($check_phone->is_patient){
                 $clinic->users()->syncWithoutDetaching($check_phone->id);
             }else{
                 throw ValidationException::withMessages(['phone' => __('This number is already registered')]);
             }
-        }
-        elseif($check_iin){
-            $clinic->users()->syncWithoutDetaching($check_iin->user_id);
         }
         else{
             $new_user = User::create([
@@ -65,7 +66,6 @@ class PatientController extends Controller
             ]);
             $birthdate = Carbon::createFromFormat('d-m-Y', $validated['birth_date']);
             $request->merge(['birth_date' => $birthdate->format('Y-m-d')]);
-            // dd($birthdate->format('Y-m-d'));
             $new_user->patient()->create($request->only('iin', 'first_name', 'last_name', 'birth_date'));
             $clinic = $request->user()->clinics()->where('clinic_id', $request->user()->active_clinic)->first();
             $clinic->users()->syncWithoutDetaching($new_user->id);
