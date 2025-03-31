@@ -328,5 +328,7 @@
     "General Dentist (Therapist)": "Терапевт-стоматолог",
     "Prosthodontist (Orthopedic Dentist)": "Ортопед-стоматолог",
     "Oral Surgeon": "Хирург-стоматолог",
-    "Orthodontist": "Ортодонт"
+    "Orthodontist": "Ортодонт",
+
+    "Empty": "Своб."
 }

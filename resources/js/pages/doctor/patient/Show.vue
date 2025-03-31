@@ -75,7 +75,7 @@ const setPage = (event: any) => {
                             <div>{{ record.comment }}</div>
                             <div class="flex flex-col gap-2">
                                 <div v-for="attachment in record.attachments" class="flex">
-                                    <PaperclipIcon class="mr-2" /> <a :href="route('doctor.download')+'?path='+attachment.path" class="text-sky-600 mr-2">{{ attachment.name }}</a> <span>{{ '('+attachment.size+')' }}</span>
+                                    <PaperclipIcon class="mr-2" /> <a :href="route('download', patient.id)+'?path='+attachment.path" class="text-sky-600 mr-2">{{ attachment.name }}</a> <span>{{ '('+attachment.size+')' }}</span>
                                 </div>
                             </div>
                         </div>

@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Resources\PatientResource;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class AppointmentController extends Controller
 {
@@ -17,29 +19,18 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Appointment::class);
         $user = Auth::user();
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $appointments = AppointmentResource::collection($user->doctor->appointments()->with('patient')->get());
-        $patients = PatientResource::collection($clinic->patients()->orderBy('pivot_created_at', 'desc')->limit(3)->get());
+        if(!$user->active_clinic){
+            return Inertia::render('doctor/appointment/Index', [
+                'appointments' => [],
+                'patients' => [],
+            ]);
+        }
+        $appointments = $user->doctor->appointments()->with('patient')->paginate();
         return Inertia::render('doctor/appointment/Index', [
-            'appointments' => $appointments,
+            'appointments' => AppointmentResource::collection($appointments),
             'patients' => [],
-        ]);
-    }
-    public function searchPatient(Request $request)
-    {
-        $validated = $request->validate([
-            'query' => 'required|string'
-        ]);
-        $user = Auth::user();
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-
-        $patients = $clinic->patients()
-            ->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
-            ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%')
-            ->orWhere('iin','LIKE', '%'.$validated['query'].'%')->limit(5)->get();
-        return response()->json([
-            'patients' =>  PatientResource::collection($patients)
         ]);
     }
 

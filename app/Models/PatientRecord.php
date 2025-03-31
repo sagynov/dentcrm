@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\PatientRecordScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([PatientRecordScope::class])]
 class PatientRecord extends Model
 {
     use HasFactory;

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Clinic;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -21,7 +22,8 @@ class DoctorPolicy
      */
     public function view(User $user, Doctor $doctor): bool
     {
-        return $user->is_owner;
+        $clinic = Clinic::find($user->active_clinic);
+        return $clinic->patients->contains($doctor->user_id);
     }
 
     /**

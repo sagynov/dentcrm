@@ -7,6 +7,7 @@ use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Appointment;
+use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,11 +25,12 @@ class AppointmentController extends Controller
         $user = Auth::user();
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         if($clinic){
-            $appointments = AppointmentResource::collection($clinic->appointments()->with('patient', 'doctor')->get());
+            $appointments = $clinic->appointments()->with('patient', 'doctor')->paginate();
             $patients = PatientResource::collection($clinic->patients);
             $doctors = DoctorResource::collection($clinic->doctors);
+
             return Inertia::render('owner/appointment/Index', [
-                'appointments' => $appointments,
+                'appointments' => AppointmentResource::collection($appointments),
                 'patients' => $patients,
                 'doctors' => $doctors
             ]);
@@ -45,7 +47,17 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        $validated = request()->validate([
+            'date' => 'nullable|date',
+            'time' => 'nullable|date_format:H:i',
+            'doctor' => 'nullable',
+            'from' => 'nullable'
+        ]);
+        if(isset($validated['doctor'])){
+            $doctor = Doctor::find($validated['doctor']);
+            $validated['doctor'] = new DoctorResource($doctor);
+        }
+        return Inertia::render('owner/appointment/Create', $validated);
     }
 
     /**
@@ -66,7 +78,11 @@ class AppointmentController extends Controller
         $validated['visit_at'] = date('Y-m-d H:i:s', strtotime($visit_date.' '.$validated['visit_time']));
         $validated['status'] = 'scheduled';
         unset($validated['visit_date'], $validated['visit_time']);
-        $appointment = Appointment::create($validated);
+        Appointment::create($validated);
+        if($request->from == 'schedule'){
+            return to_route('owner.schedule.index');
+        }
+        return to_route('owner.appointments.index');
     }
 
     /**

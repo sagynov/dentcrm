@@ -13,7 +13,7 @@ class AppointmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_owner;
+        return $user->is_owner || $user->is_doctor;
     }
 
     /**
@@ -37,7 +37,7 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment): bool
     {
-        return false;
+        return $user->is_owner;
     }
 
     /**
@@ -45,7 +45,7 @@ class AppointmentPolicy
      */
     public function delete(User $user, Appointment $appointment): bool
     {
-        return false;
+        return $user->is_owner;
     }
 
     /**

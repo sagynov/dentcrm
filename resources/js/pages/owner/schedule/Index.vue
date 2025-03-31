@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table'
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import {
   HoverCard,
@@ -27,6 +27,8 @@ interface Props {
     periods: any;
     hours: any;
     appointments: any;
+    datetime: any;
+    now: any;
 }
 
 
@@ -35,6 +37,8 @@ const props = defineProps<Props>();
 const doctors = ref(props.doctors);
 const hours = ref(props.hours);
 const appointments = ref(props.appointments);
+const datetime = ref(props.datetime);
+const now = ref(props.now);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -52,6 +56,8 @@ const dateSelected = (date: any) => {
         doctors.value = data.doctors;
         hours.value = data.hours;
         appointments.value = data.appointments;
+        datetime.value = data.datetime;
+        now.value = data.now;
     });
 }
 </script>
@@ -77,20 +83,24 @@ const dateSelected = (date: any) => {
                                     <TableCell class="border border-collapse p-0 h-[50px] w-[50px]" v-for="hour in hours" :key="'hour_'+hour">
                                         <div v-if="appointments[doctor.id][hour]" class="bg-green-600 p-2 w-full h-full text-white">
                                             <HoverCard>
-                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center">
+                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center cursor-pointer">
                                                     <div>{{ trans('scheduled') }}</div>
                                                 </HoverCardTrigger>
                                                 <HoverCardContent>
+                                                    <div class="border-b py-2 mb-2">{{ appointments[doctor.id][hour].visit_at }}</div>
                                                     <div>{{ appointments[doctor.id][hour].patient }}</div>
-                                                    <div>{{ appointments[doctor.id][hour].visit_at }}</div>
                                                 </HoverCardContent>
                                             </HoverCard>
                                         </div>
-                                        <div class="bg-[#fff] w-full h-full text-white" v-else>
+                                        <div class="bg-yellow-400 p-2 w-full h-full text-white" v-else>
                                             <HoverCard>
-                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center"></HoverCardTrigger>
+                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center cursor-pointer">{{ trans('Empty') }}</HoverCardTrigger>
                                                 <HoverCardContent>
-                                                    <Button>Add appointment</Button>
+                                                    <div class="border-b py-2 mb-2">{{ now[hour] }}</div>
+                                                    <div class="border-b py-2 mb-2">{{ trans('Empty') }}</div>
+                                                    <Button as-child>
+                                                        <Link :href="route('owner.appointments.create')+'?doctor='+doctor.id+'&date='+datetime[hour].date+'&time='+datetime[hour].time+'&from=schedule'">{{ trans('Add appointment') }}</Link>
+                                                    </Button>
                                                 </HoverCardContent>
                                             </HoverCard>
                                         </div>

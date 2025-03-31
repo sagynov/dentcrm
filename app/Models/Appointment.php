@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\AppointmentScope;
 use App\Observers\AppointmentObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([AppointmentScope::class])]
 #[ObservedBy([AppointmentObserver::class])]
 class Appointment extends Model
 {

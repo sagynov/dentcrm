@@ -22,6 +22,9 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient): bool
     {
+        if($user->id == $patient->user_id) {
+            return true;
+        }
         $clinic = Clinic::find($user->active_clinic);
         return $clinic->patients->contains($patient->user_id);
     }

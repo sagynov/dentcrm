@@ -5,16 +5,11 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\ScheduleResource;
-use App\Models\Doctor;
-use App\Models\User;
-use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
@@ -41,9 +36,14 @@ class ScheduleController extends Controller
         $carbon_periods = CarbonPeriod::create($start_time, '1 hour', $end_time);
         $periods = [];
         $hours = [];
+        $datetime = [];
+        $now = [];
         foreach($carbon_periods as $carbon_period) {
             $periods[] = $carbon_period->format('H:i');
             $hours[] = $carbon_period->format('H');
+            $datetime[$carbon_period->format('H')]['date'] = $carbon_period->format('Y-m-d');
+            $datetime[$carbon_period->format('H')]['time'] = $carbon_period->format('H:i');
+            $now[$carbon_period->format('H')] = $carbon_period->translatedFormat('j F, H:i');
         }
         $user = Auth::user();
         if(!$user->active_clinic) {
@@ -51,15 +51,17 @@ class ScheduleController extends Controller
                 'doctors' => [],
                 'periods' => $periods,
                 'hours' => $hours,
+                'datetime' => $datetime,
+                'now' => $now,
                 'appointments' => []
             ];
         }
 
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $doctors = $clinic->doctors()->with(['appointments' => function($q)use($start_time, $end_time) {
+        $query = ['appointments' => function($q)use($start_time, $end_time) {
             $q->whereBetween('visit_at', [$start_time, $end_time]);
-        }, 'appointments.patient'])->get();
-        
+        }];
+        $doctors = $clinic->doctors()->with([...$query, 'appointments.patient'])->withCount($query)->orderBy('appointments_count', 'desc')->get();
         $appointments = [];
         foreach ($doctors as $doctor) {
             foreach($doctor->appointments as $appointment) {
@@ -79,7 +81,9 @@ class ScheduleController extends Controller
             'doctors' => $doctors,
             'periods' => $periods,
             'hours' => $hours,
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'datetime' => $datetime,
+            'now' => $now
         ];
     }
 }

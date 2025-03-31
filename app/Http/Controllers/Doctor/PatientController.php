@@ -80,7 +80,7 @@ class PatientController extends Controller
             ]);
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate(5);
+        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
         return Inertia::render('doctor/patient/Index', [
             'patients' => PatientResource::collection($patients)
         ]);
@@ -108,7 +108,7 @@ class PatientController extends Controller
     public function show(Patient $patient)
     {
         Gate::authorize('view', $patient);
-        $records = $patient->records()->with(['doctor', 'clinic'])->orderBy('created_at', 'desc')->paginate(5);
+        $records = $patient->records()->with(['doctor', 'clinic'])->paginate();
         return Inertia::render('doctor/patient/Show', [
             'patient' => new PatientResource($patient),
             'records' => PatientRecordResource::collection($records),
