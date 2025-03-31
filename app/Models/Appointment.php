@@ -24,24 +24,30 @@ class Appointment extends Model
         'notes',
         'visit_at',
         'status',
+        'reminder_sent'
     ];
     protected $appends = array('visit_hour');
     protected function casts(): array
     {
         return [
             'visit_at' => 'datetime',
+            'reminder_sent' => 'boolean'
         ];
     }
     public function getVisitHourAttribute()
     {
         return $this->visit_at->format('G');
     }
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
+    }
     public function patient()
     {
-        return $this->hasOne(Patient::class, 'user_id', 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_id', 'user_id');
     }
     public function doctor()
     {
-        return $this->hasOne(Doctor::class, 'user_id', 'doctor_id');
+        return $this->belongsTo(Doctor::class, 'doctor_id', 'user_id');
     }
 }

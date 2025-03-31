@@ -31,44 +31,37 @@ const submit = () => {
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="name">{{trans('Name')}}</Label>
+                    <Label for="name">{{ trans('Name') }}</Label>
                     <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name" />
                     <InputError :message="form.errors.name" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="phone">{{trans('Phone')}}</Label>
-                    <InputMask 
-                        class="p-inputmask" 
+                    <Label for="phone">{{ trans('Phone') }}</Label>
+                    <InputMask
+                        class="p-inputmask"
                         unstyled
-                        mask="+9(999)999-99-99" 
+                        mask="+9(999)999-99-99"
                         unmask
                         id="phone"
                         type="text"
                         required
                         :tabindex="2"
                         autocomplete="phone"
-                        v-model="form.phone" 
-                        placeholder="+7" 
+                        v-model="form.phone"
+                        placeholder="+7"
                     />
                     <InputError :message="form.errors.phone" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">{{trans('Password')}}</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        :tabindex="3"
-                        autocomplete="new-password"
-                        v-model="form.password"
-                    />
+                    <Label for="password">{{ trans('Password') }}</Label>
+                    <Input id="password" type="password" required :tabindex="3" autocomplete="new-password" v-model="form.password" />
                     <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password_confirmation">{{trans('Confirm password')}}</Label>
+                    <Label for="password_confirmation">{{ trans('Confirm password') }}</Label>
                     <Input
                         id="password_confirmation"
                         type="password"
@@ -82,13 +75,13 @@ const submit = () => {
 
                 <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    {{trans('Create account')}}
+                    {{ trans('Create account') }}
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                {{trans('Already have an account?')}}
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">{{trans('Log in')}}</TextLink>
+                {{ trans('Already have an account?') }}
+                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">{{ trans('Log in') }}</TextLink>
             </div>
         </form>
     </AuthBase>

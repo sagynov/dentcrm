@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AuthLayout from '@/layouts/auth/AuthSimpleLayout.vue';
 import Toaster from '@/components/ui/toast/Toaster.vue';
+import AuthLayout from '@/layouts/auth/AuthSimpleLayout.vue';
 
 defineProps<{
     title?: string;

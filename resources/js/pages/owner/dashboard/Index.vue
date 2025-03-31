@@ -4,9 +4,8 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
-import DoctorWorkload from '@/components/owner/DoctorWorkload.vue';
 import AppointmentMetric from '@/components/owner/AppointmentMetric.vue';
-
+import DoctorWorkload from '@/components/owner/DoctorWorkload.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,8 +13,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/owner',
     },
 ];
-
-
 </script>
 
 <template>

@@ -3,8 +3,8 @@ import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
 import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
-import { ref } from 'vue';
 import { trans } from 'laravel-vue-i18n';
+import { ref } from 'vue';
 
 const props = defineProps<{
     status?: string;

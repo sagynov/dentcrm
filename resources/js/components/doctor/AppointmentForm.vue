@@ -9,36 +9,25 @@ import axios from 'axios';
 import { trans } from 'laravel-vue-i18n';
 import DatePicker from 'primevue/datepicker';
 import InputMask from 'primevue/inputmask';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import VueMultiselect from 'vue-multiselect';
 
 interface Props {
     date?: any;
     time?: any;
-    doctor?: any;
     from?: any;
 }
 
 const props = defineProps<Props>();
 
-onMounted(() => {
-    if (props.doctor) {
-        doctors.value.push(props.doctor);
-        selectedDoctor.value = props.doctor;
-    }
-});
-
 const patients = ref([]);
-const doctors: any = ref([]);
 
 const openDialog = ref(false);
 
 const selectedPatient = ref();
-const selectedDoctor = ref();
 
 const form = useForm({
     patient_id: '',
-    doctor_id: '',
     visit_date: props.date ? new Date(props.date) : new Date(),
     visit_time: props.time ?? '',
     notes: '',
@@ -49,8 +38,7 @@ const { toast } = useToast();
 
 const submit = () => {
     form.patient_id = selectedPatient.value.id;
-    form.doctor_id = selectedDoctor.value.id;
-    form.post(route('owner.appointments.store'), {
+    form.post(route('doctor.appointments.store'), {
         preserveScroll: true,
         onSuccess: () => {
             toast({
@@ -77,21 +65,6 @@ const searchPatient = (event: any) => {
             });
     }
 };
-const searchDoctor = (event: any) => {
-    if (event.length > 1) {
-        axios
-            .get(route('search-doctor'), {
-                params: { query: event },
-            })
-            .then(({ data }) => {
-                doctors.value = data.doctors;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-};
-
 const nameIIN = (patient: any) => {
     return patient.full_name + ' (' + patient.iin + ')';
 };
@@ -113,21 +86,6 @@ const nameIIN = (patient: any) => {
                 <template #noOptions>{{ trans('Enter the patient name') }}</template>
             </VueMultiselect>
             <InputError :message="form.errors.patient_id" />
-        </div>
-        <div class="flex flex-col gap-4">
-            <Label for="doctor_id">{{ trans('Doctor') }} <span class="text-red-400">*</span></Label>
-            <VueMultiselect
-                id="doctor_id"
-                :placeholder="trans('Select')"
-                v-model="selectedDoctor"
-                :options="doctors"
-                @search-change="searchDoctor"
-                label="full_name"
-            >
-                <template #noResult>{{ trans('Enter the doctor name') }}</template>
-                <template #noOptions>{{ trans('Enter the doctor name') }}</template>
-            </VueMultiselect>
-            <InputError :message="form.errors.doctor_id" />
         </div>
         <div class="flex flex-col gap-4">
             <Label>{{ trans('Visit date') }} <span class="text-red-400">*</span></Label>

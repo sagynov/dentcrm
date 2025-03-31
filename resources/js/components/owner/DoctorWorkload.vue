@@ -1,19 +1,10 @@
 <script setup lang="ts">
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { router } from '@inertiajs/vue3';
 import axios from 'axios';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { trans } from 'laravel-vue-i18n';
 import Chart from 'primevue/chart';
 import { onMounted, ref } from 'vue';
-import { router } from '@inertiajs/vue3'
-
 
 const data_keys = ref();
 const data_values = ref();
@@ -26,18 +17,18 @@ onMounted(() => {
 
 router.on('finish', () => {
     loadMetric(period.value);
-})
+});
 
 const changeDate = (event: any) => {
     loadMetric(event);
-}
+};
 
 const loadMetric = (period: string) => {
-    axios.get(route('owner.doctor-workload'), {params: {period}}).then(({data}) => {
+    axios.get(route('owner.doctor-workload'), { params: { period } }).then(({ data }) => {
         data_keys.value = data.data_keys;
         data_values.value = data.data_values;
-    })
-}
+    });
+};
 
 const setChartData = () => {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -49,9 +40,9 @@ const setChartData = () => {
                 label: trans('Number of records'),
                 backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'),
                 borderColor: documentStyle.getPropertyValue('--p-cyan-500'),
-                data: data_values
+                data: data_values,
             },
-        ]
+        ],
     };
 };
 const setChartOptions = () => {
@@ -67,35 +58,35 @@ const setChartOptions = () => {
         plugins: {
             legend: {
                 labels: {
-                    color: textColor
-                }
-            }
+                    color: textColor,
+                },
+            },
         },
         scales: {
             x: {
                 ticks: {
                     color: textColorSecondary,
                     font: {
-                        weight: 500
-                    }
+                        weight: 500,
+                    },
                 },
                 grid: {
                     display: false,
-                    drawBorder: false
-                }
+                    drawBorder: false,
+                },
             },
             y: {
                 ticks: {
-                    color: textColorSecondary
+                    color: textColorSecondary,
                 },
                 grid: {
                     color: surfaceBorder,
-                    drawBorder: false
-                }
-            }
-        }
+                    drawBorder: false,
+                },
+            },
+        },
     };
-}
+};
 const chartData = ref();
 const chartOptions = ref();
 chartData.value = setChartData();
@@ -106,9 +97,9 @@ chartOptions.value = setChartOptions();
     <div class="flex flex-col gap-4">
         <h2 class="font-medium text-gray-700">{{ trans('Doctors workload') }}</h2>
         <div class="w-[10rem]">
-            <Select @update:model-value="changeDate" v-model="period" >
+            <Select @update:model-value="changeDate" v-model="period">
                 <SelectTrigger>
-                <SelectValue :placeholder="trans('Select')" />
+                    <SelectValue :placeholder="trans('Select')" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value="week">
@@ -121,7 +112,7 @@ chartOptions.value = setChartOptions();
             </Select>
         </div>
         <div>
-            <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]"  />
+            <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
         </div>
     </div>
 </template>

@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import NavUser from '@/components/NavUser.vue';
-import { Sidebar, SidebarGroup, SidebarGroupContent, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { SharedData, User, type NavItem } from '@/types';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from '@/components/ui/sidebar';
+import { SharedData, User } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Stethoscope, CalendarDays, HandHeart } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
-import { trans } from 'laravel-vue-i18n';
-import NavOwner from './NavOwner.vue';
-import NavDoctor from './NavDoctor.vue';
 import Locale from './Locale.vue';
+import NavDoctor from './NavDoctor.vue';
+import NavOwner from './NavOwner.vue';
 
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
@@ -43,7 +51,7 @@ const user = page.props.auth.user as User;
                     </SidebarMenu>
                 </SidebarGroupContent>
             </SidebarGroup>
-            
+
             <NavUser />
         </SidebarFooter>
     </Sidebar>

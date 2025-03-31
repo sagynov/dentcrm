@@ -1,14 +1,14 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
+import Aura from '@primeuix/themes/aura';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { i18nVue } from 'laravel-vue-i18n';
+import PrimeVue from 'primevue/config';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
-import { i18nVue } from 'laravel-vue-i18n';
-import PrimeVue from 'primevue/config';
-import Aura from '@primeuix/themes/aura';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -34,14 +34,14 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(PrimeVue, {
                 theme: {
-                    preset: Aura
+                    preset: Aura,
                 },
                 locale: {
                     firstDayOfWeek: 1,
                     dateFormat: 'dd/mm/yy',
                     dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-                    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'], 
-                }
+                    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                },
             })
             .use(i18nVue, {
                 resolve: async (lang: string) => {
@@ -50,7 +50,7 @@ createInertiaApp({
                 },
                 onLoad: () => {
                     app.mount(el);
-                }
+                },
             });
     },
     progress: {

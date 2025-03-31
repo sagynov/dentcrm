@@ -1,25 +1,13 @@
 <script setup lang="ts">
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import Button from '@/components/ui/button/Button.vue';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
-import { trans } from 'laravel-vue-i18n';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card'
-import Button from '@/components/ui/button/Button.vue';
-import DatePicker from 'primevue/datepicker';
 import axios from 'axios';
+import { trans } from 'laravel-vue-i18n';
+import DatePicker from 'primevue/datepicker';
 import { ref } from 'vue';
 
 interface Props {
@@ -30,7 +18,6 @@ interface Props {
     datetime: any;
     now: any;
 }
-
 
 const props = defineProps<Props>();
 
@@ -50,16 +37,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 const today = new Date();
 
 const dateSelected = (date: any) => {
-    axios.get(route('owner.schedules.get-schedule'), {
-        params: {date}
-    }).then(({data}) => {
-        doctors.value = data.doctors;
-        hours.value = data.hours;
-        appointments.value = data.appointments;
-        datetime.value = data.datetime;
-        now.value = data.now;
-    });
-}
+    axios
+        .get(route('owner.schedules.get-schedule'), {
+            params: { date },
+        })
+        .then(({ data }) => {
+            doctors.value = data.doctors;
+            hours.value = data.hours;
+            appointments.value = data.appointments;
+            datetime.value = data.datetime;
+            now.value = data.now;
+        });
+};
 </script>
 
 <template>
@@ -69,37 +58,57 @@ const dateSelected = (date: any) => {
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="grid auto-rows-min gap-4 md:grid-cols-12">
                 <div class="col-span-12 md:col-span-8">
-                    <div class="border rounded-lg">
+                    <div class="rounded-lg border">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead class="border-r w-[150px]">{{ trans('Doctor') }}</TableHead>
-                                    <TableHead v-for="period in periods" :key="'head_'+period" class="border-x w-[50px]">{{ period }}</TableHead>
+                                    <TableHead class="w-[150px] border-r">{{ trans('Doctor') }}</TableHead>
+                                    <TableHead v-for="period in periods" :key="'head_' + period" class="w-[50px] border-x">{{ period }}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <TableRow v-for="doctor in doctors" class="border border-collapse h-[50px]" :key="'doctor_'+doctor.id">
-                                    <TableCell class="border border-collapse h-[50px] overflow-hidden">{{ doctor.full_name }}</TableCell>
-                                    <TableCell class="border border-collapse p-0 h-[50px] w-[50px]" v-for="hour in hours" :key="'hour_'+hour">
-                                        <div v-if="appointments[doctor.id][hour]" class="bg-green-600 p-2 w-full h-full text-white">
+                                <TableRow v-for="doctor in doctors" class="h-[50px] border-collapse border" :key="'doctor_' + doctor.id">
+                                    <TableCell class="h-[50px] border-collapse overflow-hidden border">{{ doctor.full_name }}</TableCell>
+                                    <TableCell class="h-[50px] w-[50px] border-collapse border p-0" v-for="hour in hours" :key="'hour_' + hour">
+                                        <div v-if="appointments[doctor.id][hour]" class="h-full w-full bg-green-600 p-2 text-white">
                                             <HoverCard>
-                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center cursor-pointer">
+                                                <HoverCardTrigger class="flex h-full w-full cursor-pointer items-center justify-center">
                                                     <div>{{ trans('scheduled') }}</div>
                                                 </HoverCardTrigger>
                                                 <HoverCardContent>
-                                                    <div class="border-b py-2 mb-2">{{ appointments[doctor.id][hour].visit_at }}</div>
-                                                    <div>{{ appointments[doctor.id][hour].patient }}</div>
+                                                    <div
+                                                        v-for="appointment in appointments[doctor.id][hour]"
+                                                        :key="'appointment_' + appointment.id"
+                                                        class="mb-2 border-b py-2"
+                                                    >
+                                                        <div class="mb-1">{{ appointment.visit_at }}</div>
+                                                        <div>{{ appointment.patient }}</div>
+                                                    </div>
                                                 </HoverCardContent>
                                             </HoverCard>
                                         </div>
-                                        <div class="bg-yellow-400 p-2 w-full h-full text-white" v-else>
+                                        <div class="h-full w-full bg-yellow-400 p-2 text-white" v-else>
                                             <HoverCard>
-                                                <HoverCardTrigger class="w-full h-full flex items-center justify-center cursor-pointer">{{ trans('Empty') }}</HoverCardTrigger>
+                                                <HoverCardTrigger class="flex h-full w-full cursor-pointer items-center justify-center">{{
+                                                    trans('Empty')
+                                                }}</HoverCardTrigger>
                                                 <HoverCardContent>
-                                                    <div class="border-b py-2 mb-2">{{ now[hour] }}</div>
-                                                    <div class="border-b py-2 mb-2">{{ trans('Empty') }}</div>
+                                                    <div class="mb-2 border-b py-2">{{ now[hour] }}</div>
+                                                    <div class="mb-2 border-b py-2">{{ trans('Empty') }}</div>
                                                     <Button as-child>
-                                                        <Link :href="route('owner.appointments.create')+'?doctor='+doctor.id+'&date='+datetime[hour].date+'&time='+datetime[hour].time+'&from=schedule'">{{ trans('Add appointment') }}</Link>
+                                                        <Link
+                                                            :href="
+                                                                route('owner.appointments.create') +
+                                                                '?doctor=' +
+                                                                doctor.id +
+                                                                '&date=' +
+                                                                datetime[hour].date +
+                                                                '&time=' +
+                                                                datetime[hour].time +
+                                                                '&from=schedule'
+                                                            "
+                                                            >{{ trans('Add appointment') }}</Link
+                                                        >
                                                     </Button>
                                                 </HoverCardContent>
                                             </HoverCard>

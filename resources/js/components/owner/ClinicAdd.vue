@@ -14,8 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/toast/use-toast';
-import { type SharedData } from '@/types';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import InputMask from 'primevue/inputmask';
 import { ref } from 'vue';
@@ -82,7 +81,7 @@ const submit = () => {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectItem v-for="(option,index) in options" :key="'option_'+index" :value="option.value">
+                                <SelectItem v-for="(option, index) in options" :key="'option_' + index" :value="option.value">
                                     {{ option.name }}
                                 </SelectItem>
                             </SelectGroup>

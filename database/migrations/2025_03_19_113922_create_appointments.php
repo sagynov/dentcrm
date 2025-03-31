@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('notes')->nullable();
             $table->timestamp('visit_at');
             $table->string('status');
+            $table->integer('reminder_sent')->default(0);
             $table->timestamps();
         });
     }

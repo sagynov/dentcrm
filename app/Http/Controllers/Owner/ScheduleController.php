@@ -59,13 +59,13 @@ class ScheduleController extends Controller
 
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $query = ['appointments' => function($q)use($start_time, $end_time) {
-            $q->whereBetween('visit_at', [$start_time, $end_time]);
+            $q->whereBetween('visit_at', [$start_time, $end_time])->orderBy('visit_at', 'asc');
         }];
         $doctors = $clinic->doctors()->with([...$query, 'appointments.patient'])->withCount($query)->orderBy('appointments_count', 'desc')->get();
         $appointments = [];
         foreach ($doctors as $doctor) {
             foreach($doctor->appointments as $appointment) {
-                $appointments[$doctor->user_id][$appointment->visit_at->format('H')] = new ScheduleResource($appointment);
+                $appointments[$doctor->user_id][$appointment->visit_at->format('H')][] = new ScheduleResource($appointment);
             }
         }
         

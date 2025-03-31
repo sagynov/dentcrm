@@ -11,10 +11,13 @@ test('owners clinic list displayed', function () {
     $response->assertOk();
 });
 
-// test('owner can add a new clinic', function () {
-//     $user = User::factory()->create();
-//     $response = $this->actingAs($user)->post(route('owner.clinics.store'), [
-//         'name' => fake()->word(),
-
-//     ]);
-// });
+test('owner can add a new clinic', function () {
+    $user = User::factory()->create();
+    $response = $this->actingAs($user)->post(route('owner.clinics.store'), [
+        'name' => fake()->word(),
+        'specialization' => fake()->word(),
+        'address' => fake()->address(),
+        'phone' => '77787774455',
+    ]);
+    $response->assertOk();
+});

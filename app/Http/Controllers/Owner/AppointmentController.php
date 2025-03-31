@@ -26,13 +26,9 @@ class AppointmentController extends Controller
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         if($clinic){
             $appointments = $clinic->appointments()->with('patient', 'doctor')->paginate();
-            $patients = PatientResource::collection($clinic->patients);
-            $doctors = DoctorResource::collection($clinic->doctors);
 
             return Inertia::render('owner/appointment/Index', [
                 'appointments' => AppointmentResource::collection($appointments),
-                'patients' => $patients,
-                'doctors' => $doctors
             ]);
         }
         return Inertia::render('owner/appointment/Index', [
@@ -65,7 +61,7 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create', Patient::class);
+        Gate::authorize('create', Appointment::class);
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',

@@ -1,20 +1,10 @@
 <script setup lang="ts">
+import ClinicAdd from '@/components/owner/ClinicAdd.vue';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { Button } from '@/components/ui/button';
-import DoctorAdd from '@/components/owner/DoctorAdd.vue';
-import ClinicAdd from '@/components/owner/ClinicAdd.vue';
 
 interface Props {
     clinics: any;
@@ -35,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="flex gap-4 items-center justify-between">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h2 class="font-medium text-gray-700">{{ trans('My clinics') }}</h2>
                 </div>
@@ -43,24 +33,24 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <ClinicAdd />
                 </div>
             </div>
-            <div class="overflow-x-auto max-w-full">
+            <div class="max-w-full overflow-x-auto">
                 <Table>
-                    <TableCaption>{{trans('A list of your clinics')}}</TableCaption>
+                    <TableCaption>{{ trans('A list of your clinics') }}</TableCaption>
                     <TableHeader>
-                    <TableRow>
-                        <TableHead>{{trans('Clinic name')}}</TableHead>
-                        <TableHead>{{trans('Specialization')}}</TableHead>
-                        <TableHead>{{trans('Address')}}</TableHead>
-                        <TableHead>{{trans('Phone')}}</TableHead>
-                    </TableRow>
+                        <TableRow>
+                            <TableHead>{{ trans('Clinic name') }}</TableHead>
+                            <TableHead>{{ trans('Specialization') }}</TableHead>
+                            <TableHead>{{ trans('Address') }}</TableHead>
+                            <TableHead>{{ trans('Phone') }}</TableHead>
+                        </TableRow>
                     </TableHeader>
                     <TableBody>
-                    <TableRow v-for="clinic in clinics" :key="'clinic_'+clinic.id">
-                        <TableCell>{{ clinic.name }}</TableCell>
-                        <TableCell>{{ clinic.specialization }}</TableCell>
-                        <TableCell>{{ clinic.address }}</TableCell>
-                        <TableCell>{{ clinic.phone }}</TableCell>
-                    </TableRow>
+                        <TableRow v-for="clinic in clinics" :key="'clinic_' + clinic.id">
+                            <TableCell>{{ clinic.name }}</TableCell>
+                            <TableCell>{{ clinic.specialization }}</TableCell>
+                            <TableCell>{{ clinic.address }}</TableCell>
+                            <TableCell>{{ clinic.phone }}</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </div>

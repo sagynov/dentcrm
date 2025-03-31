@@ -31,7 +31,7 @@ export interface User {
     is_doctor?: boolean;
     is_patient?: boolean;
     active_clinic: string;
-    clinics: Array<any>,
+    clinics: Array<any>;
     email: string;
     avatar?: string;
     email_verified_at: string | null;
@@ -40,12 +40,12 @@ export interface User {
 }
 
 export interface Patient {
-    id: number,
-    first_name: string,
-    last_name: string,
-    full_name: string,
-    birth_date: any,
-    joined_at: any
+    id: number;
+    first_name: string;
+    last_name: string;
+    full_name: string;
+    birth_date: any;
+    joined_at: any;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

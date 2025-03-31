@@ -32,26 +32,6 @@ class AppointmentCreated extends WhatsappNotification implements ShouldQueue
         return [WhatsappChannel::class];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        if($notifiable->role == 'patient') {
-            return [
-                'doctor_name' => $this->appointment->doctor->full_name,
-                'visit_date' => $this->appointment->visit_at->format('d-m-Y H:i')
-            ];
-        }else {
-            return [
-                'patient_name' => $this->appointment->patient->full_name,
-                'visit_date' => $this->appointment->visit_at->format('d-m-Y H:i')
-            ];
-        }
-    }
-
     public function toWhatsapp(object $notifiable)
     {
         if($notifiable->role == 'patient') {

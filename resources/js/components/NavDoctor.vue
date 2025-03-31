@@ -1,18 +1,10 @@
 <script setup lang="ts">
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type SharedData, type User } from '@/types';
-import { Link, usePage, useForm } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGrid, HandHeart, Stethoscope, CalendarDays, BriefcaseMedical, Handshake } from 'lucide-vue-next';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { HandHeart, Handshake, LayoutGrid } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const items: NavItem[] = [
@@ -38,7 +30,7 @@ const user = page.props.auth.user as User;
 const clinics = user.clinics as Array<any>;
 
 const form = useForm({
-    active_clinic: ''
+    active_clinic: '',
 });
 
 const active_clinic = ref(user.active_clinic);
@@ -47,7 +39,7 @@ const selectClinic = (value: any) => {
     form.post(route('owner.clinics.set-active-clinic'), {
         preserveScroll: true,
     });
-}
+};
 </script>
 
 <template>
@@ -57,10 +49,10 @@ const selectClinic = (value: any) => {
             <SidebarMenuItem class="my-2">
                 <Select @update:model-value="selectClinic" v-model="active_clinic">
                     <SelectTrigger>
-                    <SelectValue :placeholder="trans('Select')" />
+                        <SelectValue :placeholder="trans('Select')" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem v-for="clinic in clinics" :key="'clinic_'+clinic.id" :value="clinic.id">
+                        <SelectItem v-for="clinic in clinics" :key="'clinic_' + clinic.id" :value="clinic.id">
                             {{ clinic.name }}
                         </SelectItem>
                     </SelectContent>

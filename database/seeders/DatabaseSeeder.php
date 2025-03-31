@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'clinic_id' => $clinic->id,
             'doctor_id' => $clinic->doctors()->first()->user_id,
             'patient_id' => $clinic->patients()->first()->user_id,
+            'reminder_sent' => 1
         ]);
 
     }
