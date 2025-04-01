@@ -27,7 +27,7 @@ class WhatsappChannel extends Notification
             'chatId' => $phone.'@c.us',
             'message' => $message,
         ];
-        Http::timeout(5)->withToken($token)
+        Http::timeout(60)->withToken($token)
             ->post('https://waapi.app/api/v1/instances/'.$waapi_id.'/client/action/send-message',
             $data
         );

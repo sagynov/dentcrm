@@ -5,7 +5,6 @@ use App\Http\Controllers\TaxpayerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DownloadController;
-use App\Http\Controllers\Owner\ClinicController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SetClinicController;
 

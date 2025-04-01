@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
-use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 
 class SearchController extends Controller
 {
