@@ -1,28 +1,21 @@
 <script setup lang="ts">
+import PatientAppointments from '@/components/owner/PatientAppointments.vue';
+import PatientRecords from '@/components/owner/PatientRecords.vue';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { BuildingIcon, CalendarDaysIcon, PaperclipIcon, UserIcon } from 'lucide-vue-next';
-
-import { Button } from '@/components/ui/button';
-import {
-    Pagination,
-    PaginationEllipsis,
-    PaginationFirst,
-    PaginationLast,
-    PaginationList,
-    PaginationListItem,
-    PaginationNext,
-    PaginationPrev,
-} from '@/components/ui/pagination';
 
 interface Props {
     patient: any;
-    records: any;
+    records?: any;
+    appointments?: any;
 }
 
 const props = defineProps<Props>();
+
+const defaultValue = props.records ? 'records' : 'appointments';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,10 +27,13 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: route('owner.patients.show', props.patient.id),
     },
 ];
-
-const setPage = (event: any) => {
-    const page = event.page + 1;
-    router.get(route('owner.patients.show', props.patient.id), { page }, { preserveState: true, preserveScroll: true });
+const setTab = (event: any) => {
+    if (event == 'records') {
+        router.visit(route('owner.patients.show', props.patient.id));
+    }
+    if (event == 'appointments') {
+        router.visit(route('owner.patients.appointments', props.patient.id));
+    }
 };
 </script>
 
@@ -54,69 +50,22 @@ const setPage = (event: any) => {
                     <div>{{ trans('Birth date') }}: {{ patient.birth_date }}</div>
                 </div>
             </div>
-
-            <div class="max-w-full">
-                <div class="flex items-center justify-between gap-4">
-                    <div>
-                        <h3 class="font-medium text-gray-700">{{ trans('Patient records') }}</h3>
-                    </div>
-                    <div class="flex justify-end">
-                        <PatientRecordAdd :patient="patient" />
-                    </div>
-                </div>
-                <div class="mt-4 flex flex-col gap-4">
-                    <div v-for="record in records.data" :key="'record_' + record.id" class="flex flex-col gap-2 rounded-lg border p-4">
-                        <div class="flex items-center"><CalendarDaysIcon class="mr-2" /> {{ record.created_at }}</div>
-                        <div class="flex flex-col gap-4 border-b p-4">
-                            <div>{{ record.comment }}</div>
-                            <div class="flex flex-col gap-2">
-                                <div
-                                    v-for="(attachment, index) in record.attachments"
-                                    :key="'patient_' + record.id + '_attachment_' + index"
-                                    class="flex"
-                                >
-                                    <PaperclipIcon class="mr-2" />
-                                    <a :href="route('download', patient.id) + '?path=' + attachment.path" class="mr-2 text-sky-600">{{
-                                        attachment.name
-                                    }}</a>
-                                    <span>{{ '(' + attachment.size + ')' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center"><UserIcon class="mr-2" /> {{ record.doctor }}</div>
-                        <div class="flex items-center"><BuildingIcon class="mr-2" /> {{ record.clinic }}</div>
-                        <div class="jusify-end"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <Pagination
-                    v-slot="{ page }"
-                    @update:page="setPage"
-                    :items-per-page="records.meta.per_page"
-                    :total="records.meta.total"
-                    :sibling-count="1"
-                    show-edges
-                    :default-page="records.meta.current_page"
-                >
-                    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-                        <PaginationFirst />
-                        <PaginationPrev />
-
-                        <template v-for="(item, index) in items">
-                            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                                <Button class="h-9 w-9 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                                    {{ item.value }}
-                                </Button>
-                            </PaginationListItem>
-                            <PaginationEllipsis v-else :key="item.type" :index="index" />
-                        </template>
-
-                        <PaginationNext />
-                        <PaginationLast />
-                    </PaginationList>
-                </Pagination>
-            </div>
+            <Tabs :default-value="defaultValue" @update:model-value="setTab">
+                <TabsList class="grid w-[400px] grid-cols-2">
+                    <TabsTrigger value="records">
+                        {{ trans('Patient records') }}
+                    </TabsTrigger>
+                    <TabsTrigger value="appointments">
+                        {{ trans('Patient appointments') }}
+                    </TabsTrigger>
+                </TabsList>
+                <TabsContent value="records">
+                    <PatientRecords v-if="records" :patient="patient" :records="records" />
+                </TabsContent>
+                <TabsContent value="appointments">
+                    <PatientAppointments v-if="appointments" :patient="patient" :appointments="appointments" />
+                </TabsContent>
+            </Tabs>
         </div>
     </AppLayout>
 </template>

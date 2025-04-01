@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { trans } from 'laravel-vue-i18n';
 import Chart from 'primevue/chart';
@@ -14,10 +13,6 @@ const period = ref('week');
 
 onMounted(() => {
     loadMetric('week');
-});
-
-router.on('finish', () => {
-    loadMetric(period.value);
 });
 
 const loadMetric = (period: string) => {

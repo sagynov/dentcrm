@@ -67,7 +67,11 @@ const setPage = (page: number) => {
                     <TableBody>
                         <TableRow v-for="appointment in appointments.data" :key="'appointment_' + appointment.id">
                             <TableCell>{{ appointment.visit_at }}</TableCell>
-                            <TableCell>{{ appointment.patient }}</TableCell>
+                            <TableCell>
+                                <Link :href="route('owner.patients.show', appointment.patient_id)" class="text-sky-600">
+                                    {{ appointment.patient }}
+                                </Link>
+                            </TableCell>
                             <TableCell>{{ appointment.doctor }}</TableCell>
                             <TableCell>{{ appointment.notes }}</TableCell>
                             <TableCell>

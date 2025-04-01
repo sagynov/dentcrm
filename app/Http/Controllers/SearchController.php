@@ -25,9 +25,11 @@ class SearchController extends Controller
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
 
         $patients = $clinic->patients()
-            ->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
-            ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%')
-            ->orWhere('iin','LIKE', '%'.$validated['query'].'%')->limit(5)->get();
+            ->where(function($query) use ($validated) {
+                $query->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
+                ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%')
+                ->orWhere('iin','LIKE', '%'.$validated['query'].'%');
+            })->limit(5)->get();
         return response()->json([
             'patients' =>  PatientResource::collection($patients)
         ]);
@@ -47,9 +49,10 @@ class SearchController extends Controller
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
 
         $doctors = $clinic->doctors()
-            ->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
-            ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%')
-            ->get();
+            ->where(function($query) use ($validated) {
+                $query->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
+                ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%');
+        })->get();
         return response()->json([
             'doctors' =>  DoctorResource::collection($doctors)
         ]);

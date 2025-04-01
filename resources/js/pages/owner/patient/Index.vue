@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PatientAdd from '@/components/owner/PatientAdd.vue';
+import PatientSearch from '@/components/owner/PatientSearch.vue';
 import { Button } from '@/components/ui/button';
 import {
     Pagination,
@@ -47,6 +48,9 @@ const setPage = (page: number) => {
                 <div class="flex justify-end">
                     <PatientAdd />
                 </div>
+            </div>
+            <div class="mb-4">
+                <PatientSearch />
             </div>
             <div class="max-w-full overflow-x-auto">
                 <Table>

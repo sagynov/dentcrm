@@ -49,9 +49,18 @@ class AppointmentController extends Controller
             'doctor' => 'nullable',
             'from' => 'nullable'
         ]);
+        $user = Auth::user();
+        if(!$user->active_clinic){
+            abort(403);
+        }
         if(isset($validated['doctor'])){
-            $doctor = Doctor::find($validated['doctor']);
-            $validated['doctor'] = new DoctorResource($doctor);
+            $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+            $doctor = $clinic->doctors()->find($validated['doctor']);
+            if($doctor){
+                $validated['doctor'] = new DoctorResource($doctor);
+            }else{
+                unset($validated['doctor']);
+            }
         }
         return Inertia::render('owner/appointment/Create', $validated);
     }

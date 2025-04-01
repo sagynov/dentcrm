@@ -13,6 +13,6 @@ class AppointmentScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->orderBy('created_at', 'desc');
+        $builder->orderBy('visit_at', 'desc');
     }
 }

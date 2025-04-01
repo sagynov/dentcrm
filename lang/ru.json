@@ -335,5 +335,6 @@
     "🔔 Appointment Reminder\nDear :doctor_name, you have an appointment in 1 hour!\n👤 Patient: :patient_name\n📞 Contact Number: :phone\n⏰ Time: :visit_time": "🔔 Напоминание о приеме пациента.\nУважаемый :doctor_name, у вас прием пациента через 1 час!\n👤 Пациент: :patient_name\n📞 Контактный номер: :phone\n⏰ Время: :visit_time",
     "completed": "Завершен",
     "Profile": "Профиль",
-    "Appearance": "Дизайн"
+    "Appearance": "Дизайн",
+    "Patient appointments": "История приема"
 }

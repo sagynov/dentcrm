@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\PatientRecordResource;
 use App\Http\Resources\PatientResource;
 use App\Models\Patient;
@@ -77,10 +78,19 @@ class PatientController extends Controller
     public function show(Patient $patient)
     {
         Gate::authorize('view', $patient);
-        $records = $patient->records()->with(['doctor', 'clinic'])->paginate(5);
+        $records = $patient->records()->with(['doctor'])->paginate();
         return Inertia::render('owner/patient/Show', [
             'patient' => new PatientResource($patient),
             'records' => PatientRecordResource::collection($records),
+        ]);
+    }
+    public function appointments(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $appointments = $patient->appointments()->with(['doctor', 'patient'])->paginate();
+        return Inertia::render('owner/patient/Show', [
+            'patient' => new PatientResource($patient),
+            'appointments' => AppointmentResource::collection($appointments),
         ]);
     }
 }

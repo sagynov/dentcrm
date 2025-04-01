@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PatientSearch from '@/components/doctor/PatientSearch.vue';
 import { Button } from '@/components/ui/button';
 import {
     Pagination,
@@ -44,6 +45,9 @@ const setPage = (page: number) => {
                     <h2 class="font-medium text-gray-700">{{ trans('Patients') }}</h2>
                 </div>
                 <div class="flex justify-end"></div>
+            </div>
+            <div class="mb-4">
+                <PatientSearch />
             </div>
             <div class="max-w-full overflow-x-auto">
                 <Table>

@@ -335,5 +335,6 @@
     "🔔 Appointment Reminder\nDear :doctor_name, you have an appointment in 1 hour!\n👤 Patient: :patient_name\n📞 Contact Number: :phone\n⏰ Time: :visit_time": "🔔 Пациент қабылдау туралы еске салу.\nҚұрметті :doctor_name, сізде 1 сағаттан кейін пациент қабылдауы бар!\n👤 Пациент: :patient_name\n📞 Байланыс нөмірі: :phone\n⏰ Уақыты: :visit_time",
     "completed": "Орындалды",
     "Profile": "Профиль",
-    "Appearance": "Дизайн"
+    "Appearance": "Дизайн",
+    "Patient appointments": "Қабылдау журналы"
 }

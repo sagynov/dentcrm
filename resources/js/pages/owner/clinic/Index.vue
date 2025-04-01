@@ -47,7 +47,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <TableBody>
                         <TableRow v-for="clinic in clinics" :key="'clinic_' + clinic.id">
                             <TableCell>{{ clinic.name }}</TableCell>
-                            <TableCell>{{ trans(''+clinic.specialization) }}</TableCell>
+                            <TableCell>{{ trans('' + clinic.specialization) }}</TableCell>
                             <TableCell>{{ clinic.address }}</TableCell>
                             <TableCell>{{ clinic.phone }}</TableCell>
                         </TableRow>
