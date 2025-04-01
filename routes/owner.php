@@ -17,7 +17,6 @@ Route::group([
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     Route::get('appointment-metric', [DashboardController::class,'appointmentMetric'])->name('appointment-metric');
     Route::get('doctor-workload', [DashboardController::class,'doctorWorkload'])->name('doctor-workload');
-    Route::post('clinics/set-active-clinic', [ClinicController::class,'setActiveClinic'])->name('clinics.set-active-clinic');
     Route::resource('clinics', ClinicController::class);
     Route::resource('appointments', AppointmentController::class);
     Route::resource('doctors', DoctorController::class);

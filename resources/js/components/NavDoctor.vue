@@ -36,7 +36,7 @@ const form = useForm({
 const active_clinic = ref(user.active_clinic);
 const selectClinic = (value: any) => {
     form.active_clinic = value;
-    form.post(route('owner.clinics.set-active-clinic'), {
+    form.post(route('set-active-clinic'), {
         preserveScroll: true,
     });
 };

@@ -17,6 +17,7 @@ import AppLogo from './AppLogo.vue';
 import Locale from './Locale.vue';
 import NavDoctor from './NavDoctor.vue';
 import NavOwner from './NavOwner.vue';
+import NavPatient from './NavPatient.vue';
 
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
@@ -37,8 +38,9 @@ const user = page.props.auth.user as User;
         </SidebarHeader>
 
         <SidebarContent>
-            <NavDoctor v-if="user.is_doctor" />
             <NavOwner v-if="user.is_owner" />
+            <NavDoctor v-if="user.is_doctor" />
+            <NavPatient v-if="user.is_patient" />
         </SidebarContent>
 
         <SidebarFooter>

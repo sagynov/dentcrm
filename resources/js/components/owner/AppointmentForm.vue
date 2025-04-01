@@ -48,8 +48,12 @@ const form = useForm({
 const { toast } = useToast();
 
 const submit = () => {
-    form.patient_id = selectedPatient.value.id;
-    form.doctor_id = selectedDoctor.value.id;
+    if (selectedPatient.value) {
+        form.patient_id = selectedPatient.value.id;
+    }
+    if (selectedDoctor.value) {
+        form.doctor_id = selectedDoctor.value.id;
+    }
     form.post(route('owner.appointments.store'), {
         preserveScroll: true,
         onSuccess: () => {

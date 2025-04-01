@@ -3,6 +3,7 @@ import UserInfo from '@/components/UserInfo.vue';
 import { DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import type { User } from '@/types';
 import { Link } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 import { LogOut, Settings } from 'lucide-vue-next';
 
 interface Props {
@@ -19,11 +20,11 @@ defineProps<Props>();
         </div>
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuGroup>
+    <DropdownMenuGroup v-if="false">
         <DropdownMenuItem :as-child="true">
             <Link class="block w-full" :href="route('profile.edit')" as="button">
                 <Settings class="mr-2 h-4 w-4" />
-                Settings
+                {{ trans('actions.settings') }}
             </Link>
         </DropdownMenuItem>
     </DropdownMenuGroup>
@@ -31,7 +32,7 @@ defineProps<Props>();
     <DropdownMenuItem :as-child="true">
         <Link class="block w-full" method="post" :href="route('logout')" as="button">
             <LogOut class="mr-2 h-4 w-4" />
-            Log out
+            {{ trans('actions.log_out') }}
         </Link>
     </DropdownMenuItem>
 </template>

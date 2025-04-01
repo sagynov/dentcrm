@@ -4,39 +4,19 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { type NavItem, type SharedData, type User } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { BriefcaseMedical, CalendarDays, HandHeart, Handshake, LayoutGrid, Stethoscope } from 'lucide-vue-next';
+import { Handshake, LayoutGrid } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const items: NavItem[] = [
     {
         title: trans('Dashboard'),
-        href: '/owner',
+        href: '/patient',
         icon: LayoutGrid,
     },
     {
-        title: trans('My clinics'),
-        href: '/owner/clinics',
-        icon: BriefcaseMedical,
-    },
-    {
         title: trans('Appointments'),
-        href: '/owner/appointments',
+        href: '/patient/appointments',
         icon: Handshake,
-    },
-    {
-        title: trans('Schedule'),
-        href: '/owner/schedule',
-        icon: CalendarDays,
-    },
-    {
-        title: trans('Doctors'),
-        href: '/owner/doctors',
-        icon: Stethoscope,
-    },
-    {
-        title: trans('Patients'),
-        href: '/owner/patients',
-        icon: HandHeart,
     },
 ];
 

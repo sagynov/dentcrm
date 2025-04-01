@@ -13,7 +13,7 @@ class ClinicPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_owner;
+        return $user->is_owner | $user->is_doctor || $user->is_patient;
     }
 
     /**

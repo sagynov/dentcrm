@@ -15,7 +15,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        Gate::authorize('owner');
         return Inertia::render('owner/dashboard/Index');
     }
     public function appointmentMetric(Request $request)

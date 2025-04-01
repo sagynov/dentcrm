@@ -19,6 +19,7 @@ class ScheduleResource extends JsonResource
             'patient'=> $this->patient->full_name,
             'visit_at' => $this->visit_at->translatedFormat('j F, H:i'),
             'visit_hour' => $this->visit_hour,
+            'status' => $this->status,
         ];
     }
 }

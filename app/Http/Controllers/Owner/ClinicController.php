@@ -13,14 +13,6 @@ use Inertia\Response;
 
 class ClinicController extends Controller
 {
-    public function setActiveClinic(Request $request)
-    {
-        Gate::authorize('viewAny', Clinic::class);
-        $validated = $request->validate(['active_clinic' => 'required']);
-        $clinic = Clinic::findOrFail($validated['active_clinic']);
-        Gate::authorize('update', $clinic);
-        Session::put('active_clinic', $clinic->id);
-    }
     /**
      * Display a listing of the resource.
      */

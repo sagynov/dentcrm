@@ -12,6 +12,7 @@ Route::group([
     'as' => 'doctor.',
 ], function() {
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('appointment-metric', [DashboardController::class,'appointmentMetric'])->name('appointment-metric');
     Route::resource('appointments', AppointmentController::class);
     Route::post('patients/upload-record-attachment/{patient}', [PatientController::class, 'uploadRecordAttachment'])->name('patients.upload-record-attachment');
     Route::post('patients/add-record/{patient}', [PatientController::class, 'addRecord'])->name('patients.add-record');

@@ -36,7 +36,7 @@
     "Birth date": "Дата рождения",
     "Browse": "Просмотр",
     "Cancel": "Отмена",
-    "canceled": "Отменен",
+    "canceled": "Отмен.",
     "Choose": "Выбрать",
     "Choose :name": "Выбрать :name",
     "Choose File": "Выбрать файл",
@@ -332,5 +332,8 @@
 
     "Empty": "Своб.",
     "🔔 Appointment Reminder\nDear :patient_name, Your appointment with :doctor_name is in 1 hour.\n📍 Clinic Address: :address\n⏰ Appointment Time: :visit_time\n📞 Contact Number: :phone\nPlease arrive on time. If you need to reschedule, please contact us.": "🔔 Напоминание о приеме.\nУважаемый :patient_name, Ваш прием у :doctor_name через час.\n📍 Адрес клиники: :address\n⏰ Время приема: :visit_time\n📞 Контактный номер: :phone\nПожалуйста, приходите вовремя. Если вам нужно перенести прием, свяжитесь с нами.",
-    "🔔 Appointment Reminder\nDear :doctor_name, you have an appointment in 1 hour!\n👤 Patient: :patient_name\n📞 Contact Number: :phone\n⏰ Time: :visit_time": "🔔 Напоминание о приеме пациента.\nУважаемый :doctor_name, у вас прием пациента через 1 час!\n👤 Пациент: :patient_name\n📞 Контактный номер: :phone\n⏰ Время: :visit_time"
+    "🔔 Appointment Reminder\nDear :doctor_name, you have an appointment in 1 hour!\n👤 Patient: :patient_name\n📞 Contact Number: :phone\n⏰ Time: :visit_time": "🔔 Напоминание о приеме пациента.\nУважаемый :doctor_name, у вас прием пациента через 1 час!\n👤 Пациент: :patient_name\n📞 Контактный номер: :phone\n⏰ Время: :visit_time",
+    "completed": "Завершен",
+    "Profile": "Профиль",
+    "Appearance": "Дизайн"
 }

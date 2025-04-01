@@ -70,10 +70,17 @@ const dateSelected = (date: any) => {
                                 <TableRow v-for="doctor in doctors" class="h-[50px] border-collapse border" :key="'doctor_' + doctor.id">
                                     <TableCell class="h-[50px] border-collapse overflow-hidden border">{{ doctor.full_name }}</TableCell>
                                     <TableCell class="h-[50px] w-[50px] border-collapse border p-0" v-for="hour in hours" :key="'hour_' + hour">
-                                        <div v-if="appointments[doctor.id][hour]" class="h-full w-full bg-green-600 p-2 text-white">
+                                        <div v-if="appointments[doctor.id][hour]" class="h-full w-full">
                                             <HoverCard>
-                                                <HoverCardTrigger class="flex h-full w-full cursor-pointer items-center justify-center">
-                                                    <div>{{ trans('scheduled') }}</div>
+                                                <HoverCardTrigger
+                                                    :class="{
+                                                        'bg-sky-600': appointments[doctor.id][hour][0].status == 'scheduled',
+                                                        'bg-red-500': appointments[doctor.id][hour][0].status == 'canceled',
+                                                        'bg-green-600': appointments[doctor.id][hour][0].status == 'completed',
+                                                    }"
+                                                    class="flex h-full w-full cursor-pointer items-center justify-center p-2 text-white"
+                                                >
+                                                    <div>{{ trans('' + appointments[doctor.id][hour][0].status) }}</div>
                                                 </HoverCardTrigger>
                                                 <HoverCardContent>
                                                     <div
@@ -83,6 +90,7 @@ const dateSelected = (date: any) => {
                                                     >
                                                         <div class="mb-1">{{ appointment.visit_at }}</div>
                                                         <div>{{ appointment.patient }}</div>
+                                                        <div>{{ trans('' + appointment.status) }}</div>
                                                     </div>
                                                 </HoverCardContent>
                                             </HoverCard>

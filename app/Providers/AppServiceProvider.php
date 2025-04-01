@@ -35,5 +35,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('doctor', function (User $user) {
             return $user->is_doctor;
         });
+        Gate::define('patient', function (User $user) {
+            return $user->is_patient;
+        });
     }
 }

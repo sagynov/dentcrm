@@ -26,7 +26,7 @@ class DoctorController extends Controller
             ]);
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $doctors = $clinic->doctors()->orderByPivot('created_at','desc')->paginate(10);
+        $doctors = $clinic->doctors()->orderByPivot('created_at','desc')->paginate();
         return Inertia::render('owner/doctor/Index', [
             'doctors' => DoctorResource::collection($doctors)
         ]);
@@ -38,7 +38,7 @@ class DoctorController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'speciality' => 'required',
-            'phone' => 'required|string',
+            'phone' => 'required|phone',
         ]);
         if(!Auth::user()->active_clinic) {
             abort(403);

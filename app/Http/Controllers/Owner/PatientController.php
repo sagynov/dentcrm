@@ -28,7 +28,7 @@ class PatientController extends Controller
             ]);
         }
         $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate(5);
+        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
         return Inertia::render('owner/patient/Index', [
             'patients' => PatientResource::collection($patients)
         ]);
@@ -40,7 +40,7 @@ class PatientController extends Controller
             'iin' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'phone' => 'required|string',
+            'phone' => 'required|phone',
             'birth_date' => 'required|date_format:d-m-Y'
         ]);
         $clinic = Auth::user()->clinics()->where('clinic_id', Auth::user()->active_clinic)->first();

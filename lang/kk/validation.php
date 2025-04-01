@@ -278,14 +278,16 @@ return [
         'winner'                   => 'winner',
         'work'                     => 'work',
         'year'                     => 'жыл',
-        'name' => 'Есіміңіз',
+        'name' => 'Есім (немесе Атауы)',
         'phone' => 'Ұялы телефон',
         'email' => 'Электронды почта',
         'password' => 'Құпиясөз',
-        'title' => 'Тақырып',
-        'description' => 'Сипаттамасы',
-        'thumbnail' => 'Миниатюра',
-        'video' => 'Видео',
+        'speciality' => 'Мамандық',
+        'patient_id' => 'Пациент',
+        'doctor_id' => 'Дәрігер',
+        'visit_time' => 'Қабылдау уақыты',
+        'iin' => 'ИИН',
+        'birth_date' => 'Туған жылы'
     ],
      'phone'=> 'Қате :attribute'
 ];

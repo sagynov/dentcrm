@@ -282,10 +282,12 @@ return [
         'phone' => 'Номер телефона',
         'email' => 'Почта',
         'password' => 'Пароль',
-        'title' => 'Заголовок',
-        'description' => 'Описание',
-        'thumbnail' => 'Миниатюра',
-        'video' => 'Видео',
+        'speciality' => 'Специальность',
+        'patient_id' => 'Пациент',
+        'doctor_id' => 'Врач',
+        'visit_time' => 'Время приема',
+        'iin' => 'ИИН',
+        'birth_date' => 'Дата рождения'
     ],
     'phone'=> 'Неверный :attribute'
 ];
