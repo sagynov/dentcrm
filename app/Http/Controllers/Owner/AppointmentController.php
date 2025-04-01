@@ -69,6 +69,9 @@ class AppointmentController extends Controller
             'visit_time' => 'required|date_format:H:i',
             'notes' => 'nullable|string'
         ]);
+        if(!Auth::user()->active_clinic) {
+            abort(403);
+        }
         $validated['clinic_id'] = Auth::user()->active_clinic;
         $visit_date = date('Y-m-d', strtotime($validated['visit_date']));
         $validated['visit_at'] = date('Y-m-d H:i:s', strtotime($visit_date.' '.$validated['visit_time']));

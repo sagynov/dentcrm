@@ -43,6 +43,9 @@ class PatientController extends Controller
             'phone' => 'required|phone',
             'birth_date' => 'required|date_format:d-m-Y'
         ]);
+        if(!Auth::user()->active_clinic) {
+            abort(403);
+        }
         $clinic = Auth::user()->clinics()->where('clinic_id', Auth::user()->active_clinic)->first();
         $check_phone = User::where('phone', $validated['phone'])->first();
         $check_iin = Patient::where('iin', $validated['iin'])->first();

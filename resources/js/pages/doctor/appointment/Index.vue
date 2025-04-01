@@ -18,7 +18,6 @@ import { trans } from 'laravel-vue-i18n';
 
 interface Props {
     appointments: any;
-    patients: any;
 }
 
 defineProps<Props>();
@@ -74,7 +73,7 @@ const setPage = (page: number) => {
                     </TableBody>
                 </Table>
             </div>
-            <div class="flex justify-center">
+            <div class="flex justify-center" v-if="appointments">
                 <Pagination
                     v-slot="{ page }"
                     @update:page="setPage"

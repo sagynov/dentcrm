@@ -23,13 +23,11 @@ class AppointmentController extends Controller
         if(!$user->active_clinic){
             return Inertia::render('doctor/appointment/Index', [
                 'appointments' => [],
-                'patients' => [],
             ]);
         }
         $appointments = $user->doctor->appointments()->with('patient')->paginate();
         return Inertia::render('doctor/appointment/Index', [
             'appointments' => AppointmentResource::collection($appointments),
-            'patients' => [],
         ]);
     }
 
@@ -59,6 +57,9 @@ class AppointmentController extends Controller
             'visit_time' => 'required|date_format:H:i',
             'notes' => 'nullable|string'
         ]);
+        if(!Auth::user()->active_clinic) {
+            abort(403);
+        }
         $user = Auth::user();
         $validated['doctor_id'] = $user->id;
         $validated['clinic_id'] = $user->active_clinic;
