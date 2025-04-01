@@ -73,7 +73,7 @@ const setPage = (page: number) => {
                     </TableBody>
                 </Table>
             </div>
-            <div class="flex justify-center" v-if="patients">
+            <div class="flex justify-center" v-if="patients.length > 0">
                 <Pagination
                     v-slot="{ page }"
                     @update:page="setPage"
