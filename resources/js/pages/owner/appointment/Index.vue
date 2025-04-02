@@ -9,8 +9,6 @@ import { trans } from 'laravel-vue-i18n';
 
 interface Props {
     appointments: any;
-    patients: any;
-    doctors: any;
 }
 
 defineProps<Props>();
@@ -21,7 +19,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/owner/appointments',
     },
 ];
-
 </script>
 
 <template>

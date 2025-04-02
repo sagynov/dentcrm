@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import AppointmentStatus from '../common/AppointmentStatus.vue';
-import { Link } from '@inertiajs/vue3';
 
 interface Props {
     appointments: any;

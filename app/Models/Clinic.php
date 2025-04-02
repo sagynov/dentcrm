@@ -36,4 +36,12 @@ class Clinic extends Model
     {
         return $this->belongsToMany(Patient::class,'clinic_user', 'clinic_id', 'user_id')->withTimestamps();
     }
+    public function clinic_services()
+    {
+        return $this->hasMany(ClinicService::class);
+    }
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\PatientRecordResource;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\ServiceResource;
 use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
@@ -91,6 +92,14 @@ class PatientController extends Controller
         return Inertia::render('owner/patient/Show', [
             'patient' => new PatientResource($patient),
             'appointments' => AppointmentResource::collection($appointments),
+        ]);
+    }
+    public function getServices(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $services = $patient->services()->with('doctor')->get();
+        return response()->json([
+            'services' => ServiceResource::collection($services),
         ]);
     }
 }

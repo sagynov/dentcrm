@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useForm } from '@inertiajs/vue3';
@@ -9,7 +11,7 @@ import axios from 'axios';
 import { trans } from 'laravel-vue-i18n';
 import DatePicker from 'primevue/datepicker';
 import InputMask from 'primevue/inputmask';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import VueMultiselect from 'vue-multiselect';
 
 interface Props {
@@ -26,23 +28,39 @@ onMounted(() => {
         doctors.value.push(props.doctor);
         selectedDoctor.value = props.doctor;
     }
+    axios.get(route('owner.clinics.get-services')).then(({ data }) => {
+        clinic_services.value = data.services;
+    });
 });
 
-const patients = ref([]);
+const patients: any = ref([]);
 const doctors: any = ref([]);
+const clinic_services: any = ref([]);
+const services: any = ref([]);
 
 const openDialog = ref(false);
 
 const selectedPatient = ref();
 const selectedDoctor = ref();
+const showServiceType = computed(() => {
+    if (form.service_id == '0') {
+        return true;
+    }
+    return false;
+});
 
 const form = useForm({
     patient_id: '',
     doctor_id: '',
+    service_id: '',
     visit_date: props.date ? new Date(props.date) : new Date(),
     visit_time: props.time ?? '',
     notes: '',
     from: props.from ?? '',
+    clinic_service_id: '',
+    service_name: '',
+    service_price: '',
+    service_description: '',
 });
 
 const { toast } = useToast();
@@ -99,6 +117,28 @@ const searchDoctor = (event: any) => {
 const nameIIN = (patient: any) => {
     return patient.full_name + ' (' + patient.iin + ')';
 };
+
+const onSelect = (patient: any) => {
+    axios.get(route('owner.patients.get-services', patient.id)).then(({ data }) => {
+        services.value = data.services;
+    });
+};
+
+const selectClinicService = (event: any) => {
+    form.clinic_service_id = event.id;
+    form.service_name = event.name;
+    form.service_price = event.base_price;
+    form.service_description = event.description;
+};
+const selectService = (service: any) => {
+    if (service !== '0') {
+        doctors.value.push(service.doctor);
+        selectedDoctor.value = service.doctor;
+        form.service_id = service.id;
+    } else {
+        form.service_id = '0';
+    }
+};
 </script>
 
 <template>
@@ -112,12 +152,62 @@ const nameIIN = (patient: any) => {
                 :options="patients"
                 @search-change="searchPatient"
                 :custom-label="nameIIN"
+                @select="onSelect"
             >
                 <template #noResult>{{ trans('Enter the patient name') }}</template>
                 <template #noOptions>{{ trans('Enter the patient name') }}</template>
             </VueMultiselect>
             <InputError :message="form.errors.patient_id" />
         </div>
+
+        <div class="flex flex-col gap-4">
+            <Label>{{ trans('Service') }} <span class="text-red-400">*</span></Label>
+            <Select @update:model-value="selectService">
+                <SelectTrigger>
+                    <SelectValue :placeholder="trans('Select')" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem v-for="service in services" :key="'service_' + service.id" :value="service">
+                        {{ service.name }}
+                    </SelectItem>
+                    <SelectItem value="0">
+                        {{ trans('New Service') }}
+                    </SelectItem>
+                </SelectContent>
+            </Select>
+            <InputError :message="form.errors.service_id" />
+        </div>
+        <template v-if="showServiceType">
+            <div class="flex flex-col gap-4">
+                <Label>{{ trans('Service type') }} <span class="text-red-400">*</span></Label>
+                <Select @update:model-value="selectClinicService">
+                    <SelectTrigger>
+                        <SelectValue :placeholder="trans('Select')" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem v-for="clinic_service in clinic_services" :key="'clinic_service_' + clinic_service.id" :value="clinic_service">
+                            {{ clinic_service.name }}
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
+                <InputError :message="form.errors.clinic_service_id" />
+            </div>
+            <div class="flex flex-col gap-4">
+                <Label for="service_name">{{ trans('Service name') }} <span class="text-red-400">*</span></Label>
+                <Input id="service_name" v-model="form.service_name" class="col-span-3" autocomplete="off" />
+                <InputError :message="form.errors.service_name" />
+            </div>
+            <div class="flex flex-col gap-4">
+                <Label for="service_price">{{ trans('Price') }} <span class="text-red-400">*</span></Label>
+                <Input id="service_price" v-model="form.service_price" class="col-span-3" autocomplete="off" />
+                <InputError :message="form.errors.service_price" />
+            </div>
+            <div class="flex flex-col gap-4">
+                <Label for="service_description">{{ trans('Description') }}</Label>
+                <Textarea id="service_description" v-model="form.service_description" class="col-span-3" autocomplete="off" />
+                <InputError :message="form.errors.service_description" />
+            </div>
+        </template>
         <div class="flex flex-col gap-4">
             <Label for="doctor_id">{{ trans('Doctor') }} <span class="text-red-400">*</span></Label>
             <VueMultiselect

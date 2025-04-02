@@ -6,11 +6,10 @@ use App\Models\Clinic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClinicResource;
+use App\Http\Resources\ClinicServiceResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class ClinicController extends Controller
 {
@@ -23,6 +22,15 @@ class ClinicController extends Controller
         $clinics = Auth::user()->clinics()->paginate();
         return Inertia::render('owner/clinic/Index', [
             'clinics' => ClinicResource::collection($clinics),
+        ]);
+    }
+    public function getServices()
+    {
+        $user = Auth::user();
+        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
+        $services = $clinic->clinic_services()->get();
+        return response()->json([
+            'services' => ClinicServiceResource::collection($services),
         ]);
     }
 
@@ -58,8 +66,23 @@ class ClinicController extends Controller
     public function show(Clinic $clinic)
     {
         Gate::authorize('view', $clinic);
+        $services = $clinic->clinic_services()->paginate();
+        return Inertia::render('owner/clinic/Show', [
+            'clinic' => new ClinicResource($clinic),
+            'services' => ClinicServiceResource::collection($services),
+        ]);
     }
 
+    public function addService(Request $request, Clinic $clinic)
+    {
+        Gate::authorize('update', $clinic);
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'base_price' => 'required',
+            'description' => 'nullable|string'
+        ]);
+        $clinic->clinic_services()->create($validated);
+    }
     /**
      * Show the form for editing the specified resource.
      */

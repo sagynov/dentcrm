@@ -38,7 +38,7 @@ const setTab = (event: any) => {
 </script>
 
 <template>
-    <Head :title="trans('Patients')" />
+    <Head :title="patient.full_name" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">

@@ -4,7 +4,7 @@ import ClinicAdd from '@/components/owner/ClinicAdd.vue';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
 interface Props {
@@ -47,7 +47,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </TableHeader>
                     <TableBody>
                         <TableRow v-for="clinic in clinics.data" :key="'clinic_' + clinic.id">
-                            <TableCell>{{ clinic.name }}</TableCell>
+                            <TableCell>
+                                <Link :href="route('owner.clinics.show', clinic.id)" class="text-sky-600">
+                                    {{ clinic.name }}
+                                </Link>
+                            </TableCell>
                             <TableCell>{{ trans('' + clinic.specialization) }}</TableCell>
                             <TableCell>{{ clinic.address }}</TableCell>
                             <TableCell>{{ clinic.phone }}</TableCell>

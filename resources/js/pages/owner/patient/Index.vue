@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import PatientAdd from '@/components/owner/PatientAdd.vue';
+import Paginator from '@/components/common/Paginator.vue';
 import PatientSearch from '@/components/common/PatientSearch.vue';
+import PatientAdd from '@/components/owner/PatientAdd.vue';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import Paginator from '@/components/common/Paginator.vue';
 
 interface Props {
     patients: any;
@@ -23,7 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const onSelect = (patient: any) => {
     router.visit(route('owner.patients.show', patient.id));
-}
+};
 </script>
 
 <template>

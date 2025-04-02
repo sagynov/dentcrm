@@ -22,8 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const onSelect = (patient: any) => {
     router.visit(route('doctor.patients.show', patient.id));
-}
-
+};
 </script>
 
 <template>
