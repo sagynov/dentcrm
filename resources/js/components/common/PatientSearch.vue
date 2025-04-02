@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { trans } from 'laravel-vue-i18n';
 import { ref } from 'vue';
 import VueMultiselect from 'vue-multiselect';
+
+const emit = defineEmits(['onSelect']);
 
 const patients: any = ref([]);
 
@@ -23,7 +24,7 @@ const searchPatient = (event: any) => {
 };
 
 const onSelect = (patient: any) => {
-    router.visit(route('doctor.patients.show', patient.id));
+    emit('onSelect', patient);
 };
 
 const nameIIN = (patient: any) => {

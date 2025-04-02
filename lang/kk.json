@@ -333,7 +333,7 @@
     "Empty": "Бос",
     "🔔 Appointment Reminder\nDear :patient_name, Your appointment with :doctor_name is in 1 hour.\n📍 Clinic Address: :address\n⏰ Appointment Time: :visit_time\n📞 Contact Number: :phone\nPlease arrive on time. If you need to reschedule, please contact us.": "🔔 Қабылдау туралы еске салу.\nҚұрметті :patient_name, Сіздің :doctor_name қабылдауына 1 сағат қалды.\n📍 Клиника мекенжайы: :address\n⏰ Қабылдау уақыты: :visit_time\n📞 Байланыс нөмірі: :phone\nУақытында келіңіз. Егер сізге қайта жоспарлау қажет болса хабарласыңыз.",
     "🔔 Appointment Reminder\nDear :doctor_name, you have an appointment in 1 hour!\n👤 Patient: :patient_name\n📞 Contact Number: :phone\n⏰ Time: :visit_time": "🔔 Пациент қабылдау туралы еске салу.\nҚұрметті :doctor_name, сізде 1 сағаттан кейін пациент қабылдауы бар!\n👤 Пациент: :patient_name\n📞 Байланыс нөмірі: :phone\n⏰ Уақыты: :visit_time",
-    "completed": "Орындалды",
+    "completed": "Орындал.",
     "Profile": "Профиль",
     "Appearance": "Дизайн",
     "Patient appointments": "Қабылдау журналы"

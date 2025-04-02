@@ -1,22 +1,12 @@
 <script setup lang="ts">
 import PatientAdd from '@/components/owner/PatientAdd.vue';
-import PatientSearch from '@/components/owner/PatientSearch.vue';
-import { Button } from '@/components/ui/button';
-import {
-    Pagination,
-    PaginationEllipsis,
-    PaginationFirst,
-    PaginationLast,
-    PaginationList,
-    PaginationListItem,
-    PaginationNext,
-    PaginationPrev,
-} from '@/components/ui/pagination';
+import PatientSearch from '@/components/common/PatientSearch.vue';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
+import Paginator from '@/components/common/Paginator.vue';
 
 interface Props {
     patients: any;
@@ -31,9 +21,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const setPage = (page: number) => {
-    router.get(route('owner.patients.index'), { page }, { preserveState: true, preserveScroll: true });
-};
+const onSelect = (patient: any) => {
+    router.visit(route('owner.patients.show', patient.id));
+}
 </script>
 
 <template>
@@ -50,7 +40,7 @@ const setPage = (page: number) => {
                 </div>
             </div>
             <div class="mb-4">
-                <PatientSearch />
+                <PatientSearch @on-select="onSelect" />
             </div>
             <div class="max-w-full overflow-x-auto">
                 <Table>
@@ -77,33 +67,8 @@ const setPage = (page: number) => {
                     </TableBody>
                 </Table>
             </div>
-            <div class="flex justify-center" v-if="patients.length > 0">
-                <Pagination
-                    v-slot="{ page }"
-                    @update:page="setPage"
-                    :items-per-page="patients.meta.per_page"
-                    :total="patients.meta.total"
-                    :sibling-count="1"
-                    show-edges
-                    :default-page="patients.meta.current_page"
-                >
-                    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-                        <PaginationFirst />
-                        <PaginationPrev />
-
-                        <template v-for="(item, index) in items">
-                            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                                <Button class="h-9 w-9 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                                    {{ item.value }}
-                                </Button>
-                            </PaginationListItem>
-                            <PaginationEllipsis v-else :key="item.type" :index="index" />
-                        </template>
-
-                        <PaginationNext />
-                        <PaginationLast />
-                    </PaginationList>
-                </Pagination>
+            <div class="flex justify-center">
+                <Paginator :url="route('owner.patients.index')" :items="patients" />
             </div>
         </div>
     </AppLayout>

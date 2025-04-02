@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Models\Clinic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClinicResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
@@ -19,9 +20,9 @@ class ClinicController extends Controller
     public function index()
     {
         Gate::authorize('viewAny', Clinic::class);
-        $clinics = Auth::user()->clinics;
+        $clinics = Auth::user()->clinics()->paginate();
         return Inertia::render('owner/clinic/Index', [
-            'clinics' => $clinics
+            'clinics' => ClinicResource::collection($clinics),
         ]);
     }
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Paginator from '@/components/common/Paginator.vue';
 import ClinicAdd from '@/components/owner/ClinicAdd.vue';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -45,7 +46,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="clinic in clinics" :key="'clinic_' + clinic.id">
+                        <TableRow v-for="clinic in clinics.data" :key="'clinic_' + clinic.id">
                             <TableCell>{{ clinic.name }}</TableCell>
                             <TableCell>{{ trans('' + clinic.specialization) }}</TableCell>
                             <TableCell>{{ clinic.address }}</TableCell>
@@ -53,6 +54,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </TableRow>
                     </TableBody>
                 </Table>
+            </div>
+            <div class="flex justify-center">
+                <Paginator :url="route('owner.clinics.index')" :items="clinics" />
             </div>
         </div>
     </AppLayout>
