@@ -4,7 +4,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { type NavItem, type SharedData, type User } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { BriefcaseMedical, CalendarDays, HandHeart, Handshake, LayoutGrid, ShoppingBag, Stethoscope } from 'lucide-vue-next';
+import { BriefcaseMedical, CalendarDays, CreditCard, HandHeart, Handshake, LayoutGrid, ShoppingBag, Stethoscope } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const items: NavItem[] = [
@@ -17,6 +17,11 @@ const items: NavItem[] = [
         title: trans('My clinics'),
         href: '/owner/clinics',
         icon: BriefcaseMedical,
+    },
+    {
+        title: trans('Patient payments'),
+        href: '/owner/deposits',
+        icon: CreditCard,
     },
     {
         title: trans('Services'),
@@ -53,7 +58,7 @@ const form = useForm({
     active_clinic: '',
 });
 
-const active_clinic = ref(user.active_clinic);
+const active_clinic = ref(user.active_clinic.id);
 const selectClinic = (value: any) => {
     form.active_clinic = value;
     form.post(route('set-active-clinic'), {

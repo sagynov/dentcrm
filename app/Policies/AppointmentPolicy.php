@@ -37,7 +37,8 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment): bool
     {
-        return $user->is_owner;
+
+        return $user->active_clinic->appointments()->where('id', $appointment->id)->exists();
     }
 
     /**

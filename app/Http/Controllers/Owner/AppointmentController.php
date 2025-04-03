@@ -12,28 +12,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class AppointmentController extends Controller
+class AppointmentController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return ['can:has_clinic'];
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        Gate::authorize('viewAny', Appointment::class);
         $user = Auth::user();
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        if($clinic){
-            $appointments = $clinic->appointments()->with('patient', 'doctor', 'service')->paginate();
-
-            return Inertia::render('owner/appointment/Index', [
-                'appointments' => AppointmentResource::collection($appointments),
-            ]);
-        }
+        $appointments = $user->active_clinic->appointments()->with('patient', 'doctor', 'service')->paginate();
         return Inertia::render('owner/appointment/Index', [
-            'appointments' => [],
-            'patients' => [],
-            'doctors' => []
+            'appointments' => AppointmentResource::collection($appointments),
         ]);
     }
 
@@ -49,12 +44,8 @@ class AppointmentController extends Controller
             'from' => 'nullable'
         ]);
         $user = Auth::user();
-        if(!$user->active_clinic){
-            abort(403);
-        }
         if(isset($validated['doctor'])){
-            $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-            $doctor = $clinic->doctors()->find($validated['doctor']);
+            $doctor = $user->active_clinic->doctors()->find($validated['doctor']);
             if($doctor){
                 $validated['doctor'] = new DoctorResource($doctor);
             }else{
@@ -69,7 +60,6 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create', Appointment::class);
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',
@@ -82,10 +72,7 @@ class AppointmentController extends Controller
             'service_price' => 'nullable|numeric',
             'service_description' => 'nullable|string'
         ]);
-        if(!Auth::user()->active_clinic) {
-            abort(403);
-        }
-        $validated['clinic_id'] = Auth::user()->active_clinic;
+        $validated['clinic_id'] = Auth::user()->active_clinic->id;
         $visit_date = date('Y-m-d', strtotime($validated['visit_date']));
         $validated['visit_at'] = date('Y-m-d H:i:s', strtotime($visit_date.' '.$validated['visit_time']));
         $validated['status'] = 'scheduled';
@@ -93,7 +80,7 @@ class AppointmentController extends Controller
         if($validated['service_id'] == '0') {
             $validated['service_id'] = $this->create_service($validated);
         }
-        Appointment::create(Arr::only($validated, ['clinic_id', 'patient_id', 'service_id', 'doctor_id', 'notes', 'visit_at', 'status']));
+        Appointment::create(Arr::only($validated, ['patient_id', 'service_id', 'doctor_id', 'notes', 'visit_at', 'status']));
         if($request->from == 'schedule'){
             return to_route('owner.schedule.index');
         }
@@ -110,6 +97,12 @@ class AppointmentController extends Controller
             'price' => $data['service_price'],
             'description' => $data['service_description']
         ]);
+    }
+
+    public function cancel(Appointment $appointment)
+    {
+        $user = Auth::user();
+        $user->active_clinic->appointments()->where('id', $appointment->id)->update(['status' => 'canceled']);
     }
 
     /**

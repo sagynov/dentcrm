@@ -18,7 +18,6 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Clinic::class);
         $clinics = Auth::user()->clinics()->paginate();
         return Inertia::render('owner/clinic/Index', [
             'clinics' => ClinicResource::collection($clinics),
@@ -27,8 +26,7 @@ class ClinicController extends Controller
     public function getServices()
     {
         $user = Auth::user();
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $services = $clinic->clinic_services()->get();
+        $services = $user->active_clinic->clinic_services()->get();
         return response()->json([
             'services' => ClinicServiceResource::collection($services),
         ]);

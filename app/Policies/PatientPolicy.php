@@ -25,8 +25,7 @@ class PatientPolicy
         if($user->id == $patient->user_id) {
             return true;
         }
-        $clinic = Clinic::find($user->active_clinic);
-        return $clinic->patients->contains($patient->user_id);
+        return $user->active_clinic->patients()->wherePivot('user_id', $patient->user_id)->exists();
     }
 
     /**

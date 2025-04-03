@@ -3,6 +3,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import AppointmentStatus from '../common/AppointmentStatus.vue';
+import AppointmentAction from './AppointmentAction.vue';
 
 interface Props {
     appointments: any;
@@ -21,6 +22,7 @@ defineProps<Props>();
                 <TableHead>{{ trans('Doctor') }}</TableHead>
                 <TableHead>{{ trans('Notes') }}</TableHead>
                 <TableHead>{{ trans('Status') }}</TableHead>
+                <TableHead>{{ trans('Action') }}</TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
@@ -33,8 +35,11 @@ defineProps<Props>();
                     </Link>
                 </TableCell>
                 <TableCell>{{ appointment.doctor }}</TableCell>
-                <TableCell>{{ appointment.notes }}</TableCell>
+                <TableCell class="max-w-[15rem]">{{ appointment.notes }}</TableCell>
                 <TableCell><AppointmentStatus :status="appointment.status" /> </TableCell>
+                <TableCell class="flex justify-center">
+                    <AppointmentAction :appointment="appointment" />
+                </TableCell>
             </TableRow>
         </TableBody>
     </Table>

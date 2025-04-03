@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Carbon\CarbonPeriod;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class DashboardController extends Controller
+class DashboardController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:has_clinic', except: ['index'])
+        ];
+    }
     public function index()
     {
         return Inertia::render('owner/dashboard/Index');
@@ -30,14 +37,7 @@ class DashboardController extends Controller
             $end_date = today()->endOfDay();
         }
         $user = Auth::user();
-        if(!$user->active_clinic){
-            return response()->json([
-                'data_keys' => [],
-                'data_values' => [],
-                'total' => []
-            ]);
-        }
-        $appointments = Appointment::select('id', 'visit_at')->where('clinic_id', $user->active_clinic)
+        $appointments = $user->active_clinic->appointments()->select('id', 'visit_at')
             ->whereBetween('visit_at', [
                 $start_date, 
                 $end_date
@@ -72,15 +72,7 @@ class DashboardController extends Controller
             $end_date = today()->endOfDay();
         }
         $user = Auth::user();
-        if(!$user->active_clinic){
-            return response()->json([
-                'data_keys' => [],
-                'data_values' => [],
-                'total' => []
-            ]);
-        }
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $doctors = $clinic->doctors()->with(['appointments' => function($q)use($start_date, $end_date) {
+        $doctors = $user->active_clinic->doctors()->with(['appointments' => function($q)use($start_date, $end_date) {
             $q->whereBetween('visit_at', [$start_date, $end_date]);
         }])->withCount('appointments')->orderBy('appointments_count', 'desc')->limit(15)->get();
         $period = CarbonPeriod::create($start_date, '1 day', $end_date);

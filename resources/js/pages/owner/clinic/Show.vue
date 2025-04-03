@@ -15,7 +15,7 @@ const props = defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: trans('Clinics'),
+        title: trans('My clinics'),
         href: '/owner/clinics',
     },
     {

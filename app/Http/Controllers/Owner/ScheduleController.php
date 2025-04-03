@@ -8,14 +8,18 @@ use App\Http\Resources\ScheduleResource;
 use Carbon\CarbonPeriod;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class ScheduleController extends Controller
+class ScheduleController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return ['can:has_clinic'];
+    }
     public function index()
     {
-        
         $start_time = today()->addHours(10);
         $end_time = today()->addHours(20);
         $data = $this->getByTime($start_time, $end_time);
@@ -46,22 +50,10 @@ class ScheduleController extends Controller
             $now[$carbon_period->format('H')] = $carbon_period->translatedFormat('j F, H:i');
         }
         $user = Auth::user();
-        if(!$user->active_clinic) {
-            return [
-                'doctors' => [],
-                'periods' => $periods,
-                'hours' => $hours,
-                'datetime' => $datetime,
-                'now' => $now,
-                'appointments' => []
-            ];
-        }
-
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
         $query = ['appointments' => function($q)use($start_time, $end_time) {
             $q->whereBetween('visit_at', [$start_time, $end_time])->orderBy('visit_at', 'asc');
         }];
-        $doctors = $clinic->doctors()->with([...$query, 'appointments.patient'])->withCount($query)->orderBy('appointments_count', 'desc')->get();
+        $doctors = $user->active_clinic->doctors()->with([...$query, 'appointments.patient'])->withCount($query)->orderBy('appointments_count', 'desc')->get();
         $appointments = [];
         foreach ($doctors as $doctor) {
             foreach($doctor->appointments as $appointment) {

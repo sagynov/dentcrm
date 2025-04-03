@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 class ClinicServiceResource extends JsonResource
 {
@@ -18,6 +19,7 @@ class ClinicServiceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'base_price' => $this->base_price,
+            'base_price_format' => Number::format($this->base_price).' ₸',
             'description' => $this->description,
         ];
     }

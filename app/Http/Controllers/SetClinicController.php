@@ -11,9 +11,8 @@ class SetClinicController extends Controller
 {
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', Clinic::class);
         $validated = $request->validate(['active_clinic' => 'required']);
         $clinic = Clinic::findOrFail($validated['active_clinic']);
-        Session::put('active_clinic', $clinic->id);
+        Session::put('active_clinic', $clinic);
     }
 }

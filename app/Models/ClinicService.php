@@ -14,6 +14,12 @@ class ClinicService extends Model
         'base_price',
         'description',
     ];
+    protected function casts(): array
+    {
+        return [
+            'base_price' => 'integer',
+        ];
+    }
 
     public function clinic()
     {

@@ -64,7 +64,7 @@ class PatientController extends Controller
             'comment' => $validated['comment'],
             'attachments' => $attachments,
             'doctor_id' => $user->id,
-            'clinic_id' => $user->active_clinic
+            'clinic_id' => $user->active_clinic->id
         ]);
     }
     /**
@@ -74,13 +74,7 @@ class PatientController extends Controller
     {
         Gate::authorize('viewAny', Patient::class);
         $user = Auth::user();
-        if(!$user->active_clinic) {
-            return Inertia::render('owner/patient/Index', [
-                'patients' => []
-            ]);
-        }
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
+        $patients = $user->active_clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
         return Inertia::render('doctor/patient/Index', [
             'patients' => PatientResource::collection($patients)
         ]);

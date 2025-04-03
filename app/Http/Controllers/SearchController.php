@@ -16,15 +16,7 @@ class SearchController extends Controller
             'query' => 'required|string'
         ]);
         $user = Auth::user();
-        if(!$user->active_clinic)
-        {
-            return response()->json([
-                'patients' => []
-            ]);
-        }
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-
-        $patients = $clinic->patients()
+        $patients = $user->active_clinic->patients()
             ->where(function($query) use ($validated) {
                 $query->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
                 ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%')
@@ -40,15 +32,7 @@ class SearchController extends Controller
             'query' => 'required|string'
         ]);
         $user = Auth::user();
-        if(!$user->active_clinic)
-        {
-            return response()->json([
-                'doctors' => []
-            ]);
-        }
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-
-        $doctors = $clinic->doctors()
+        $doctors = $user->active_clinic->doctors()
             ->where(function($query) use ($validated) {
                 $query->where(DB::raw('UPPER(first_name)'), 'LIKE','%'. mb_strtoupper($validated['query']) .'%')
                 ->orWhere(DB::raw('UPPER(last_name)'),'LIKE','%'. mb_strtoupper($validated['query']) .'%');

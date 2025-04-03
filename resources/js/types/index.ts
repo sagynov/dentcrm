@@ -27,10 +27,11 @@ export interface User {
     id: number;
     name: string;
     phone: string;
+    locale: string;
     is_owner?: boolean;
     is_doctor?: boolean;
     is_patient?: boolean;
-    active_clinic: string;
+    active_clinic: any;
     clinics: Array<any>;
     email: string;
     avatar?: string;

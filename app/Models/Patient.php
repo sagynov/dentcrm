@@ -45,4 +45,8 @@ class Patient extends Model
     {
         return $this->hasMany(Service::class, 'patient_id');
     }
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class, 'patient_id');
+    }
 }

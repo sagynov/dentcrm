@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 class ServiceResource extends JsonResource
 {
@@ -22,6 +23,7 @@ class ServiceResource extends JsonResource
             'doctor' => new DoctorResource($this->whenLoaded('doctor')),
             'name' => $this->name,
             'price' => $this->price,
+            'price_format' => Number::format($this->price).' ₸',
             'description' => $this->description,
         ];
     }

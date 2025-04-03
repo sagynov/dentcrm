@@ -18,13 +18,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Appointment::class);
         $user = Auth::user();
-        if(!$user->active_clinic){
-            return Inertia::render('doctor/appointment/Index', [
-                'appointments' => [],
-            ]);
-        }
         $appointments = $user->doctor->appointments()->with('patient')->paginate();
         return Inertia::render('doctor/appointment/Index', [
             'appointments' => AppointmentResource::collection($appointments),
@@ -36,7 +30,6 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create', Appointment::class);
         $validated = request()->validate([
             'date' => 'nullable|date',
             'time' => 'nullable|date_format:H:i',
@@ -50,19 +43,15 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create', Appointment::class);
         $validated = $request->validate([
             'patient_id' => 'required|numeric',
             'visit_date' => 'required|date',
             'visit_time' => 'required|date_format:H:i',
             'notes' => 'nullable|string'
         ]);
-        if(!Auth::user()->active_clinic) {
-            abort(403);
-        }
         $user = Auth::user();
         $validated['doctor_id'] = $user->id;
-        $validated['clinic_id'] = $user->active_clinic;
+        $validated['clinic_id'] = $user->active_clinic->id;
         $visit_date = date('Y-m-d', strtotime($validated['visit_date']));
         $validated['visit_at'] = date('Y-m-d H:i:s', strtotime($visit_date.' '.$validated['visit_time']));
         $validated['status'] = 'scheduled';

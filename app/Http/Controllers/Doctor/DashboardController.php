@@ -29,14 +29,7 @@ class DashboardController extends Controller
             $end_date = today()->endOfDay();
         }
         $user = Auth::user();
-        if(!$user->active_clinic){
-            return response()->json([
-                'data_keys' => [],
-                'data_values' => [],
-                'total' => []
-            ]);
-        }
-        $appointments = $user->doctor->appointments()->where('clinic_id', $user->active_clinic)
+        $appointments = $user->doctor->appointments()->where('clinic_id', $user->active_clinic->id)
             ->whereBetween('visit_at', [
                 $start_date, 
                 $end_date

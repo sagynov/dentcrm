@@ -28,7 +28,7 @@ const form = useForm({
     active_clinic: '',
 });
 
-const active_clinic = ref(user.active_clinic);
+const active_clinic = ref(user.active_clinic.id);
 const selectClinic = (value: any) => {
     form.active_clinic = value;
     form.post(route('set-active-clinic'), {

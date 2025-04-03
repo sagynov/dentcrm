@@ -44,4 +44,8 @@ class Clinic extends Model
     {
         return $this->hasMany(Service::class);
     }
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class);
+    }
 }

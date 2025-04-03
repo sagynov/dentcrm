@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Owner\DepositController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner\AppointmentController;
 use App\Http\Controllers\Owner\ClinicController;
@@ -15,12 +16,14 @@ Route::group([
     'as' => 'owner.',
 ], function() {
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
-    Route::get('appointment-metric', [DashboardController::class,'appointmentMetric'])->name('appointment-metric');
-    Route::get('doctor-workload', [DashboardController::class,'doctorWorkload'])->name('doctor-workload');
     Route::get('clinics/get-services', [ClinicController::class, 'getServices'])->name('clinics.get-services');
     Route::post('clinics/{clinic}/addService', [ClinicController::class, 'addService'])->name('clinics.addService');
     Route::resource('clinics', ClinicController::class);
+    Route::get('appointment-metric', [DashboardController::class,'appointmentMetric'])->name('appointment-metric');
+    Route::get('doctor-workload', [DashboardController::class,'doctorWorkload'])->name('doctor-workload');
+    Route::resource('deposits', DepositController::class);
     Route::resource('services', ServiceController::class);
+    Route::get('appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel');
     Route::resource('appointments', AppointmentController::class);
     Route::resource('doctors', DoctorController::class);
     Route::get('patients/{patient}/get-services', [PatientController::class, 'getServices'])->name('patients.get-services');

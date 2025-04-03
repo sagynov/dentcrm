@@ -2,6 +2,7 @@
 import Toaster from '@/components/ui/toast/Toaster.vue';
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
+import ConfirmDialog from 'primevue/confirmdialog';
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
@@ -14,6 +15,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <Toaster />
+    <ConfirmDialog />
     <AppLayout :breadcrumbs="breadcrumbs">
         <slot />
     </AppLayout>

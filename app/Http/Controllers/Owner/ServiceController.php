@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClinicServiceResource;
 use App\Http\Resources\ServiceResource;
-use App\Models\Clinic;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +18,10 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $clinic = Clinic::find(Auth::user()->active_clinic);
-        $services = $clinic->services()->with('patient', 'doctor')->paginate();
-        $clinic_services = $clinic->clinic_services;
-        return Inertia::render('owner/services/Index', [
+        $user = Auth::user();
+        $services = $user->active_clinic->services()->with('patient', 'doctor')->paginate();
+        $clinic_services = $user->active_clinic->clinic_services;
+        return Inertia::render('owner/service/Index', [
             'services' => ServiceResource::collection($services),
             'clinic_services' => ClinicServiceResource::collection($clinic_services),
         ]);
@@ -51,8 +50,7 @@ class ServiceController extends Controller
             'description' => 'nullable|string'
         ]);
         $user = Auth::user();
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $clinic->services()->create($validated);
+        $user->active_clinic->services()->create($validated);
     }
 
     /**

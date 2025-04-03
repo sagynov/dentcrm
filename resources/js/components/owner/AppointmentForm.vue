@@ -171,7 +171,7 @@ const selectService = (service: any) => {
                         {{ service.name }}
                     </SelectItem>
                     <SelectItem value="0">
-                        {{ trans('New Service') }}
+                        {{ trans('New service') }}
                     </SelectItem>
                 </SelectContent>
             </Select>

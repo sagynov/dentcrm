@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { SharedData } from '@/types';
+import { SharedData, User } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { ref } from 'vue';
 
 const page = usePage<SharedData>();
-const locale = ref(page.props.locale);
+const user = page.props.auth.user as User;
+const locale = ref(user.locale);
 const available_locales = ref(page.props.available_locales);
 
 const flags = (current_locale: any) => {

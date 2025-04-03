@@ -5,6 +5,7 @@ import Aura from '@primeuix/themes/aura';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { i18nVue } from 'laravel-vue-i18n';
 import PrimeVue from 'primevue/config';
+import ConfirmationService from 'primevue/confirmationservice';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
@@ -43,6 +44,7 @@ createInertiaApp({
                     monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 },
             })
+            .use(ConfirmationService)
             .use(i18nVue, {
                 resolve: async (lang: string) => {
                     const langs = import.meta.glob('../../lang/*.json');

@@ -38,5 +38,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('patient', function (User $user) {
             return $user->is_patient;
         });
+        Gate::define('has_clinic', function (User $user) {
+            return !is_null($user->active_clinic);
+        });
     }
 }

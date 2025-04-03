@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Cache;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
@@ -64,6 +66,12 @@ class User extends Authenticatable
     {
         return 'phone';
     }
+    protected function locale(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?? Session::get('locale', config('app.locale')),
+        );
+    }
     
     public function preferredLocale(): string
     {
@@ -91,11 +99,12 @@ class User extends Authenticatable
         if(Session::get('active_clinic')) {
             return Session::get('active_clinic');
         }
-        if($this->clinics()->count() > 0) {
-            Session::put('active_clinic', $this->clinics()->first()->id);
-            return $this->clinics()->first()->id;
+        elseif($this->clinics()->count() > 0) {
+            $clinic = $this->clinics()->first();
+            Session::put('active_clinic', $clinic);
+            return $clinic;
         }
-        return 0;
+        return;
     }
     public function clinics()
     {

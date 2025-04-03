@@ -14,30 +14,27 @@ use App\Http\Resources\ServiceResource;
 use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class PatientController extends Controller
+class PatientController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return ['can:has_clinic'];
+    }
     public function index()
     {
-        Gate::authorize('viewAny', Patient::class);
         $user = Auth::user();
-        if(!$user->active_clinic) {
-            return Inertia::render('owner/patient/Index', [
-                'patients' => []
-            ]);
-        }
-        $clinic = $user->clinics()->wherePivot('clinic_id', $user->active_clinic)->first();
-        $patients = $clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
+        $patients = $user->active_clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
         return Inertia::render('owner/patient/Index', [
             'patients' => PatientResource::collection($patients)
         ]);
     }
     public function store(Request $request)
     {
-        Gate::authorize('create', Patient::class);
         $validated = $request->validate([
             'iin' => 'required',
             'first_name' => 'required',
@@ -45,18 +42,15 @@ class PatientController extends Controller
             'phone' => 'required|phone',
             'birth_date' => 'required|date_format:d-m-Y'
         ]);
-        if(!Auth::user()->active_clinic) {
-            abort(403);
-        }
-        $clinic = Auth::user()->clinics()->where('clinic_id', Auth::user()->active_clinic)->first();
+        $user = Auth::user();
         $check_phone = User::where('phone', $validated['phone'])->first();
         $check_iin = Patient::where('iin', $validated['iin'])->first();
         if($check_iin){
-            $clinic->users()->syncWithoutDetaching($check_iin->user_id);
+            $user->active_clinic->users()->syncWithoutDetaching($check_iin->user_id);
         }
         elseif($check_phone) {
             if($check_phone->is_patient){
-                $clinic->users()->syncWithoutDetaching($check_phone->id);
+                $user->active_clinic->users()->syncWithoutDetaching($check_phone->id);
             }else{
                 throw ValidationException::withMessages(['phone' => __('This number is already registered')]);
             }
@@ -72,14 +66,13 @@ class PatientController extends Controller
             $birthdate = Carbon::createFromFormat('d-m-Y', $validated['birth_date']);
             $request->merge(['birth_date' => $birthdate->format('Y-m-d')]);
             $new_user->patient()->create($request->only('iin', 'first_name', 'last_name', 'birth_date'));
-            $clinic = $request->user()->clinics()->where('clinic_id', $request->user()->active_clinic)->first();
-            $clinic->users()->syncWithoutDetaching($new_user->id);
+            $user->active_clinic->users()->syncWithoutDetaching($new_user->id);
         }
     }
     public function show(Patient $patient)
     {
         Gate::authorize('view', $patient);
-        $records = $patient->records()->with(['doctor'])->paginate();
+        $records = $patient->records()->with(['doctor', 'clinic'])->paginate();
         return Inertia::render('owner/patient/Show', [
             'patient' => new PatientResource($patient),
             'records' => PatientRecordResource::collection($records),
