@@ -359,5 +359,9 @@
     "New service": "Новая услуга",
     "Created at": "Создан в",
     "Clinic services": "Услуги клиники",
-    "Base price": "Базовая цена"
+    "Base price": "Базовая цена",
+    "Paid": "Оплачен",
+    "open": "Открыт",
+    "closed": "Закрыт",
+    "Patient services": "История услуг"
 }

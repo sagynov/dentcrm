@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { trans } from 'laravel-vue-i18n';
 import Paginator from '../common/Paginator.vue';
-import AppointmentTable from '../owner/AppointmentTable.vue';
+import ServiceTable from './ServiceTable.vue';
 
 interface Props {
     patient: any;
-    appointments: any;
+    services: any;
 }
 defineProps<Props>();
 </script>
@@ -13,15 +13,15 @@ defineProps<Props>();
     <div class="my-4 max-w-full">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h3 class="font-medium text-gray-700">{{ trans('Patient appointments') }}</h3>
+                <h3 class="font-medium text-gray-700">{{ trans('Patient services') }}</h3>
             </div>
             <div class="flex justify-end"></div>
         </div>
         <div class="max-w-full overflow-x-auto">
-            <AppointmentTable :appointments="appointments.data" />
+            <ServiceTable :services="services.data" />
         </div>
     </div>
     <div class="flex justify-center">
-        <Paginator :url="route('owner.patients.appointments', patient.id)" :items="appointments" />
+        <Paginator :url="route('owner.patients.services', patient.id)" :items="services" />
     </div>
 </template>

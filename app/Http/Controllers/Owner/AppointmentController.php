@@ -80,7 +80,7 @@ class AppointmentController extends Controller implements HasMiddleware
         if($validated['service_id'] == '0') {
             $validated['service_id'] = $this->create_service($validated);
         }
-        Appointment::create(Arr::only($validated, ['patient_id', 'service_id', 'doctor_id', 'notes', 'visit_at', 'status']));
+        Appointment::create(Arr::only($validated, ['clinic_id', 'patient_id', 'service_id', 'doctor_id', 'notes', 'visit_at', 'status']));
         if($request->from == 'schedule'){
             return to_route('owner.schedule.index');
         }

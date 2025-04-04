@@ -9,35 +9,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { EllipsisVertical } from 'lucide-vue-next';
-import { useConfirm } from 'primevue/useconfirm';
 
 interface Props {
-    appointment: any;
+    service: any;
 }
 
-const props = defineProps<Props>();
-
-const confirm = useConfirm();
-const cancel = () => {
-    confirm.require({
-        message: trans('Do you want to cancel your appointment?'),
-        header: trans('Confirmation'),
-        rejectProps: {
-            label: trans('Cancel'),
-            severity: 'secondary',
-            outlined: true,
-        },
-        acceptProps: {
-            label: trans('Yes'),
-        },
-        accept: () => {
-            router.visit(route('owner.appointments.cancel', props.appointment.id));
-        },
-    });
-};
+defineProps<Props>();
 </script>
 <template>
     <DropdownMenu>
@@ -51,9 +30,7 @@ const cancel = () => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem>
-                    <a class="block w-full cursor-pointer" @click.prevent="cancel" v-if="appointment.status == 'scheduled'">
-                        {{ trans('Cancel') }}
-                    </a>
+                    <span>{{ trans('Close') }}</span>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
         </DropdownMenuContent>

@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Owner;
+namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClinicServiceResource;
 use App\Http\Resources\ServiceResource;
-use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ServiceController extends Controller implements HasMiddleware
@@ -24,9 +22,9 @@ class ServiceController extends Controller implements HasMiddleware
     public function index()
     {
         $user = Auth::user();
-        $services = $user->active_clinic->services()->with('patient', 'doctor', 'deposits')->paginate();
+        $services = $user->doctor->services()->with('patient', 'doctor', 'deposits')->paginate();
         $clinic_services = $user->active_clinic->clinic_services;
-        return Inertia::render('owner/service/Index', [
+        return Inertia::render('doctor/service/Index', [
             'services' => ServiceResource::collection($services),
             'clinic_services' => ClinicServiceResource::collection($clinic_services),
         ]);
@@ -47,20 +45,14 @@ class ServiceController extends Controller implements HasMiddleware
     {
         $validated = $request->validate([
             'patient_id' => 'required',
-            'doctor_id' => 'required',
             'clinic_service_id' => 'required',
             'name' => 'required|string',
             'price' => 'required',
             'description' => 'nullable|string'
         ]);
         $user = Auth::user();
-        $validated['status'] = 'open';
-        $user->active_clinic->services()->create($validated);
-    }
-    public function close(Service $service)
-    {
-        $user = Auth::user();
-        $user->active_clinic->services()->where('id', $service->id)->update(['status' => 'closed']);
+        $validated['clinic_id'] = $user->active_clinic->id;
+        $user->doctor->services()->create($validated);
     }
 
     /**

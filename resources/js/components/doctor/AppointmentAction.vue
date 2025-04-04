@@ -9,32 +9,32 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Link, router } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { EllipsisVertical } from 'lucide-vue-next';
 import { useConfirm } from 'primevue/useconfirm';
 
 interface Props {
-    service: any;
+    appointment: any;
 }
 
 const props = defineProps<Props>();
-const confirm = useConfirm();
 
-const close = () => {
+const confirm = useConfirm();
+const cancel = () => {
     confirm.require({
-        message: trans('Do you want to close the service?'),
-        header: trans('Confirmation'),
+        message: 'Do you want to cancel your appointment?',
+        header: 'Confirmation',
         rejectProps: {
             label: trans('Cancel'),
             severity: 'secondary',
             outlined: true,
         },
         acceptProps: {
-            label: trans('Yes'),
+            label: 'Yes',
         },
         accept: () => {
-            router.visit(route('owner.services.close', props.service.id));
+            router.visit(route('doctor.appointments.cancel', props.appointment.id));
         },
     });
 };
@@ -50,14 +50,9 @@ const close = () => {
             <DropdownMenuLabel>{{ trans('Action') }}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-                <DropdownMenuItem v-if="service.debt > 0">
-                    <Link :href="route('owner.deposits.create') + '?patient=' + service.patient_id + '&service=' + service.id + '&from=services'">{{
-                        trans('Add deposit')
-                    }}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem v-if="service.status == 'open'">
-                    <a class="block w-full cursor-pointer" @click.prevent="close">
-                        {{ trans('Close') }}
+                <DropdownMenuItem>
+                    <a class="block w-full cursor-pointer" @click.prevent="cancel" v-if="appointment.status == 'scheduled'">
+                        {{ trans('Cancel') }}
                     </a>
                 </DropdownMenuItem>
             </DropdownMenuGroup>

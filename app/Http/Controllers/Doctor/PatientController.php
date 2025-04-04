@@ -8,6 +8,7 @@ use App\Http\Resources\PatientResource;
 use App\Models\Patient;
 use App\Models\PatientRecord;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +16,12 @@ use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Support\Number;
 
-class PatientController extends Controller
+class PatientController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return ['can:has_clinic'];
+    }
     public function uploadRecordAttachment(Request $request, Patient $patient)
     {
         Gate::authorize('create', PatientRecord::class);

@@ -4,7 +4,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { type NavItem, type SharedData, type User } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { HandHeart, Handshake, LayoutGrid } from 'lucide-vue-next';
+import { HandHeart, Handshake, LayoutGrid, ShoppingBag } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const items: NavItem[] = [
@@ -12,6 +12,12 @@ const items: NavItem[] = [
         title: trans('Dashboard'),
         href: '/doctor',
         icon: LayoutGrid,
+    },
+
+    {
+        title: trans('Services'),
+        href: '/doctor/services',
+        icon: ShoppingBag,
     },
     {
         title: trans('Appointments'),

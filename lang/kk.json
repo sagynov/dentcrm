@@ -359,5 +359,9 @@
     "New service": "Жаңа қызмет",
     "Created at": "Қосылды",
     "Clinic services": "Клиника қызметтері",
-    "Base price": "Базалық баға"
+    "Base price": "Базалық баға",
+    "Paid": "Төленді",
+    "open": "Ашық",
+    "closed": "Жабық",
+    "Patient services": "Қызмет көрсету журналы"
 }

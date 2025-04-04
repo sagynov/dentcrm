@@ -24,7 +24,11 @@ class ServiceResource extends JsonResource
             'name' => $this->name,
             'price' => $this->price,
             'price_format' => Number::format($this->price).' ₸',
+            'paid' => $this->paid,
+            'paid_format' => Number::format($this->paid).' ₸',
+            'debt' => $this->debt,
             'description' => $this->description,
+            'status' => $this->status
         ];
     }
 }

@@ -26,7 +26,7 @@ onMounted(() => {
     if (props.service) {
         services.value.push(props.service);
         selectedService.value = props.service;
-        form.amount = props.service.price;
+        form.amount = props.service.debt;
     }
 });
 
@@ -105,7 +105,7 @@ const onSelect = (patient: any) => {
     });
 };
 const selectService = (service: any) => {
-    form.amount = service.price;
+    form.amount = service.debt;
 };
 </script>
 <template>

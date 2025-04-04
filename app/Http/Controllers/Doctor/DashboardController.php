@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
-class DashboardController extends Controller
+class DashboardController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:has_clinic', except: ['index']),
+        ];
+    }
     public function index()
     {
         return Inertia::render('doctor/dashboard/Index');

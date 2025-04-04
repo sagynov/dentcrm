@@ -20,12 +20,21 @@ class Service extends Model
         'name',
         'price',
         'description',
+        'status'
     ];
     protected function casts(): array
     {
         return [
             'price' => 'integer',
         ];
+    }
+    public function getPaidAttribute(): int
+    {
+        return $this->deposits->sum('amount');
+    }
+    public function getDebtAttribute(): int
+    {
+        return $this->price - $this->paid;
     }
     public function patient()
     {
@@ -34,5 +43,9 @@ class Service extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class, 'doctor_id');
+    }
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class);
     }
 }

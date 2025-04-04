@@ -22,11 +22,15 @@ Route::group([
     Route::get('appointment-metric', [DashboardController::class,'appointmentMetric'])->name('appointment-metric');
     Route::get('doctor-workload', [DashboardController::class,'doctorWorkload'])->name('doctor-workload');
     Route::resource('deposits', DepositController::class);
+    Route::get('services/{service}/close', [ServiceController::class, 'close'])->name('services.close');
     Route::resource('services', ServiceController::class);
     Route::get('appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel');
     Route::resource('appointments', AppointmentController::class);
     Route::resource('doctors', DoctorController::class);
+    Route::get('patients/{patient}/get-all-services', [PatientController::class, 'getAllServices'])->name('patients.get-all-services');
     Route::get('patients/{patient}/get-services', [PatientController::class, 'getServices'])->name('patients.get-services');
+    Route::get('patients/{patient}/deposits', [PatientController::class, 'deposits'])->name('patients.deposits');
+    Route::get('patients/{patient}/services', [PatientController::class, 'services'])->name('patients.services');
     Route::get('patients/{patient}/appointments', [PatientController::class, 'appointments'])->name('patients.appointments');
     Route::resource('patients', PatientController::class);
     Route::get('schedule/get-schedule', [ScheduleController::class, 'getSchedule'])->name('schedules.get-schedule');

@@ -18,7 +18,7 @@ defineProps<Props>();
             <div class="flex justify-end"></div>
         </div>
         <div class="mt-4 flex flex-col gap-4">
-            <div v-for="record in records.data" :key="'record_' + record.id" class="flex flex-col gap-2 rounded-lg border p-4">
+            <div v-for="record in records.data" :key="'record_' + record.id" class="flex flex-col gap-3 rounded-lg border p-4">
                 <div class="flex items-center"><CalendarDaysIcon class="mr-2" /> {{ record.created_at }}</div>
                 <div class="flex flex-col gap-4 border-b p-4">
                     <div>{{ record.comment }}</div>
@@ -30,8 +30,10 @@ defineProps<Props>();
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center"><UserIcon class="mr-2" /> {{ record.doctor }}</div>
-                <div class="flex items-center"><BuildingIcon class="mr-2" /> {{ record.clinic }}</div>
+                <div class="flex justify-between">
+                    <div class="flex items-center"><UserIcon class="mr-2" /> {{ record.doctor }}</div>
+                    <div class="flex items-center"><BuildingIcon class="mr-2" /> {{ record.clinic }}</div>
+                </div>
                 <div class="jusify-end"></div>
             </div>
         </div>

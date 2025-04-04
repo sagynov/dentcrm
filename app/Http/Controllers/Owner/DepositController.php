@@ -9,7 +9,9 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\ServiceResource;
+use App\Models\Service;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Validation\ValidationException;
 
 class DepositController extends Controller implements HasMiddleware
 {
@@ -67,9 +69,13 @@ class DepositController extends Controller implements HasMiddleware
         $validated = $request->validate([
             'patient_id' => 'required',
             'service_id' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric|min:1',
             'payment_method' => 'required|string',
         ]);
+        $service = Service::find($validated['service_id']);
+        if($validated['amount'] > $service->debt) {
+            throw ValidationException::withMessages(['amount' => __('The amount cannot be greater than the amount of the debt')]);
+        }
         $user = Auth::user();
         $user->active_clinic->deposits()->create($validated);
         if($request->from == 'services'){

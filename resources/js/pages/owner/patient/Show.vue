@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import PatientAppointments from '@/components/owner/PatientAppointments.vue';
+import PatientDeposits from '@/components/owner/PatientDeposits.vue';
 import PatientRecords from '@/components/owner/PatientRecords.vue';
+import PatientServices from '@/components/owner/PatientServices.vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -10,12 +12,14 @@ import { trans } from 'laravel-vue-i18n';
 interface Props {
     patient: any;
     records?: any;
+    deposits?: any;
+    services?: any;
     appointments?: any;
 }
 
 const props = defineProps<Props>();
 
-const defaultValue = props.records ? 'records' : 'appointments';
+const defaultValue = props.records ? 'records' : props.deposits ? 'deposits' : props.services ? 'services' : props.appointments && 'appointments';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,6 +38,12 @@ const setTab = (event: any) => {
     if (event == 'appointments') {
         router.visit(route('owner.patients.appointments', props.patient.id));
     }
+    if (event == 'services') {
+        router.visit(route('owner.patients.services', props.patient.id));
+    }
+    if (event == 'deposits') {
+        router.visit(route('owner.patients.deposits', props.patient.id));
+    }
 };
 </script>
 
@@ -48,12 +58,19 @@ const setTab = (event: any) => {
                 </div>
                 <div class="flex flex-col gap-2">
                     <div>{{ trans('Birth date') }}: {{ patient.birth_date }}</div>
+                    <div>{{ trans('Phone') }}: {{ patient.phone }}</div>
                 </div>
             </div>
             <Tabs :default-value="defaultValue" @update:model-value="setTab">
-                <TabsList class="grid w-[400px] grid-cols-2">
+                <TabsList class="grid w-[600px] grid-cols-4">
                     <TabsTrigger value="records">
                         {{ trans('Patient records') }}
+                    </TabsTrigger>
+                    <TabsTrigger value="deposits">
+                        {{ trans('Patient deposits') }}
+                    </TabsTrigger>
+                    <TabsTrigger value="services">
+                        {{ trans('Patient services') }}
                     </TabsTrigger>
                     <TabsTrigger value="appointments">
                         {{ trans('Patient appointments') }}
@@ -61,6 +78,12 @@ const setTab = (event: any) => {
                 </TabsList>
                 <TabsContent value="records">
                     <PatientRecords v-if="records" :patient="patient" :records="records" />
+                </TabsContent>
+                <TabsContent value="deposits">
+                    <PatientDeposits v-if="deposits" :patient="patient" :deposits="deposits" />
+                </TabsContent>
+                <TabsContent value="services">
+                    <PatientServices v-if="services" :patient="patient" :services="services" />
                 </TabsContent>
                 <TabsContent value="appointments">
                     <PatientAppointments v-if="appointments" :patient="patient" :appointments="appointments" />

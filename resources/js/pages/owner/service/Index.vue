@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import Paginator from '@/components/common/Paginator.vue';
-import ServiceAction from '@/components/owner/ServiceAction.vue';
 import ServiceAdd from '@/components/owner/ServiceAdd.vue';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import ServiceTable from '@/components/owner/ServiceTable.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
 interface Props {
@@ -37,35 +36,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
             </div>
             <div class="max-w-full overflow-x-auto">
-                <Table>
-                    <TableCaption>{{ trans('A list of services') }}</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>{{ trans('Service name') }}</TableHead>
-                            <TableHead>{{ trans('Description') }}</TableHead>
-                            <TableHead>{{ trans('Price') }} </TableHead>
-                            <TableHead>{{ trans('Patient') }}</TableHead>
-                            <TableHead>{{ trans('Doctor') }}</TableHead>
-                            <TableHead>{{ trans('Action') }}</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow v-for="service in services.data" :key="'service_' + service.id">
-                            <TableCell>{{ service.name }}</TableCell>
-                            <TableCell>{{ service.description }}</TableCell>
-                            <TableCell>{{ service.price_format }}</TableCell>
-                            <TableCell>
-                                <Link :href="route('owner.patients.show', service.patient_id)" class="text-sky-600">
-                                    {{ service.patient.full_name }}
-                                </Link>
-                            </TableCell>
-                            <TableCell>{{ service.doctor.full_name }}</TableCell>
-                            <TableCell class="flex justify-center">
-                                <ServiceAction :service="service" />
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                <ServiceTable :services="services.data" />
             </div>
             <div class="flex justify-center">
                 <Paginator :url="route('owner.services.index')" :items="services" />

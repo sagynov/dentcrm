@@ -7,7 +7,7 @@ import { onMounted, ref } from 'vue';
 
 const data_keys = ref();
 const data_values = ref();
-const total = ref();
+const total = ref(0);
 
 const period = ref('week');
 

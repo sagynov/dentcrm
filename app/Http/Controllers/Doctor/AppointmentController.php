@@ -8,11 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Appointment;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
-class AppointmentController extends Controller
+class AppointmentController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return ['can:has_clinic'];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -61,6 +66,11 @@ class AppointmentController extends Controller
             return to_route('doctor.schedule.index');
         }
         return to_route('doctor.appointments.index');
+    }
+    public function cancel(Appointment $appointment)
+    {
+        $user = Auth::user();
+        $user->doctor->appointments()->where('id', $appointment->id)->update(['status' => 'canceled']);
     }
 
     /**

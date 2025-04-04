@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AppointmentResource;
+use App\Http\Resources\DepositResource;
 use App\Http\Resources\PatientRecordResource;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\ServiceResource;
@@ -74,23 +75,49 @@ class PatientController extends Controller implements HasMiddleware
         Gate::authorize('view', $patient);
         $records = $patient->records()->with(['doctor', 'clinic'])->paginate();
         return Inertia::render('owner/patient/Show', [
-            'patient' => new PatientResource($patient),
+            'patient' => new PatientResource($patient->load('user')),
             'records' => PatientRecordResource::collection($records),
         ]);
     }
     public function appointments(Patient $patient)
     {
         Gate::authorize('view', $patient);
-        $appointments = $patient->appointments()->with(['doctor', 'patient'])->paginate();
+        $appointments = $patient->appointments()->with(['doctor', 'patient', 'service'])->paginate();
         return Inertia::render('owner/patient/Show', [
-            'patient' => new PatientResource($patient),
+            'patient' => new PatientResource($patient->load('user')),
             'appointments' => AppointmentResource::collection($appointments),
+        ]);
+    }
+    public function services(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $services = $patient->services()->with(['doctor', 'patient', 'deposits'])->paginate();
+        return Inertia::render('owner/patient/Show', [
+            'patient' => new PatientResource($patient->load('user')),
+            'services' => ServiceResource::collection($services),
+        ]);
+    }
+    public function deposits(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $deposits = $patient->deposits()->with(['patient', 'service'])->paginate();
+        return Inertia::render('owner/patient/Show', [
+            'patient' => new PatientResource($patient->load('user')),
+            'deposits' => DepositResource::collection($deposits),
         ]);
     }
     public function getServices(Patient $patient)
     {
         Gate::authorize('view', $patient);
-        $services = $patient->services()->with('doctor')->get();
+        $services = $patient->services()->where('status', 'open')->with(['doctor', 'deposits'])->get();
+        return response()->json([
+            'services' => ServiceResource::collection($services),
+        ]);
+    }
+    public function getAllServices(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $services = $patient->services()->with(['doctor', 'deposits'])->get();
         return response()->json([
             'services' => ServiceResource::collection($services),
         ]);
