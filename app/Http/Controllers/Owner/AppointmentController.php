@@ -88,21 +88,25 @@ class AppointmentController extends Controller implements HasMiddleware
     }
     public function create_service($data)
     {
-        return Service::create([
+        $service = Service::create([
             'clinic_id' => $data['clinic_id'],
             'patient_id' => $data['patient_id'],
             'doctor_id' => $data['doctor_id'],
             'clinic_service_id' => $data['clinic_service_id'],
             'name' => $data['service_name'],
             'price' => $data['service_price'],
-            'description' => $data['service_description']
+            'description' => $data['service_description'],
+            'status' => 'open'
         ]);
+        return $service->id;
     }
 
     public function cancel(Appointment $appointment)
     {
         $user = Auth::user();
-        $user->active_clinic->appointments()->where('id', $appointment->id)->update(['status' => 'canceled']);
+        if($user->doctor->appointments()->where([['id', '=', $appointment->id], ['status', '=', 'scheduled']])) {
+            $appointment->update(['status' => 'canceled']);
+        }
     }
 
     /**

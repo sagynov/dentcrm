@@ -363,5 +363,8 @@
     "Paid": "Оплачен",
     "open": "Открыт",
     "closed": "Закрыт",
-    "Patient services": "История услуг"
+    "Patient services": "История услуг",
+    "Patient deposits": "История платежей",
+    "Please select a tariff plan to get started": "Пожалуйста, выберите тарифный план чтобы начать",
+    "per month": "в месяц"
 }

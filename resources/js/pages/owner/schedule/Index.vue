@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppointmentStatus from '@/components/common/AppointmentStatus.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -90,7 +91,7 @@ const dateSelected = (date: any) => {
                                                     >
                                                         <div class="mb-1">{{ appointment.visit_at }}</div>
                                                         <div>{{ appointment.patient }}</div>
-                                                        <div>{{ trans('' + appointment.status) }}</div>
+                                                        <div><AppointmentStatus :status="appointment.status" /></div>
                                                     </div>
                                                 </HoverCardContent>
                                             </HoverCard>

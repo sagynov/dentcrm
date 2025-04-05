@@ -5,6 +5,8 @@ use App\Http\Controllers\TaxpayerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\Owner\PaymentController;
+use App\Http\Controllers\Owner\PlanController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SetClinicController;
 
@@ -20,6 +22,8 @@ Route::get('/', function () {
     }
     return redirect()->route('login');
 })->name('home');
+
+Route::get('/create-plans', [PlanController::class, 'create']);
 
 Route::get('set-locale/{locale}', [SetLocaleController::class, 'setLocale'])->name('set-locale');
 

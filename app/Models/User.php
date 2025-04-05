@@ -35,7 +35,13 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-    protected $appends = array('is_owner', 'is_doctor', 'is_patient', 'is_receptionist', 'active_clinic');
+    protected $appends = array(
+        'is_owner', 
+        'is_doctor', 
+        'is_patient', 
+        'is_receptionist', 
+        'active_clinic',
+    );
 
     /**
      * The attributes that should be hidden for serialization.
@@ -110,6 +116,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Clinic::class, 'clinic_user', 'user_id', 'clinic_id')
             ->withTimestamps();
+    }
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class)->orderBy('created_at', 'desc');
     }
     public function doctor()
     {

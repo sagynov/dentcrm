@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Paginator from '@/components/common/Paginator.vue';
+import ServiceStatus from '@/components/common/ServiceStatus.vue';
 import ServiceAction from '@/components/doctor/ServiceAction.vue';
 import ServiceAdd from '@/components/doctor/ServiceAdd.vue';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -46,6 +47,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <TableHead>{{ trans('Price') }} </TableHead>
                             <TableHead>{{ trans('Paid') }} </TableHead>
                             <TableHead>{{ trans('Patient') }}</TableHead>
+                            <TableHead>{{ trans('Status') }}</TableHead>
                             <TableHead>{{ trans('Action') }}</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -59,6 +61,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 <Link :href="route('doctor.patients.show', service.patient_id)" class="text-sky-600">
                                     {{ service.patient.full_name }}
                                 </Link>
+                            </TableCell>
+                            <TableCell>
+                                <ServiceStatus :status="service.status" />
                             </TableCell>
                             <TableCell class="flex justify-center">
                                 <ServiceAction :service="service" />

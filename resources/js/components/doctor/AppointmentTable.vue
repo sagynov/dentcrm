@@ -17,6 +17,7 @@ defineProps<Props>();
         <TableHeader>
             <TableRow>
                 <TableHead>{{ trans('Visit at') }}</TableHead>
+                <TableHead>{{ trans('Service') }}</TableHead>
                 <TableHead>{{ trans('Patient') }}</TableHead>
                 <TableHead>{{ trans('Notes') }}</TableHead>
                 <TableHead>{{ trans('Status') }}</TableHead>
@@ -26,6 +27,7 @@ defineProps<Props>();
         <TableBody>
             <TableRow v-for="appointment in appointments" :key="'appointment_' + appointment.id">
                 <TableCell>{{ appointment.visit_at }}</TableCell>
+                <TableCell>{{ appointment.service }}</TableCell>
                 <TableCell>
                     <Link :href="route('doctor.patients.show', appointment.patient_id)" class="text-sky-600">
                         {{ appointment.patient }}

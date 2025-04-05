@@ -20,12 +20,14 @@ class Service extends Model
         'name',
         'price',
         'description',
-        'status'
+        'status',
+        'closed_at'
     ];
     protected function casts(): array
     {
         return [
             'price' => 'integer',
+            'closed_at' => 'datetime'
         ];
     }
     public function getPaidAttribute(): int

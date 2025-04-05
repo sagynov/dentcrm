@@ -363,5 +363,8 @@
     "Paid": "Төленді",
     "open": "Ашық",
     "closed": "Жабық",
-    "Patient services": "Қызмет көрсету журналы"
+    "Patient services": "Қызмет көрсету журналы",
+    "Patient deposits": "Төлемдер журналы",
+    "Please select a tariff plan to get started": "Жұмысты бастау үшін тарифтік жоспарды таңдаңыз",
+    "per month": "айына"
 }

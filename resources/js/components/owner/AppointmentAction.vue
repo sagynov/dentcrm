@@ -50,8 +50,8 @@ const cancel = () => {
             <DropdownMenuLabel>{{ trans('Action') }}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-                <DropdownMenuItem>
-                    <a class="block w-full cursor-pointer" @click.prevent="cancel" v-if="appointment.status == 'scheduled'">
+                <DropdownMenuItem v-if="appointment.status == 'scheduled'">
+                    <a class="block w-full cursor-pointer" @click.prevent="cancel">
                         {{ trans('Cancel') }}
                     </a>
                 </DropdownMenuItem>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PatientRecordResource;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\ServiceResource;
 use App\Models\Patient;
 use App\Models\PatientRecord;
 use Illuminate\Http\Request;
@@ -82,6 +83,22 @@ class PatientController extends Controller implements HasMiddleware
         $patients = $user->active_clinic->patients()->orderByPivot('created_at', 'desc')->paginate();
         return Inertia::render('doctor/patient/Index', [
             'patients' => PatientResource::collection($patients)
+        ]);
+    }
+    public function getServices(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $services = $patient->services()->where('status', 'open')->with(['doctor', 'deposits'])->get();
+        return response()->json([
+            'services' => ServiceResource::collection($services),
+        ]);
+    }
+    public function getAllServices(Patient $patient)
+    {
+        Gate::authorize('view', $patient);
+        $services = $patient->services()->with(['doctor', 'deposits'])->get();
+        return response()->json([
+            'services' => ServiceResource::collection($services),
         ]);
     }
 

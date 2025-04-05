@@ -60,7 +60,12 @@ class ServiceController extends Controller implements HasMiddleware
     public function close(Service $service)
     {
         $user = Auth::user();
-        $user->active_clinic->services()->where('id', $service->id)->update(['status' => 'closed']);
+        if($user->active_clinic->services()->where([['id', '=', $service->id], ['status', '=', 'open']])->exists()) {
+            $service->update([
+                'status' => 'closed',
+                'closed_at' => now()
+            ]);
+        }
     }
 
     /**

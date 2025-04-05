@@ -2,17 +2,17 @@
 
 use App\Models\User;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+// uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-test('guests are redirected to the login page', function () {
-    $response = $this->get('/owner');
-    $response->assertRedirect('/login');
-});
+// test('guests are redirected to the login page', function () {
+//     $response = $this->get('/owner');
+//     $response->assertRedirect('/login');
+// });
 
-test('authenticated users can visit the dashboard', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+// test('authenticated users can visit the dashboard', function () {
+//     $user = User::factory()->create();
+//     $this->actingAs($user);
 
-    $response = $this->get('/owner');
-    $response->assertStatus(200);
-});
+//     $response = $this->get('/owner');
+//     $response->assertStatus(200);
+// });

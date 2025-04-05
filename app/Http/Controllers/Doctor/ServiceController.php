@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClinicServiceResource;
 use App\Http\Resources\ServiceResource;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class ServiceController extends Controller implements HasMiddleware
     public function index()
     {
         $user = Auth::user();
-        $services = $user->doctor->services()->with('patient', 'doctor', 'deposits')->paginate();
+        $services = $user->doctor->services()->with(['patient', 'doctor', 'deposits'])->paginate();
         $clinic_services = $user->active_clinic->clinic_services;
         return Inertia::render('doctor/service/Index', [
             'services' => ServiceResource::collection($services),
@@ -53,6 +54,16 @@ class ServiceController extends Controller implements HasMiddleware
         $user = Auth::user();
         $validated['clinic_id'] = $user->active_clinic->id;
         $user->doctor->services()->create($validated);
+    }
+    public function close(Service $service)
+    {
+        $user = Auth::user();
+        if($user->active_clinic->services()->where([['id', '=', $service->id], ['status', '=', 'open']])->exists()) {
+            $service->update([
+                'status' => 'closed',
+                'closed_at' => now()
+            ]);
+        }
     }
 
     /**
