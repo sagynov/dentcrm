@@ -27,7 +27,7 @@ class AppointmentReminder extends Command
      */
     public function handle()
     {
-        $appointments = Appointment::whereBetween('visit_at', [now(), now()->addHour()])->where('reminder_sent', 0)->with(['clinic', 'doctor.user', 'patient.user'])->get();
+        $appointments = Appointment::whereBetween('visit_at', [now(), now()->addHour()])->where([['status', '=', 'scheduled'], ['reminder_sent', '=', 0]])->with(['clinic', 'doctor.user', 'patient.user'])->get();
         foreach ($appointments as $appointment) {
             $appointment->patient->user->notify(new AppointmentReminderNotification($appointment));
             $appointment->doctor->user->notify(new AppointmentReminderNotification($appointment));
