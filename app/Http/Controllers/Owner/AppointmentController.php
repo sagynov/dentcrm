@@ -104,7 +104,7 @@ class AppointmentController extends Controller implements HasMiddleware
     public function cancel(Appointment $appointment)
     {
         $user = Auth::user();
-        if($user->doctor->appointments()->where([['id', '=', $appointment->id], ['status', '=', 'scheduled']])) {
+        if($user->active_clinic->appointments()->where([['id', '=', $appointment->id], ['status', '=', 'scheduled']])) {
             $appointment->update(['status' => 'canceled']);
         }
     }
